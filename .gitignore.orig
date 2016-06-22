@@ -1,0 +1,8 @@
+<<<<<<< 0d39e383f63ca295b3208cbec11bacd3e721ec6e
+*/target/
+
+=======
+**/*.class
+**/target
+*/bin
+>>>>>>> add gitignore to tge repository
