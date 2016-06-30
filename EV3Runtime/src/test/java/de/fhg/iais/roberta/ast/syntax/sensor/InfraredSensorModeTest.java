@@ -3,7 +3,7 @@ package de.fhg.iais.roberta.ast.syntax.sensor;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fhg.iais.roberta.shared.sensor.ev3.InfraredSensorMode;
+import de.fhg.iais.roberta.shared.sensor.InfraredSensorMode;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 
 public class InfraredSensorModeTest {

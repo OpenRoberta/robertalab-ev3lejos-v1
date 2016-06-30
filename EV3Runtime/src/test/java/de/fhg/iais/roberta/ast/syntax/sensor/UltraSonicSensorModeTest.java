@@ -3,7 +3,7 @@ package de.fhg.iais.roberta.ast.syntax.sensor;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fhg.iais.roberta.shared.sensor.ev3.UltrasonicSensorMode;
+import de.fhg.iais.roberta.shared.sensor.UltrasonicSensorMode;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 
 public class UltraSonicSensorModeTest {

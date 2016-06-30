@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import de.fhg.iais.roberta.components.HardwareComponent;
-import de.fhg.iais.roberta.components.ev3.EV3Actor;
-import de.fhg.iais.roberta.components.ev3.Ev3Configuration;
-import de.fhg.iais.roberta.components.ev3.UsedSensor;
-import de.fhg.iais.roberta.shared.action.ev3.ActorPort;
-import de.fhg.iais.roberta.shared.sensor.ev3.SensorPort;
+import de.fhg.iais.roberta.components.Actor;
+import de.fhg.iais.roberta.components.Configuration;
+import de.fhg.iais.roberta.components.Sensor;
+import de.fhg.iais.roberta.components.UsedSensor;
+import de.fhg.iais.roberta.shared.action.ActorPort;
+import de.fhg.iais.roberta.shared.sensor.SensorPort;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
@@ -43,12 +43,12 @@ public class DeviceHandler {
 
     /**
      * Construct new initialization for actors and sensors on the brick. Client must provide
-     * brick configuration ({@link Ev3Configuration}) and used sensors in program.
+     * brick configuration ({@link Configuration}) and used sensors in program.
      *
      * @param brickConfiguration for the particular brick
      * @param usedSensors in the blockly program
      */
-    public DeviceHandler(Ev3Configuration brickConfiguration, Set<UsedSensor> usedSensors) {
+    public DeviceHandler(Configuration brickConfiguration, Set<UsedSensor> usedSensors) {
         this.usedSensors = usedSensors;
         createDevices(brickConfiguration);
     }
@@ -111,7 +111,7 @@ public class DeviceHandler {
         return findProviderByMode(sampleProviders, sensorMode);
     }
 
-    private void createDevices(Ev3Configuration brickConfiguration) {
+    private void createDevices(Configuration brickConfiguration) {
         initMotor(ActorPort.A, brickConfiguration.getActorOnPort(ActorPort.A), lejos.hardware.port.MotorPort.A);
         initMotor(ActorPort.B, brickConfiguration.getActorOnPort(ActorPort.B), lejos.hardware.port.MotorPort.B);
         initMotor(ActorPort.C, brickConfiguration.getActorOnPort(ActorPort.C), lejos.hardware.port.MotorPort.C);
@@ -124,7 +124,7 @@ public class DeviceHandler {
         this.lcd.clear();
     }
 
-    private void initMotor(ActorPort actorPort, EV3Actor actorType, Port hardwarePort) {
+    private void initMotor(ActorPort actorPort, Actor actorType, Port hardwarePort) {
         if ( actorType != null ) {
             if ( actorType.isRegulated() ) {
                 initRegulatedMotor(actorPort, actorType, hardwarePort);
@@ -140,56 +140,56 @@ public class DeviceHandler {
         this.lejosUnregulatedMotors.put(actorPort, nxtMotor);
     }
 
-    private void initRegulatedMotor(ActorPort actorPort, EV3Actor actorType, Port hardwarePort) {
+    private void initRegulatedMotor(ActorPort actorPort, Actor actorType, Port hardwarePort) {
         this.lcd.clear();
         // Hal.formatInfoMessage("Initializing motor on port " + actorPort, this.lcd);
-        switch ( actorType.getComponentType().getTypeName() ) {
-            case "EV3_LARGE_MOTOR":
+        switch ( actorType.getName() ) {
+            case LARGE:
                 this.lejosRegulatedMotors.put(actorPort, new EV3LargeRegulatedMotor(hardwarePort));
                 break;
-            case "EV3_MEDIUM_MOTOR":
+            case MEDIUM:
                 this.lejosRegulatedMotors.put(actorPort, new EV3MediumRegulatedMotor(hardwarePort));
                 break;
-            case "NXTRegulatedMotor":
+            case REGULATED:
                 this.lejosRegulatedMotors.put(actorPort, new NXTRegulatedMotor(hardwarePort));
                 break;
             default:
-                throw new DbcException("Actor type " + actorType.getComponentType().getTypeName() + " does not exists!");
+                throw new DbcException("Actor type " + actorType.getName() + " does not exists!");
         }
     }
 
-    private boolean isUsed(HardwareComponent actorType) {
+    private boolean isUsed(Sensor sensor) {
         for ( UsedSensor usedSensor : this.usedSensors ) {
-            if ( usedSensor.getSensorType() == actorType.getComponentType() ) {
+            if ( usedSensor.getSensorType().equals(sensor.getName()) ) {
                 return true;
             }
         }
         return false;
     }
 
-    private void initSensor(SensorPort sensorPort, HardwareComponent sensorType, Port hardwarePort) {
+    private void initSensor(SensorPort sensorPort, Sensor sensorType, Port hardwarePort) {
         if ( sensorType != null && isUsed(sensorType) ) {
             this.lcd.clear();
             // Hal.formatInfoMessage("Initializing " + sensorType.getComponentType().getShortName() + " on port " + sensorPort + " ...", this.lcd);
-            switch ( sensorType.getComponentType().getTypeName() ) {
-                case "EV3_COLOR_SENSOR":
+            switch ( sensorType.getName() ) {
+                case COLOR:
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(new EV3ColorSensor(hardwarePort)));
                     break;
-                case "EV3_IR_SENSOR":
+                case INFRARED:
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(new EV3IRSensor(hardwarePort)));
                     break;
-                case "EV3_GYRO_SENSOR":
+                case GYRO:
                     this.gyroSensor = new EV3GyroSensor(hardwarePort);
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(this.gyroSensor));
                     break;
-                case "EV3_TOUCH_SENSOR":
+                case TOUCH:
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(new EV3TouchSensor(hardwarePort)));
                     break;
-                case "EV3_ULTRASONIC_SENSOR":
+                case ULTRASONIC:
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(new EV3UltrasonicSensor(hardwarePort)));
                     break;
                 default:
-                    throw new DbcException("Sensor type " + sensorType.getComponentType().getTypeName() + " does not exists!");
+                    throw new DbcException("Sensor type " + sensorType.getName() + " does not exists!");
             }
         }
     }
