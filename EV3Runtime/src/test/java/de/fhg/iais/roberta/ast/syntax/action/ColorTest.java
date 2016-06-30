@@ -3,7 +3,7 @@ package de.fhg.iais.roberta.ast.syntax.action;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fhg.iais.roberta.shared.action.ev3.BrickLedColor;
+import de.fhg.iais.roberta.shared.action.BrickLedColor;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 
 public class ColorTest {

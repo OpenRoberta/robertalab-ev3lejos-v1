@@ -20,28 +20,27 @@ import java.util.Set;
 import org.java_websocket.WebSocket.READYSTATE;
 import org.json.JSONObject;
 
-import de.fhg.iais.roberta.components.ev3.EV3Actor;
-import de.fhg.iais.roberta.components.ev3.EV3Actors;
-import de.fhg.iais.roberta.components.ev3.Ev3Configuration;
-import de.fhg.iais.roberta.components.ev3.UsedSensor;
+import de.fhg.iais.roberta.components.Actor;
+import de.fhg.iais.roberta.components.Configuration;
+import de.fhg.iais.roberta.components.UsedSensor;
 import de.fhg.iais.roberta.runtime.Utils;
 import de.fhg.iais.roberta.shared.Pickcolor;
-import de.fhg.iais.roberta.shared.action.ev3.ActorPort;
-import de.fhg.iais.roberta.shared.action.ev3.BlinkMode;
-import de.fhg.iais.roberta.shared.action.ev3.BrickLedColor;
-import de.fhg.iais.roberta.shared.action.ev3.DriveDirection;
-import de.fhg.iais.roberta.shared.action.ev3.MotorMoveMode;
-import de.fhg.iais.roberta.shared.action.ev3.MotorStopMode;
-import de.fhg.iais.roberta.shared.action.ev3.ShowPicture;
-import de.fhg.iais.roberta.shared.action.ev3.TurnDirection;
-import de.fhg.iais.roberta.shared.sensor.ev3.BrickKey;
-import de.fhg.iais.roberta.shared.sensor.ev3.ColorSensorMode;
-import de.fhg.iais.roberta.shared.sensor.ev3.GyroSensorMode;
-import de.fhg.iais.roberta.shared.sensor.ev3.InfraredSensorMode;
-import de.fhg.iais.roberta.shared.sensor.ev3.MotorTachoMode;
-import de.fhg.iais.roberta.shared.sensor.ev3.SensorMode;
-import de.fhg.iais.roberta.shared.sensor.ev3.SensorPort;
-import de.fhg.iais.roberta.shared.sensor.ev3.UltrasonicSensorMode;
+import de.fhg.iais.roberta.shared.action.ActorPort;
+import de.fhg.iais.roberta.shared.action.BlinkMode;
+import de.fhg.iais.roberta.shared.action.BrickLedColor;
+import de.fhg.iais.roberta.shared.action.DriveDirection;
+import de.fhg.iais.roberta.shared.action.MotorMoveMode;
+import de.fhg.iais.roberta.shared.action.MotorStopMode;
+import de.fhg.iais.roberta.shared.action.ShowPicture;
+import de.fhg.iais.roberta.shared.action.TurnDirection;
+import de.fhg.iais.roberta.shared.sensor.BrickKey;
+import de.fhg.iais.roberta.shared.sensor.ColorSensorMode;
+import de.fhg.iais.roberta.shared.sensor.GyroSensorMode;
+import de.fhg.iais.roberta.shared.sensor.InfraredSensorMode;
+import de.fhg.iais.roberta.shared.sensor.MotorTachoMode;
+import de.fhg.iais.roberta.shared.sensor.SensorMode;
+import de.fhg.iais.roberta.shared.sensor.SensorPort;
+import de.fhg.iais.roberta.shared.sensor.UltrasonicSensorMode;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 import lejos.hardware.ev3.EV3;
 import lejos.hardware.ev3.LocalEV3;
@@ -91,7 +90,7 @@ public class Hal {
     private URL sensorloggingRestURL = null;
     private Thread serverLoggerThread = null;
     private Thread screenLoggerThread = null;
-    private final Ev3Configuration brickConfiguration;
+    private final Configuration brickConfiguration;
 
     private String token = "";
     private String serverAddress = "";
@@ -121,7 +120,7 @@ public class Hal {
      * @param brickConfiguration
      * @param usedSensors
      */
-    public Hal(Ev3Configuration brickConfiguration, Set<UsedSensor> usedSensors) {
+    public Hal(Configuration brickConfiguration, Set<UsedSensor> usedSensors) {
         this.usedSensors = usedSensors;
         this.deviceHandler = new DeviceHandler(brickConfiguration, usedSensors);
         this.brickConfiguration = brickConfiguration;
@@ -361,13 +360,12 @@ public class Hal {
      * @param ev3Values
      */
     private void addActorsTacho(JSONObject ev3Values) {
-        for ( Entry<ActorPort, EV3Actor> mapEntry : this.brickConfiguration.getActors().entrySet() ) {
-            int hardwareId = mapEntry.getValue().getComponentType().hashCode();
+        for ( Entry<ActorPort, Actor> mapEntry : this.brickConfiguration.getActors().entrySet() ) {
+            int hardwareId = mapEntry.getValue().hashCode();
             ActorPort port = mapEntry.getKey();
             String partKey = port.name() + "-";
 
-            partKey +=
-                EV3Actors.EV3_LARGE_MOTOR.hashCode() == hardwareId ? EV3Actors.EV3_LARGE_MOTOR.getShortName() : EV3Actors.EV3_MEDIUM_MOTOR.getShortName();
+            partKey += "LARGE_MOTOR".hashCode() == hardwareId ? "LARGE_MOTOR" : "MEDIUM_MOTOR";
 
             if ( this.brickConfiguration.isMotorRegulated(port) ) {
                 ev3Values.put(partKey + MotorTachoMode.DEGREE, getRegulatedMotorTachoValue(port, MotorTachoMode.DEGREE));
@@ -419,7 +417,7 @@ public class Hal {
                 }
                 formatAndPrintToScreen(port, result);
             }
-            for ( Entry<ActorPort, EV3Actor> mapEntry : this.brickConfiguration.getActors().entrySet() ) {
+            for ( Entry<ActorPort, Actor> mapEntry : this.brickConfiguration.getActors().entrySet() ) {
                 ActorPort port = mapEntry.getKey();
                 String line = "";
                 try {

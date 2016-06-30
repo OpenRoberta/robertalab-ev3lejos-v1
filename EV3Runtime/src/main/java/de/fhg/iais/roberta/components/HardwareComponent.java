@@ -1,29 +1,20 @@
 package de.fhg.iais.roberta.components;
 
-public class Sensor {
+import de.fhg.iais.roberta.util.dbc.Assert;
 
-    private SensorType name;
+abstract public class HardwareComponent {
+    private String name;
 
-    /**
-     * Creates hardware component of type {@link Category#SENSOR} that will be attached to the brick configuration.
-     * Client must provide valid {@link HardwareComponentType} from {@link Category#SENSOR} category.
-     *
-     * @param componentType of the sensor
-     */
-    public Sensor(SensorType sensorType) {
-        this.setName(sensorType);
+    public HardwareComponent(String name) {
+        Assert.isTrue(name != null && !name.equals(""));
+        this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Sensor [" + getName() + "]";
-    }
-
-    public SensorType getName() {
+    public String getName() {
         return this.name;
     }
 
-    public void setName(SensorType name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -46,15 +37,14 @@ public class Sensor {
         if ( getClass() != obj.getClass() ) {
             return false;
         }
-        Sensor other = (Sensor) obj;
+        HardwareComponent other = (HardwareComponent) obj;
         if ( this.name == null ) {
-            if ( other.getName() != null ) {
+            if ( other.name != null ) {
                 return false;
             }
-        } else if ( !this.name.equals(other.getName()) ) {
+        } else if ( !this.name.equals(other.name) ) {
             return false;
         }
         return true;
     }
-
 }

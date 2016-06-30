@@ -3,7 +3,7 @@ package de.fhg.iais.roberta.ast.syntax.action;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fhg.iais.roberta.shared.action.ev3.MotorMoveMode;
+import de.fhg.iais.roberta.shared.action.MotorMoveMode;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 
 public class MotorMoveModeTest {

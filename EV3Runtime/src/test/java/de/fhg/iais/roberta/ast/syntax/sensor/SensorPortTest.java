@@ -3,7 +3,7 @@ package de.fhg.iais.roberta.ast.syntax.sensor;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fhg.iais.roberta.shared.sensor.ev3.SensorPort;
+import de.fhg.iais.roberta.shared.sensor.SensorPort;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 
 public class SensorPortTest {

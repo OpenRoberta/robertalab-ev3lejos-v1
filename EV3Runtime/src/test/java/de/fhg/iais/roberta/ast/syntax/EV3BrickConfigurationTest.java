@@ -5,15 +5,15 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
-import de.fhg.iais.roberta.components.ev3.EV3Actor;
-import de.fhg.iais.roberta.components.ev3.EV3Actors;
-import de.fhg.iais.roberta.components.ev3.EV3Sensor;
-import de.fhg.iais.roberta.components.ev3.EV3Sensors;
-import de.fhg.iais.roberta.components.ev3.Ev3Configuration;
-import de.fhg.iais.roberta.shared.action.ev3.ActorPort;
-import de.fhg.iais.roberta.shared.action.ev3.DriveDirection;
-import de.fhg.iais.roberta.shared.action.ev3.MotorSide;
-import de.fhg.iais.roberta.shared.sensor.ev3.SensorPort;
+import de.fhg.iais.roberta.components.Actor;
+import de.fhg.iais.roberta.components.ActorType;
+import de.fhg.iais.roberta.components.Configuration;
+import de.fhg.iais.roberta.components.Sensor;
+import de.fhg.iais.roberta.components.SensorType;
+import de.fhg.iais.roberta.shared.action.ActorPort;
+import de.fhg.iais.roberta.shared.action.DriveDirection;
+import de.fhg.iais.roberta.shared.action.MotorSide;
+import de.fhg.iais.roberta.shared.sensor.SensorPort;
 
 public class EV3BrickConfigurationTest {
     private static final String expectedBrickConfigurationGenerator = //
@@ -23,18 +23,18 @@ public class EV3BrickConfigurationTest {
 
     @Test
     public void testBuilder() {
-        Ev3Configuration.Builder builder = new Ev3Configuration.Builder();
-        builder.addActor(ActorPort.A, new EV3Actor(EV3Actors.EV3_LARGE_MOTOR, true, DriveDirection.FOREWARD, MotorSide.LEFT));
-        builder.addActor(ActorPort.B, new EV3Actor(EV3Actors.EV3_MEDIUM_MOTOR, true, DriveDirection.FOREWARD, MotorSide.RIGHT));
-        builder.addSensor(SensorPort.S1, new EV3Sensor(EV3Sensors.EV3_ULTRASONIC_SENSOR));
-        builder.addSensor(SensorPort.S4, new EV3Sensor(EV3Sensors.EV3_COLOR_SENSOR));
-        Ev3Configuration conf = builder.build();
+        Configuration.Builder builder = new Configuration.Builder();
+        builder.addActor(ActorPort.A, new Actor(ActorType.LARGE, true, DriveDirection.FOREWARD, MotorSide.LEFT));
+        builder.addActor(ActorPort.B, new Actor(ActorType.MEDIUM, true, DriveDirection.FOREWARD, MotorSide.RIGHT));
+        builder.addSensor(SensorPort.S1, new Sensor(SensorType.ULTRASONIC));
+        builder.addSensor(SensorPort.S4, new Sensor(SensorType.COLOR));
+        Configuration conf = builder.build();
 
-        assertEquals(EV3Actors.EV3_LARGE_MOTOR, conf.getActorOnPort(ActorPort.A).getComponentType());
-        assertEquals(EV3Actors.EV3_MEDIUM_MOTOR, conf.getActorOnPort(ActorPort.B).getComponentType());
+        assertEquals(ActorType.LARGE, conf.getActorOnPort(ActorPort.A).getName());
+        assertEquals(ActorType.MEDIUM, conf.getActorOnPort(ActorPort.B).getName());
         assertNull(conf.getActorOnPort(ActorPort.C));
-        assertEquals(EV3Sensors.EV3_ULTRASONIC_SENSOR, conf.getSensorOnPort(SensorPort.S1).getComponentType());
-        assertEquals(EV3Sensors.EV3_COLOR_SENSOR, conf.getSensorOnPort(SensorPort.S4).getComponentType());
+        assertEquals(SensorType.ULTRASONIC, conf.getSensorOnPort(SensorPort.S1).getName());
+        assertEquals(SensorType.COLOR, conf.getSensorOnPort(SensorPort.S4).getName());
         assertNull(conf.getSensorOnPort(SensorPort.S2));
 
         assertEquals(EV3BrickConfigurationTest.expectedBrickConfigurationGenerator, conf.generateText("test").replaceAll("\\s+", ""));
@@ -42,19 +42,19 @@ public class EV3BrickConfigurationTest {
 
     @Test
     public void testBuilderFluent() {
-        Ev3Configuration conf =
-            new Ev3Configuration.Builder()
-                .addActor(ActorPort.A, new EV3Actor(EV3Actors.EV3_LARGE_MOTOR, true, DriveDirection.FOREWARD, MotorSide.LEFT))
-                .addActor(ActorPort.B, new EV3Actor(EV3Actors.EV3_MEDIUM_MOTOR, true, DriveDirection.FOREWARD, MotorSide.RIGHT))
-                .addSensor(SensorPort.S1, new EV3Sensor(EV3Sensors.EV3_ULTRASONIC_SENSOR))
-                .addSensor(SensorPort.S4, new EV3Sensor(EV3Sensors.EV3_COLOR_SENSOR))
+        Configuration conf =
+            new Configuration.Builder()
+                .addActor(ActorPort.A, new Actor(ActorType.LARGE, true, DriveDirection.FOREWARD, MotorSide.LEFT))
+                .addActor(ActorPort.B, new Actor(ActorType.MEDIUM, true, DriveDirection.FOREWARD, MotorSide.RIGHT))
+                .addSensor(SensorPort.S1, new Sensor(SensorType.ULTRASONIC))
+                .addSensor(SensorPort.S4, new Sensor(SensorType.COLOR))
                 .build();
 
-        assertEquals(EV3Actors.EV3_LARGE_MOTOR, conf.getActorOnPort(ActorPort.A).getComponentType());
-        assertEquals(EV3Actors.EV3_MEDIUM_MOTOR, conf.getActorOnPort(ActorPort.B).getComponentType());
+        assertEquals(ActorType.LARGE, conf.getActorOnPort(ActorPort.A).getName());
+        assertEquals(ActorType.MEDIUM, conf.getActorOnPort(ActorPort.B).getName());
         assertNull(conf.getActorOnPort(ActorPort.C));
-        assertEquals(EV3Sensors.EV3_ULTRASONIC_SENSOR, conf.getSensorOnPort(SensorPort.S1).getComponentType());
-        assertEquals(EV3Sensors.EV3_COLOR_SENSOR, conf.getSensorOnPort(SensorPort.S4).getComponentType());
+        assertEquals(SensorType.ULTRASONIC, conf.getSensorOnPort(SensorPort.S1).getName());
+        assertEquals(SensorType.COLOR, conf.getSensorOnPort(SensorPort.S4).getName());
         assertNull(conf.getSensorOnPort(SensorPort.S2));
 
         assertEquals(EV3BrickConfigurationTest.expectedBrickConfigurationGenerator, conf.generateText("test").replaceAll("\\s+", ""));
@@ -62,13 +62,13 @@ public class EV3BrickConfigurationTest {
 
     @Test
     public void testText() {
-        Ev3Configuration.Builder builder = new Ev3Configuration.Builder();
+        Configuration.Builder builder = new Configuration.Builder();
         builder.setTrackWidth(4.0).setWheelDiameter(-3.1428);
-        builder.addActor(ActorPort.A, new EV3Actor(EV3Actors.EV3_LARGE_MOTOR, true, DriveDirection.FOREWARD, MotorSide.LEFT));
-        builder.addActor(ActorPort.B, new EV3Actor(EV3Actors.EV3_MEDIUM_MOTOR, false, DriveDirection.FOREWARD, MotorSide.RIGHT));
-        builder.addSensor(SensorPort.S1, new EV3Sensor(EV3Sensors.EV3_ULTRASONIC_SENSOR));
-        builder.addSensor(SensorPort.S4, new EV3Sensor(EV3Sensors.EV3_COLOR_SENSOR));
-        Ev3Configuration conf = builder.build();
+        builder.addActor(ActorPort.A, new Actor(ActorType.LARGE, true, DriveDirection.FOREWARD, MotorSide.LEFT));
+        builder.addActor(ActorPort.B, new Actor(ActorType.MEDIUM, false, DriveDirection.FOREWARD, MotorSide.RIGHT));
+        builder.addSensor(SensorPort.S1, new Sensor(SensorType.ULTRASONIC));
+        builder.addSensor(SensorPort.S4, new Sensor(SensorType.COLOR));
+        Configuration conf = builder.build();
 
         String expected = "" //
             + "robot ev3 test {\n"

@@ -1,6 +1,6 @@
-package de.fhg.iais.roberta.components.ev3;
+package de.fhg.iais.roberta.components;
 
-import de.fhg.iais.roberta.shared.sensor.ev3.SensorPort;
+import de.fhg.iais.roberta.shared.sensor.SensorPort;
 
 /**
  * Stores information for port, type and the mode of used sensor in a blockly program.
@@ -12,12 +12,12 @@ import de.fhg.iais.roberta.shared.sensor.ev3.SensorPort;
 @SuppressWarnings("rawtypes")
 public class UsedSensor {
     private final SensorPort port;
-    private final EV3Sensors sensorType;
+    private final SensorType sensor;
     private final Enum mode;
 
-    public UsedSensor(SensorPort port, EV3Sensors sensorType, Enum mode) {
+    public UsedSensor(SensorPort port, SensorType sensor, Enum mode) {
         this.port = port;
-        this.sensorType = sensorType;
+        this.sensor = sensor;
         this.mode = mode;
     }
 
@@ -31,8 +31,8 @@ public class UsedSensor {
     /**
      * @return the sensorType
      */
-    public EV3Sensors getSensorType() {
-        return this.sensorType;
+    public SensorType getSensorType() {
+        return this.sensor;
     }
 
     /**
@@ -49,14 +49,14 @@ public class UsedSensor {
         StringBuilder sb = new StringBuilder();
         sb.append("new UsedSensor(");
         sb.append("SensorPort." + this.port.name()).append(", ");
-        sb.append(this.sensorType.getClass().getSimpleName() + "." + this.sensorType.getTypeName()).append(", ");
+        sb.append(this.sensor.getClass().getSimpleName() + "." + this.sensor.name()).append(", ");
         sb.append(this.mode.getClass().getSimpleName() + "." + this.mode.name()).append(")");
         return sb.toString();
     }
 
     @Override
     public String toString() {
-        return "[" + this.port + ", " + this.sensorType + ", " + this.mode + "]";
+        return "UsedSensor [" + this.port + ", " + this.sensor + ", " + this.mode + "]";
     }
 
     @Override
@@ -65,7 +65,7 @@ public class UsedSensor {
         int result = 1;
         result = prime * result + this.port.hashCode();
         result = prime * result + (this.mode == null ? 0 : this.mode.hashCode());
-        result = prime * result + this.sensorType.hashCode();
+        result = prime * result + this.sensor.hashCode();
         return result;
     }
 
@@ -81,7 +81,7 @@ public class UsedSensor {
             return false;
         }
         UsedSensor other = (UsedSensor) obj;
-        if ( this.sensorType != other.sensorType ) {
+        if ( this.sensor != other.sensor ) {
             return false;
         }
         if ( this.port == null ) {
