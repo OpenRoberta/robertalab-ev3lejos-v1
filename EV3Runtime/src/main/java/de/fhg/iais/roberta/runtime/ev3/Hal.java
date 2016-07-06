@@ -23,30 +23,30 @@ import org.json.JSONObject;
 import de.fhg.iais.roberta.components.Actor;
 import de.fhg.iais.roberta.components.Configuration;
 import de.fhg.iais.roberta.components.UsedSensor;
+import de.fhg.iais.roberta.inter.mode.action.IActorPort;
+import de.fhg.iais.roberta.mode.action.ActorPort;
+import de.fhg.iais.roberta.mode.action.BlinkMode;
+import de.fhg.iais.roberta.mode.action.BrickLedColor;
+import de.fhg.iais.roberta.mode.action.DriveDirection;
+import de.fhg.iais.roberta.mode.action.MotorMoveMode;
+import de.fhg.iais.roberta.mode.action.MotorStopMode;
+import de.fhg.iais.roberta.mode.action.ShowPicture;
+import de.fhg.iais.roberta.mode.action.TurnDirection;
+import de.fhg.iais.roberta.mode.sensor.BrickKey;
+import de.fhg.iais.roberta.mode.sensor.ColorSensorMode;
+import de.fhg.iais.roberta.mode.sensor.GyroSensorMode;
+import de.fhg.iais.roberta.mode.sensor.InfraredSensorMode;
+import de.fhg.iais.roberta.mode.sensor.MotorTachoMode;
+import de.fhg.iais.roberta.mode.sensor.SensorPort;
+import de.fhg.iais.roberta.mode.sensor.UltrasonicSensorMode;
 import de.fhg.iais.roberta.runtime.Utils;
-import de.fhg.iais.roberta.shared.Pickcolor;
-import de.fhg.iais.roberta.shared.action.ActorPort;
-import de.fhg.iais.roberta.shared.action.BlinkMode;
-import de.fhg.iais.roberta.shared.action.BrickLedColor;
-import de.fhg.iais.roberta.shared.action.DriveDirection;
-import de.fhg.iais.roberta.shared.action.MotorMoveMode;
-import de.fhg.iais.roberta.shared.action.MotorStopMode;
-import de.fhg.iais.roberta.shared.action.ShowPicture;
-import de.fhg.iais.roberta.shared.action.TurnDirection;
-import de.fhg.iais.roberta.shared.sensor.BrickKey;
-import de.fhg.iais.roberta.shared.sensor.ColorSensorMode;
-import de.fhg.iais.roberta.shared.sensor.GyroSensorMode;
-import de.fhg.iais.roberta.shared.sensor.InfraredSensorMode;
-import de.fhg.iais.roberta.shared.sensor.MotorTachoMode;
-import de.fhg.iais.roberta.shared.sensor.SensorMode;
-import de.fhg.iais.roberta.shared.sensor.SensorPort;
-import de.fhg.iais.roberta.shared.sensor.UltrasonicSensorMode;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 import lejos.hardware.ev3.EV3;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.Image;
 import lejos.hardware.lcd.LCDOutputStream;
 import lejos.hardware.lcd.TextLCD;
+import lejos.hardware.sensor.SensorMode;
 import lejos.internal.ev3.EV3IOPort;
 import lejos.remote.nxt.NXTConnection;
 import lejos.robotics.SampleProvider;
@@ -139,8 +139,8 @@ public class Hal {
                 new DifferentialPilot(
                     this.wheelDiameter,
                     this.trackWidth,
-                    this.deviceHandler.getRegulatedMotor(brickConfiguration.getLeftMotorPort()),
-                    this.deviceHandler.getRegulatedMotor(brickConfiguration.getRightMotorPort()),
+                    this.deviceHandler.getRegulatedMotor((ActorPort) brickConfiguration.getLeftMotorPort()),
+                    this.deviceHandler.getRegulatedMotor((ActorPort) brickConfiguration.getRightMotorPort()),
                     (this.brickConfiguration.getActorOnPort(brickConfiguration.getLeftMotorPort()).getRotationDirection() == DriveDirection.BACKWARD)
                         ? true
                         : false);
@@ -360,9 +360,9 @@ public class Hal {
      * @param ev3Values
      */
     private void addActorsTacho(JSONObject ev3Values) {
-        for ( Entry<ActorPort, Actor> mapEntry : this.brickConfiguration.getActors().entrySet() ) {
+        for ( Entry<IActorPort, Actor> mapEntry : this.brickConfiguration.getActors().entrySet() ) {
             int hardwareId = mapEntry.getValue().hashCode();
-            ActorPort port = mapEntry.getKey();
+            ActorPort port = (ActorPort) mapEntry.getKey();
             String partKey = port.name() + "-";
 
             partKey += "LARGE_MOTOR".hashCode() == hardwareId ? "LARGE_MOTOR" : "MEDIUM_MOTOR";
@@ -382,10 +382,12 @@ public class Hal {
      */
     private void addSensorsValues(JSONObject ev3Values) {
         for ( UsedSensor sensor : this.usedSensors ) {
-            SensorPort port = sensor.getPort();
+            SensorPort port = (SensorPort) sensor.getPort();
             SensorMode mode = (SensorMode) sensor.getMode();
 
-            String methodName = mode.getHalJavaMethod();
+            String methodName = "";
+
+            //            String methodName = mode.getHalJavaMethod();
             Method method;
             String result = null;
             try {
@@ -404,9 +406,10 @@ public class Hal {
     public void logToScreen() {
         while ( !Thread.currentThread().isInterrupted() ) {
             for ( UsedSensor sensor : this.usedSensors ) {
-                SensorPort port = sensor.getPort();
+                SensorPort port = (SensorPort) sensor.getPort();
                 SensorMode mode = (SensorMode) sensor.getMode();
-                String methodName = mode.getHalJavaMethod();
+                String methodName = "";
+                //                String methodName = mode.getHalJavaMethod();
                 Method method;
                 String result = "";
                 try {
@@ -417,8 +420,8 @@ public class Hal {
                 }
                 formatAndPrintToScreen(port, result);
             }
-            for ( Entry<ActorPort, Actor> mapEntry : this.brickConfiguration.getActors().entrySet() ) {
-                ActorPort port = mapEntry.getKey();
+            for ( Entry<IActorPort, Actor> mapEntry : this.brickConfiguration.getActors().entrySet() ) {
+                ActorPort port = (ActorPort) mapEntry.getKey();
                 String line = "";
                 try {
                     if ( this.brickConfiguration.isMotorRegulated(port) ) {
@@ -1048,7 +1051,7 @@ public class Hal {
      * @return true if exists other ultrasonic sensor
      */
     public synchronized boolean getUltraSonicSensorPresence(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, UltrasonicSensorMode.PRESENCE.getLejosModeName());
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, UltrasonicSensorMode.PRESENCE.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
         if ( sample[0] == 1.0 ) {
@@ -1065,7 +1068,7 @@ public class Hal {
      * @return value in <i>cm</i> of the distance of the ultrasonic sensor and some object
      */
     public synchronized float getUltraSonicSensorDistance(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, UltrasonicSensorMode.DISTANCE.getLejosModeName());
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, UltrasonicSensorMode.DISTANCE.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0); // ^= distance in cm
         float distance = Math.round(sample[0] * 100.0f);
@@ -1087,7 +1090,7 @@ public class Hal {
      * @return the value of the measurement of the sensor
      */
     public synchronized float getColorSensorAmbient(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.AMBIENTLIGHT.getLejosModeName());
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.AMBIENTLIGHT.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
         return Math.round(sample[0] * 100.0f); // * 100
@@ -1099,11 +1102,11 @@ public class Hal {
      * @param sensorPort on which the sensor is connected
      * @return color that is detected with the sensor (see {@link Pickcolor} for all colors that can be detected)
      */
-    public synchronized Pickcolor getColorSensorColour(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.COLOUR.getLejosModeName());
+    public synchronized int getColorSensorColour(SensorPort sensorPort) {
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.COLOUR.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
-        return Pickcolor.get(Math.round(sample[0]));
+        return Math.round(sample[0]);
     }
 
     /**
@@ -1113,7 +1116,7 @@ public class Hal {
      * @return the value of the measurement of the sensor
      */
     public synchronized float getColorSensorRed(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.RED.getLejosModeName());
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.RED.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
         return Math.round(sample[0] * 100.0f); // * 100
@@ -1126,7 +1129,7 @@ public class Hal {
      * @return array of size three where in each element of the array is encode on color channel (RGB), values are between 0 and 255
      */
     public synchronized ArrayList<Float> getColorSensorRgb(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.RGB.getLejosModeName());
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.RGB.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
         ArrayList<Float> result = new ArrayList<Float>();
@@ -1146,7 +1149,7 @@ public class Hal {
      * @return value in <i>cm</i> of the distance of the infrared sensor and some object
      */
     public synchronized float getInfraredSensorDistance(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, InfraredSensorMode.DISTANCE.getLejosModeName());
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, InfraredSensorMode.DISTANCE.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
 
@@ -1160,7 +1163,7 @@ public class Hal {
      * @return array of size 7
      */
     public synchronized ArrayList<Float> getInfraredSensorSeek(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, InfraredSensorMode.SEEK.getLejosModeName());
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, InfraredSensorMode.SEEK.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
         ArrayList<Float> result = new ArrayList<Float>();
@@ -1187,7 +1190,7 @@ public class Hal {
      * @return angle of the measurment of the sensor
      */
     public synchronized float getGyroSensorAngle(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, GyroSensorMode.ANGLE.getLejosModeName());
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, GyroSensorMode.ANGLE.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
         return Math.round(sample[0]);
@@ -1202,7 +1205,7 @@ public class Hal {
      * @return rate of the measurment of the sensor
      */
     public synchronized float getGyroSensorRate(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, GyroSensorMode.RATE.getLejosModeName());
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, GyroSensorMode.RATE.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
         return Math.round(sample[0]);

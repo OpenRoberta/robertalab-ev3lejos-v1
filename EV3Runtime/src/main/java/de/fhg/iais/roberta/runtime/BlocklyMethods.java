@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import de.fhg.iais.roberta.shared.IndexLocation;
-import de.fhg.iais.roberta.shared.ListElementOperations;
-import de.fhg.iais.roberta.shared.Pickcolor;
+import de.fhg.iais.roberta.mode.general.IndexLocation;
+import de.fhg.iais.roberta.mode.general.ListElementOperations;
+import de.fhg.iais.roberta.mode.general.PickColor;
 import de.fhg.iais.roberta.util.dbc.Assert;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 
@@ -350,8 +350,8 @@ public class BlocklyMethods {
      * @param elements to be added in the array list
      * @return {@link ArrayList} with the given elements
      */
-    public static ArrayList<Pickcolor> createListWithColour(Pickcolor... elements) {
-        return new ArrayList<Pickcolor>(Arrays.asList(elements));
+    public static ArrayList<PickColor> createListWithColour(PickColor... elements) {
+        return new ArrayList<PickColor>(Arrays.asList(elements));
     }
 
     /**
@@ -407,8 +407,8 @@ public class BlocklyMethods {
      * @param times that the item should be added to the list
      * @return {@link ArrayList} with the given elements
      */
-    public static ArrayList<Pickcolor> createListWithItem(Pickcolor item, float times) {
-        ArrayList<Pickcolor> result = new ArrayList<Pickcolor>();
+    public static ArrayList<PickColor> createListWithItem(PickColor item, float times) {
+        ArrayList<PickColor> result = new ArrayList<PickColor>();
         for ( int i = 0; i < times; i++ ) {
             result.add(item);
         }

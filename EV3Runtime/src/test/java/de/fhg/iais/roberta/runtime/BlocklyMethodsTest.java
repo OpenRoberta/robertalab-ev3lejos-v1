@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.fhg.iais.roberta.shared.IndexLocation;
-import de.fhg.iais.roberta.shared.ListElementOperations;
+import de.fhg.iais.roberta.mode.general.IndexLocation;
+import de.fhg.iais.roberta.mode.general.ListElementOperations;
 
 public class BlocklyMethodsTest {
 

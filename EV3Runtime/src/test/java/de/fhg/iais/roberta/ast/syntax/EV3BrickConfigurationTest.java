@@ -8,12 +8,13 @@ import org.junit.Test;
 import de.fhg.iais.roberta.components.Actor;
 import de.fhg.iais.roberta.components.ActorType;
 import de.fhg.iais.roberta.components.Configuration;
+import de.fhg.iais.roberta.components.EV3Configuration;
 import de.fhg.iais.roberta.components.Sensor;
 import de.fhg.iais.roberta.components.SensorType;
-import de.fhg.iais.roberta.shared.action.ActorPort;
-import de.fhg.iais.roberta.shared.action.DriveDirection;
-import de.fhg.iais.roberta.shared.action.MotorSide;
-import de.fhg.iais.roberta.shared.sensor.SensorPort;
+import de.fhg.iais.roberta.mode.action.ActorPort;
+import de.fhg.iais.roberta.mode.action.DriveDirection;
+import de.fhg.iais.roberta.mode.action.MotorSide;
+import de.fhg.iais.roberta.mode.sensor.SensorPort;
 
 public class EV3BrickConfigurationTest {
     private static final String expectedBrickConfigurationGenerator = //
@@ -23,7 +24,7 @@ public class EV3BrickConfigurationTest {
 
     @Test
     public void testBuilder() {
-        Configuration.Builder builder = new Configuration.Builder();
+        Configuration.Builder builder = new EV3Configuration.Builder();
         builder.addActor(ActorPort.A, new Actor(ActorType.LARGE, true, DriveDirection.FOREWARD, MotorSide.LEFT));
         builder.addActor(ActorPort.B, new Actor(ActorType.MEDIUM, true, DriveDirection.FOREWARD, MotorSide.RIGHT));
         builder.addSensor(SensorPort.S1, new Sensor(SensorType.ULTRASONIC));
@@ -43,7 +44,7 @@ public class EV3BrickConfigurationTest {
     @Test
     public void testBuilderFluent() {
         Configuration conf =
-            new Configuration.Builder()
+            new EV3Configuration.Builder()
                 .addActor(ActorPort.A, new Actor(ActorType.LARGE, true, DriveDirection.FOREWARD, MotorSide.LEFT))
                 .addActor(ActorPort.B, new Actor(ActorType.MEDIUM, true, DriveDirection.FOREWARD, MotorSide.RIGHT))
                 .addSensor(SensorPort.S1, new Sensor(SensorType.ULTRASONIC))
@@ -62,7 +63,7 @@ public class EV3BrickConfigurationTest {
 
     @Test
     public void testText() {
-        Configuration.Builder builder = new Configuration.Builder();
+        Configuration.Builder builder = new EV3Configuration.Builder();
         builder.setTrackWidth(4.0).setWheelDiameter(-3.1428);
         builder.addActor(ActorPort.A, new Actor(ActorType.LARGE, true, DriveDirection.FOREWARD, MotorSide.LEFT));
         builder.addActor(ActorPort.B, new Actor(ActorType.MEDIUM, false, DriveDirection.FOREWARD, MotorSide.RIGHT));
