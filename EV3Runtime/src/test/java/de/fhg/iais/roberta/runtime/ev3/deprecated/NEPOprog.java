@@ -6,16 +6,17 @@ import java.util.Set;
 import de.fhg.iais.roberta.components.Actor;
 import de.fhg.iais.roberta.components.ActorType;
 import de.fhg.iais.roberta.components.Configuration;
+import de.fhg.iais.roberta.components.EV3Configuration;
 import de.fhg.iais.roberta.components.Sensor;
 import de.fhg.iais.roberta.components.SensorType;
 import de.fhg.iais.roberta.components.UsedSensor;
+import de.fhg.iais.roberta.mode.action.ActorPort;
+import de.fhg.iais.roberta.mode.action.DriveDirection;
+import de.fhg.iais.roberta.mode.action.MotorSide;
+import de.fhg.iais.roberta.mode.action.ShowPicture;
+import de.fhg.iais.roberta.mode.sensor.BrickKey;
+import de.fhg.iais.roberta.mode.sensor.SensorPort;
 import de.fhg.iais.roberta.runtime.ev3.Hal;
-import de.fhg.iais.roberta.shared.action.ActorPort;
-import de.fhg.iais.roberta.shared.action.DriveDirection;
-import de.fhg.iais.roberta.shared.action.MotorSide;
-import de.fhg.iais.roberta.shared.action.ShowPicture;
-import de.fhg.iais.roberta.shared.sensor.BrickKey;
-import de.fhg.iais.roberta.shared.sensor.SensorPort;
 
 public class NEPOprog {
     private static final boolean TRUE = true;
@@ -28,7 +29,7 @@ public class NEPOprog {
     public static void main(String[] args) {
         try {
             brickConfiguration =
-                new Configuration.Builder()
+                new EV3Configuration.Builder()
                     .setWheelDiameter(5.6)
                     .setTrackWidth(12.0)
                     .addActor(ActorPort.B, new Actor(ActorType.LARGE, true, DriveDirection.FOREWARD, MotorSide.RIGHT))
