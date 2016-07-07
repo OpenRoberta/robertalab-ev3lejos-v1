@@ -1,7 +1,5 @@
 package de.fhg.iais.roberta.mode.sensor;
 
-import de.fhg.iais.roberta.inter.mode.sensor.ITimerSensorMode;
-
 public enum TimerSensorMode implements ITimerSensorMode {
     RESET, GET_SAMPLE;
 

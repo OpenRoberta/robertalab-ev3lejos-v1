@@ -1,4 +1,4 @@
-package de.fhg.iais.roberta.inter.mode.sensor;
+package de.fhg.iais.roberta.mode.sensor;
 
 import de.fhg.iais.roberta.inter.mode.general.IMode;
 
@@ -8,8 +8,5 @@ import de.fhg.iais.roberta.inter.mode.general.IMode;
  * @author kcvejoski
  */
 public interface IMotorTachoMode extends IMode {
-    /**
-     * @return array of values alternative to the enumeration value.
-     */
-    public String[] getValues();
+
 }
