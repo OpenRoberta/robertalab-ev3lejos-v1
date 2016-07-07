@@ -24,6 +24,7 @@ import de.fhg.iais.roberta.components.Actor;
 import de.fhg.iais.roberta.components.Configuration;
 import de.fhg.iais.roberta.components.UsedSensor;
 import de.fhg.iais.roberta.inter.mode.action.IActorPort;
+import de.fhg.iais.roberta.inter.mode.general.IMode;
 import de.fhg.iais.roberta.mode.action.ActorPort;
 import de.fhg.iais.roberta.mode.action.BlinkMode;
 import de.fhg.iais.roberta.mode.action.BrickLedColor;
@@ -407,9 +408,8 @@ public class Hal {
         while ( !Thread.currentThread().isInterrupted() ) {
             for ( UsedSensor sensor : this.usedSensors ) {
                 SensorPort port = (SensorPort) sensor.getPort();
-                SensorMode mode = (SensorMode) sensor.getMode();
-                String methodName = "";
-                //                String methodName = mode.getHalJavaMethod();
+                IMode mode = sensor.getMode();
+                String methodName = mode.getValues()[0];
                 Method method;
                 String result = "";
                 try {

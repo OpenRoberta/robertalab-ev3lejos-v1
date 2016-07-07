@@ -1,7 +1,5 @@
 package de.fhg.iais.roberta.mode.sensor;
 
-import de.fhg.iais.roberta.inter.mode.sensor.IInfraredSensorMode;
-
 public enum InfraredSensorMode implements IInfraredSensorMode {
     DISTANCE( "getInfraredSensorDistance", "Distance" ), SEEK( "getInfraredSensorSeek", "Seek" );
 
