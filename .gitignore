@@ -1,8 +1,3 @@
-<<<<<<< HEAD
 **/*.class
 **/target
 */bin
-=======
-*/target/
-
->>>>>>> 605e75baa515d74bc35dd72164ee393b9a01ce0c
