@@ -1,5 +1,7 @@
 package de.fhg.iais.roberta.mode.sensor;
 
+import de.fhg.iais.roberta.inter.mode.sensor.IMotorTachoMode;
+
 public enum MotorTachoMode implements IMotorTachoMode {
     ROTATION(), DEGREE(), RESET(), DISTANCE();
 
