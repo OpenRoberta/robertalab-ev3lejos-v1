@@ -2910,7 +2910,7 @@ public class GraphicStartup implements Menu {
      * Get all the IP addresses for the device
      */
     public static HashMap<String, String> getIPAddresses() {
-        HashMap<String, String> result = new HashMap<String, String>();
+        HashMap<String, String> result = new HashMap<>();
         Enumeration<NetworkInterface> interfaces;
         try {
             interfaces = NetworkInterface.getNetworkInterfaces();

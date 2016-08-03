@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import de.fhg.iais.roberta.components.Actor;
 import de.fhg.iais.roberta.components.Configuration;
+import de.fhg.iais.roberta.components.SensorType;
 import de.fhg.iais.roberta.components.UsedSensor;
 import de.fhg.iais.roberta.inter.mode.action.IActorPort;
 import de.fhg.iais.roberta.inter.mode.general.IMode;
@@ -33,6 +34,7 @@ import de.fhg.iais.roberta.mode.action.MotorMoveMode;
 import de.fhg.iais.roberta.mode.action.MotorStopMode;
 import de.fhg.iais.roberta.mode.action.ShowPicture;
 import de.fhg.iais.roberta.mode.action.TurnDirection;
+import de.fhg.iais.roberta.mode.general.PickColor;
 import de.fhg.iais.roberta.mode.sensor.BrickKey;
 import de.fhg.iais.roberta.mode.sensor.ColorSensorMode;
 import de.fhg.iais.roberta.mode.sensor.GyroSensorMode;
@@ -47,7 +49,6 @@ import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.Image;
 import lejos.hardware.lcd.LCDOutputStream;
 import lejos.hardware.lcd.TextLCD;
-import lejos.hardware.sensor.SensorMode;
 import lejos.internal.ev3.EV3IOPort;
 import lejos.remote.nxt.NXTConnection;
 import lejos.robotics.SampleProvider;
@@ -384,11 +385,10 @@ public class Hal {
     private void addSensorsValues(JSONObject ev3Values) {
         for ( UsedSensor sensor : this.usedSensors ) {
             SensorPort port = (SensorPort) sensor.getPort();
-            SensorMode mode = (SensorMode) sensor.getMode();
+            IMode mode = sensor.getMode();
 
-            String methodName = "";
+            String methodName = getHalMethodName(mode, sensor.getSensorType());
 
-            //            String methodName = mode.getHalJavaMethod();
             Method method;
             String result = null;
             try {
@@ -401,6 +401,38 @@ public class Hal {
         }
     }
 
+    private String getHalMethodName(IMode mode, SensorType sensorType) {
+        switch ( mode.toString() ) {
+            case "COLOUR":
+                return "getColorSensorColour";
+            case "RED":
+                return "getColorSensorRed";
+            case "RGB":
+                return "getColorSensorRgb";
+            case "AMBIENTLIGHT":
+                return "getColorSensorAmbient";
+            case "RATE":
+                return "getGyroSensorRate";
+            case "ANGLE":
+                return "getGyroSensorAngle";
+            case "RESET":
+                return "resetGyroSensor";
+            case "TOUCH":
+                return "isPressed";
+            case "DISTANCE":
+                if ( sensorType == SensorType.ULTRASONIC ) {
+                    return "getUltraSonicSensorDistance";
+                }
+                return "getInfraredSensorDistance";
+            case "PRESENCE":
+                return "getUltraSonicSensorPresence";
+            case "SEEK":
+                return "getInfraredSensorSeek";
+            default:
+                return null;
+        }
+    }
+
     /**
      * Display the port and the sensor values on the ev3 screen every two seconds.
      */
@@ -409,7 +441,7 @@ public class Hal {
             for ( UsedSensor sensor : this.usedSensors ) {
                 SensorPort port = (SensorPort) sensor.getPort();
                 IMode mode = sensor.getMode();
-                String methodName = mode.getValues()[0];
+                String methodName = getHalMethodName(mode, sensor.getSensorType());
                 Method method;
                 String result = "";
                 try {
@@ -449,7 +481,7 @@ public class Hal {
         try {
             if ( result.startsWith("[") ) {
                 String tmp = result.substring(1, result.length() - 1);
-                List<String> list = new ArrayList<String>(Arrays.asList(tmp.split(", ")));
+                List<String> list = new ArrayList<>(Arrays.asList(tmp.split(", ")));
                 this.lcdos.write((port + " ").getBytes());
                 for ( String string : list ) {
                     this.lcdos.write((string + " ").getBytes());
@@ -1102,11 +1134,11 @@ public class Hal {
      * @param sensorPort on which the sensor is connected
      * @return color that is detected with the sensor (see {@link Pickcolor} for all colors that can be detected)
      */
-    public synchronized int getColorSensorColour(SensorPort sensorPort) {
+    public synchronized PickColor getColorSensorColour(SensorPort sensorPort) {
         SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.COLOUR.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
-        return Math.round(sample[0]);
+        return PickColor.get(Math.round(sample[0]));
     }
 
     /**
@@ -1132,7 +1164,7 @@ public class Hal {
         SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.RGB.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
-        ArrayList<Float> result = new ArrayList<Float>();
+        ArrayList<Float> result = new ArrayList<>();
         result.add((float) Math.round(sample[0] * 255.0f));
         result.add((float) Math.round(sample[1] * 255.0f));
         result.add((float) Math.round(sample[2] * 255.0f));
@@ -1166,7 +1198,7 @@ public class Hal {
         SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, InfraredSensorMode.SEEK.getValues()[0]);
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
-        ArrayList<Float> result = new ArrayList<Float>();
+        ArrayList<Float> result = new ArrayList<>();
         result.add((float) Math.round(sample[0]));
         result.add((float) Math.round(sample[1]));
         result.add((float) Math.round(sample[2]));

@@ -1,13 +1,13 @@
 package de.fhg.iais.roberta.mode.sensor;
 
+import de.fhg.iais.roberta.inter.mode.sensor.IGyroSensorMode;
+
 public enum GyroSensorMode implements IGyroSensorMode {
-    RATE( "getGyroSensorRate", "Rate" ), ANGLE( "getGyroSensorAngle", "Angle" ), RESET( "resetGyroSensor" );
+    RATE( "Rate" ), ANGLE( "Angle" ), RESET();
 
     private final String[] values;
-    private final String halJavaMethodName;
 
-    private GyroSensorMode(String halJavaMethodName, String... values) {
-        this.halJavaMethodName = halJavaMethodName;
+    private GyroSensorMode(String... values) {
         this.values = values;
     }
 
@@ -17,11 +17,6 @@ public enum GyroSensorMode implements IGyroSensorMode {
     public String getLejosModeName() {
         return this.values[0];
     }
-
-    //    @Override
-    //    public String getHalJavaMethod() {
-    //        return this.halJavaMethodName;
-    //    }
 
     @Override
     public String[] getValues() {

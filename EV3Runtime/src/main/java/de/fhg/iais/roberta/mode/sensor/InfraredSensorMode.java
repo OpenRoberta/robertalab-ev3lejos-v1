@@ -1,13 +1,14 @@
 package de.fhg.iais.roberta.mode.sensor;
 
+import de.fhg.iais.roberta.inter.mode.sensor.IInfraredSensorMode;
+
 public enum InfraredSensorMode implements IInfraredSensorMode {
-    DISTANCE( "getInfraredSensorDistance", "Distance" ), SEEK( "getInfraredSensorSeek", "Seek" );
+    DISTANCE( "Distance" ), SEEK( "Seek" );
 
     private final String[] values;
-    private final String halJavaMethodName;
 
-    private InfraredSensorMode(String halJavaMethodName, String... values) {
-        this.halJavaMethodName = halJavaMethodName;
+    private InfraredSensorMode(String... values) {
+
         this.values = values;
     }
 
@@ -17,11 +18,6 @@ public enum InfraredSensorMode implements IInfraredSensorMode {
     public String getLejosModeName() {
         return this.values[0];
     }
-
-    //    @Override
-    //    public String getHalJavaMethod() {
-    //        return this.halJavaMethodName;
-    //    }
 
     @Override
     public String[] getValues() {
