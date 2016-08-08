@@ -1,5 +1,5 @@
 
-package de.fhg.iais.roberta.mode.action;
+package de.fhg.iais.roberta.mode.action.ev3;
 
 import de.fhg.iais.roberta.inter.mode.action.IDriveDirection;
 
