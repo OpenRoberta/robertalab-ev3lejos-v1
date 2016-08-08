@@ -1,13 +1,13 @@
-package de.fhg.iais.roberta.mode.sensor;
+package de.fhg.iais.roberta.mode.sensor.ev3;
 
-import de.fhg.iais.roberta.inter.mode.sensor.IColorSensorMode;
+import de.fhg.iais.roberta.inter.mode.sensor.IUltrasonicSensorMode;
 
-public enum ColorSensorMode implements IColorSensorMode {
-    COLOUR( "ColorID" ), RED( "Red" ), RGB( "RGB" ), AMBIENTLIGHT( "Ambient" );
+public enum UltrasonicSensorMode implements IUltrasonicSensorMode {
+    DISTANCE( "Distance" ), PRESENCE( "Listen" );
 
     private final String[] values;
 
-    private ColorSensorMode(String... values) {
+    private UltrasonicSensorMode(String... values) {
         this.values = values;
     }
 
