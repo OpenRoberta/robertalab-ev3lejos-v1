@@ -39,7 +39,6 @@ public class ORAupdater {
     public void update() {
         this.update_error = false;
         getRuntime();
-        getShared();
         getJsonLib();
         getWebSocketLib();
         getEV3Menu();
@@ -68,7 +67,10 @@ public class ORAupdater {
 
     /**
      * Download the generated jar from OpenRobertaShared.
+     * The OpenRobertaShared and OpenRobertaRuntime projects are merged into one project,
+     * and the **OpenRobertaShared.jar** is not needed any more.
      */
+    @Deprecated
     private void getShared() {
         URL sharedURL = null;
         try {
