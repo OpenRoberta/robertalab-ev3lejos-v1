@@ -315,7 +315,7 @@ public class BlocklyMethods {
      * @return {@link ArrayList} with the given elements
      */
     public static ArrayList<Float> createListWithNumber(Number... elements) {
-        ArrayList<Float> result = new ArrayList<Float>();
+        ArrayList<Float> result = new ArrayList<>();
         for ( Number number : elements ) {
             result.add(number.floatValue());
 
@@ -330,7 +330,7 @@ public class BlocklyMethods {
      * @return {@link ArrayList} with the given elements
      */
     public static ArrayList<Boolean> createListWithBoolean(Boolean... elements) {
-        return new ArrayList<Boolean>(Arrays.asList(elements));
+        return new ArrayList<>(Arrays.asList(elements));
     }
 
     /**
@@ -340,7 +340,7 @@ public class BlocklyMethods {
      * @return {@link ArrayList} with the given elements
      */
     public static ArrayList<String> createListWithString(String... elements) {
-        return new ArrayList<String>(Arrays.asList(elements));
+        return new ArrayList<>(Arrays.asList(elements));
     }
 
     /**
@@ -351,7 +351,7 @@ public class BlocklyMethods {
      * @return {@link ArrayList} with the given elements
      */
     public static ArrayList<PickColor> createListWithColour(PickColor... elements) {
-        return new ArrayList<PickColor>(Arrays.asList(elements));
+        return new ArrayList<>(Arrays.asList(elements));
     }
 
     /**
@@ -362,7 +362,7 @@ public class BlocklyMethods {
      * @return {@link ArrayList} with the given elements
      */
     public static ArrayList<Float> createListWithItem(Float item, float times) {
-        ArrayList<Float> result = new ArrayList<Float>();
+        ArrayList<Float> result = new ArrayList<>();
         for ( int i = 0; i < times; i++ ) {
             result.add(item);
         }
@@ -377,7 +377,7 @@ public class BlocklyMethods {
      * @return {@link ArrayList} with the given elements
      */
     public static ArrayList<Boolean> createListWithItem(Boolean item, float times) {
-        ArrayList<Boolean> result = new ArrayList<Boolean>();
+        ArrayList<Boolean> result = new ArrayList<>();
         for ( int i = 0; i < times; i++ ) {
             result.add(item);
         }
@@ -392,7 +392,7 @@ public class BlocklyMethods {
      * @return {@link ArrayList} with the given elements
      */
     public static ArrayList<String> createListWithItem(String item, float times) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         for ( int i = 0; i < times; i++ ) {
             result.add(item);
         }
@@ -408,7 +408,7 @@ public class BlocklyMethods {
      * @return {@link ArrayList} with the given elements
      */
     public static ArrayList<PickColor> createListWithItem(PickColor item, float times) {
-        ArrayList<PickColor> result = new ArrayList<PickColor>();
+        ArrayList<PickColor> result = new ArrayList<>();
         for ( int i = 0; i < times; i++ ) {
             result.add(item);
         }
@@ -574,7 +574,7 @@ public class BlocklyMethods {
         Assert.isTrue(list.size() != 0, "List size is 0!");
         int fromIndex = calculateIndex(list, startLocation, startIndex);
         int toIndex = calculateIndex(list, endLocation, endIndex);
-        return new ArrayList<T>(list.subList(fromIndex, toIndex));
+        return new ArrayList<>(list.subList(fromIndex, toIndex));
     }
 
     /**
@@ -593,7 +593,7 @@ public class BlocklyMethods {
         Assert.isTrue(list.size() != 0, "List size is 0!");
         int fromIndex = calculateIndex(list, startLocation, -1);
         int toIndex = calculateIndex(list, endLocation, endIndex);
-        return new ArrayList<T>(list.subList(fromIndex, toIndex));
+        return new ArrayList<>(list.subList(fromIndex, toIndex));
     }
 
     /**
@@ -612,7 +612,7 @@ public class BlocklyMethods {
         Assert.isTrue(list.size() != 0, "List size is 0!");
         int fromIndex = calculateIndex(list, startLocation, startIndex);
         int toIndex = calculateIndex(list, endLocation, -1);
-        return new ArrayList<T>(list.subList(fromIndex, toIndex + 1));
+        return new ArrayList<>(list.subList(fromIndex, toIndex + 1));
     }
 
     /**
@@ -628,7 +628,7 @@ public class BlocklyMethods {
         Assert.isTrue(list.size() != 0, "List size is 0!");
         int fromIndex = calculateIndex(list, startLocation, -1);
         int toIndex = calculateIndex(list, endLocation, -1);
-        return new ArrayList<T>(list.subList(fromIndex, toIndex + 1));
+        return new ArrayList<>(list.subList(fromIndex, toIndex + 1));
     }
 
     /**
@@ -743,9 +743,9 @@ public class BlocklyMethods {
     }
 
     public static ArrayList<Float> modeOnList(ArrayList<Float> list) {
-        Map<Float, Integer> seen = new HashMap<Float, Integer>();
+        Map<Float, Integer> seen = new HashMap<>();
         int max = 0;
-        ArrayList<Float> maxElems = new ArrayList<Float>();
+        ArrayList<Float> maxElems = new ArrayList<>();
         for ( Float value : list ) {
             if ( seen.containsKey(value) ) {
                 seen.put(value, seen.get(value) + 1);
@@ -790,7 +790,7 @@ public class BlocklyMethods {
     }
 
     private static <T> int calculateIndex(ArrayList<T> list, IndexLocation indexLocation, float index) {
-        //Assert.isTrue(index < list.size(), "Index location is larger then the size of array!");
+        Assert.isTrue(index < list.size(), "Index location is larger then the size of array!");
         switch ( indexLocation ) {
             case FROM_START:
                 return (int) index;
@@ -799,9 +799,9 @@ public class BlocklyMethods {
             case FIRST:
                 return 0;
             case LAST:
-                return list.size() - 1;
+                return list.size() == 0 ? 0 : list.size() - 1;
             case RANDOM:
-                return (int) randInt(0, list.size() - 1);
+                return (int) randInt(0, list.size() == 0 ? 0 : list.size() - 1);
             default:
                 throw new DbcException("Unknown index location!");
         }
