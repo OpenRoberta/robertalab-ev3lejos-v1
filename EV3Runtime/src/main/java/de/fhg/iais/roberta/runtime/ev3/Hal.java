@@ -836,6 +836,46 @@ public class Hal {
         }
     }
 
+    public void driveInCurve(DriveDirection direction, float speedLeft, float speedRight) {
+        setSpeedDriveInCurve(speedLeft, speedRight);
+        float radius = calculateRadius(speedLeft, speedRight);
+        if ( speedLeft == speedRight ) {
+            regulatedDrive(direction, speedLeft);
+            return;
+        }
+        if ( direction == DriveDirection.FOREWARD ) {
+            this.dPilot.arcForward(radius);
+        } else {
+            this.dPilot.arcBackward(radius);
+        }
+
+    }
+
+    public void driveInCurve(DriveDirection direction, float speedLeft, float speedRight, float distance) {
+        setSpeedDriveInCurve(speedLeft, speedRight);
+        float radius = calculateRadius(speedLeft, speedRight);
+        if ( speedLeft == speedRight ) {
+            driveDistance(direction, speedLeft, distance);
+            return;
+        }
+        if ( direction == DriveDirection.FOREWARD ) {
+            this.dPilot.travelArc(radius, distance);
+        } else {
+            this.dPilot.travelArc(radius, -distance);
+        }
+
+    }
+
+    private float calculateRadius(float speedLeft, float speedRight) {
+        float radius = (float) ((this.trackWidth * (speedLeft + speedRight)) / (2.0f * (speedRight - speedLeft)));
+        return radius;
+    }
+
+    private void setSpeedDriveInCurve(float speedLeft, float speedRight) {
+        float robotSpeed = (speedLeft + speedRight) / 2.0f;
+        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * robotSpeed / 100.0);
+    }
+
     /**
      * Stop regulated drive motors.<br>
      * <br>
@@ -1310,7 +1350,7 @@ public class Hal {
                 return this.deviceHandler.getRegulatedMotor(actorPort).getTachoCount();
             case ROTATION:
             case DISTANCE:
-                float rotations = (float) (Math.round(this.deviceHandler.getRegulatedMotor(actorPort).getTachoCount() / 360.0 * 100.0) / 100.0);
+                float rotations = Math.round(this.deviceHandler.getRegulatedMotor(actorPort).getTachoCount() / 360.0 * 100.0) / 100.0f;
                 if ( mode == MotorTachoMode.ROTATION ) {
                     return rotations;
                 } else {
@@ -1336,7 +1376,7 @@ public class Hal {
                 return this.deviceHandler.getUnregulatedMotor(actorPort).getTachoCount();
             case ROTATION:
             case DISTANCE:
-                float rotations = (float) (Math.round(this.deviceHandler.getUnregulatedMotor(actorPort).getTachoCount() / 360.0 * 100.0) / 100.0);
+                float rotations = Math.round(this.deviceHandler.getUnregulatedMotor(actorPort).getTachoCount() / 360.0 * 100.0) / 100.0f;
                 if ( mode == MotorTachoMode.ROTATION ) {
                     return rotations;
                 } else {
