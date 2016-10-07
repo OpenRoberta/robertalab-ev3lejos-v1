@@ -46,6 +46,7 @@ public class ORApushCmd implements Runnable {
     public static final String KEY_FIRMWARENAME = "firmwarename";
     public static final String KEY_FIRMWAREVERSION = "firmwareversion";
     public static final String KEY_MENUVERSION = "menuversion";
+    public static final String KEY_RUNTIMEVERSION = "runtimeversion";
     public static final String KEY_CMD = "cmd";
     public static final String KEY_NEPOEXITVALUE = "nepoexitvalue";
 
@@ -75,6 +76,7 @@ public class ORApushCmd implements Runnable {
         this.brickData.put(KEY_TOKEN, token);
         this.brickData.put(KEY_MACADDR, GraphicStartup.getWlanMACaddress());
         this.brickData.put(KEY_MENUVERSION, GraphicStartup.getORAmenuVersion());
+        this.brickData.put(KEY_RUNTIMEVERSION, GraphicStartup.getRuntimeVersion());
         this.brickData.put(KEY_FIRMWARENAME, "lejos");
         this.brickData.put(KEY_FIRMWAREVERSION, GraphicStartup.getLejosVersion());
 
