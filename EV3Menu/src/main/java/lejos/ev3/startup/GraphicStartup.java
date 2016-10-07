@@ -1785,9 +1785,9 @@ public class GraphicStartup implements Menu {
      * @return Open Roberta Lab menu version
      */
     public static String getORAmenuVersion() {
-        String tmp = menuProperties.getProperty("version");
-        tmp = tmp.substring(0, tmp.indexOf("-"));
-        return tmp;
+        //        String tmp = menuProperties.getProperty("version");
+        //        tmp = tmp.substring(0, tmp.indexOf("-"));
+        return menuProperties.getProperty("version");
     }
 
     /**
@@ -1797,6 +1797,15 @@ public class GraphicStartup implements Menu {
      */
     public static String getLejosVersion() {
         return version;
+    }
+
+    /**
+     * Get the runtime version.
+     *
+     * @return
+     */
+    public static String getRuntimeVersion() {
+        return menuProperties.getProperty("runtimeversion");
     }
 
     /**
@@ -2292,6 +2301,7 @@ public class GraphicStartup implements Menu {
         } else {
             newScreen("Version");
             lcd.drawString("Open Roberta:" + getORAmenuVersion(), 0, 2);
+            lcd.drawString("EV3Runtime:" + getRuntimeVersion(), 0, 3);
             lcd.drawString("leJOS:", 0, 4);
             lcd.drawString(version, 6, 4);
             lcd.drawString(menuProperties.getProperty("buildTimeStamp").split(" ")[0], 0, 6);

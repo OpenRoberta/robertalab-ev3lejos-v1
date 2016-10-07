@@ -30,6 +30,7 @@
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.compiler.source>1.7</maven.compiler.source>
 
+		<ev3runtime.version>${project.version}</ev3runtime.version>
 		<json.version>20140107</json.version>
 		<ev3classes.version>0.9.0-beta</ev3classes.version>
 		<dbusjava.version>0.9.0-beta</dbusjava.version>

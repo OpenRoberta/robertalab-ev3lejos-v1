@@ -77,6 +77,7 @@ public class ORAbrickInfo implements HttpHandler {
         response.put(ORApushCmd.KEY_FIRMWARENAME, "lejos");
         response.put(ORApushCmd.KEY_FIRMWAREVERSION, GraphicStartup.getLejosVersion());
         response.put(ORApushCmd.KEY_MENUVERSION, GraphicStartup.getORAmenuVersion());
+        response.put(ORApushCmd.KEY_RUNTIMEVERSION, GraphicStartup.getRuntimeVersion());
         response.put(ORApushCmd.KEY_BRICKNAME, GraphicStartup.getBrickName());
         response.put(ORApushCmd.KEY_BATTERY, GraphicStartup.getBatteryStatus());
         response.put(ORApushCmd.KEY_NEPOEXITVALUE, ORAlauncher.getNepoExitValue());
