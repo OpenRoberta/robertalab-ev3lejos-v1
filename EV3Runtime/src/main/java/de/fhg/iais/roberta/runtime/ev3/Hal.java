@@ -837,7 +837,8 @@ public class Hal {
     }
 
     public void driveInCurve(DriveDirection direction, float speedLeft, float speedRight) {
-        setSpeedDriveInCurve(speedLeft, speedRight);
+        float robotSpeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
+        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * robotSpeed / 100.0);
         float radius = calculateRadius(speedLeft, speedRight);
         if ( speedLeft == speedRight ) {
             regulatedDrive(direction, speedLeft);
@@ -852,16 +853,20 @@ public class Hal {
     }
 
     public void driveInCurve(DriveDirection direction, float speedLeft, float speedRight, float distance) {
-        setSpeedDriveInCurve(speedLeft, speedRight);
+        float robotSpeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
+        int direct = direction == DriveDirection.FOREWARD ? 1 : -1;
         float radius = calculateRadius(speedLeft, speedRight);
         if ( speedLeft == speedRight ) {
             driveDistance(direction, speedLeft, distance);
             return;
         }
-        if ( direction == DriveDirection.FOREWARD ) {
-            this.dPilot.travelArc(radius, distance);
+        if ( radius == 0 ) {
+            double angle = distance / (Math.PI * this.trackWidth) * 360.0;
+            this.dPilot.setRotateSpeed(toDegPerSec(robotSpeed));
+            this.dPilot.rotate(direct * angle, false);
         } else {
-            this.dPilot.travelArc(radius, -distance);
+            this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * robotSpeed / 100.0);
+            this.dPilot.travelArc(radius, direct * distance);
         }
 
     }
@@ -871,9 +876,8 @@ public class Hal {
         return radius;
     }
 
-    private void setSpeedDriveInCurve(float speedLeft, float speedRight) {
-        float robotSpeed = (speedLeft + speedRight) / 2.0f;
-        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * robotSpeed / 100.0);
+    private float calculateSpeedDriveInCurve(float speedLeft, float speedRight) {
+        return (Math.abs(speedLeft) + Math.abs(speedRight)) / 2.0f;
     }
 
     /**
