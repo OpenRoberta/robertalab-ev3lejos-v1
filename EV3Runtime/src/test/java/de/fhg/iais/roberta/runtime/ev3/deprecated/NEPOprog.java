@@ -13,7 +13,6 @@ import de.fhg.iais.roberta.components.UsedSensor;
 import de.fhg.iais.roberta.mode.action.ev3.ActorPort;
 import de.fhg.iais.roberta.mode.action.ev3.DriveDirection;
 import de.fhg.iais.roberta.mode.action.ev3.MotorSide;
-import de.fhg.iais.roberta.mode.action.ev3.ShowPicture;
 import de.fhg.iais.roberta.mode.sensor.ev3.BrickKey;
 import de.fhg.iais.roberta.mode.sensor.ev3.SensorPort;
 import de.fhg.iais.roberta.runtime.ev3.Hal;
@@ -22,7 +21,7 @@ public class NEPOprog {
     private static final boolean TRUE = true;
     private static Configuration brickConfiguration;
 
-    private final Set<UsedSensor> usedSensors = new LinkedHashSet<UsedSensor>();
+    private final Set<UsedSensor> usedSensors = new LinkedHashSet<>();
 
     private final Hal hal = new Hal(brickConfiguration, this.usedSensors);
 
@@ -53,7 +52,7 @@ public class NEPOprog {
 
     public void run() throws Exception {
 
-        this.hal.drawPicture(ShowPicture.OLDGLASSES, 0, 0);
+        this.hal.drawPicture("", 0, 0);
         if ( TRUE ) {
             while ( true ) {
                 if ( this.hal.isPressed(BrickKey.ENTER) == true ) {
