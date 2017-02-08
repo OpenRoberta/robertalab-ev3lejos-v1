@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.fhg.iais.openroberta</groupId>
         <artifactId>EV3Parent</artifactId>
-        <version>2.1.2</version>
+        <version>2.2.0</version>
         <relativePath>../EV3Parent</relativePath>
     </parent>
     
