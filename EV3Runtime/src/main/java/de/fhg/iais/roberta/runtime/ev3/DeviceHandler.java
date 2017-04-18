@@ -24,6 +24,7 @@ import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.hardware.sensor.EV3IRSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
+import lejos.hardware.sensor.HiTechnicCompass;
 import lejos.robotics.EncoderMotor;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.SampleProvider;
@@ -35,6 +36,7 @@ public class DeviceHandler {
     private final Set<UsedSensor> usedSensors;
     private final Map<SensorPort, SampleProviderBean[]> lejosSensors = new HashMap<>();
     private EV3GyroSensor gyroSensor = null;
+    private HiTechnicCompass hiTechnicCompass = null;
 
     private final Map<ActorPort, RegulatedMotor> lejosRegulatedMotors = new HashMap<>();
     private final Map<ActorPort, EncoderMotor> lejosUnregulatedMotors = new HashMap<>();
@@ -92,6 +94,10 @@ public class DeviceHandler {
             throw new DbcException("No Gyro Sensor Connected!");
         }
         return this.gyroSensor;
+    }
+
+    public HiTechnicCompass getHiTechnicCompass() {
+        return this.hiTechnicCompass;
     }
 
     /**
@@ -187,6 +193,10 @@ public class DeviceHandler {
                     break;
                 case ULTRASONIC:
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(new EV3UltrasonicSensor(hardwarePort)));
+                    break;
+                case COMPASS_HI_TEC:
+                    this.hiTechnicCompass = new HiTechnicCompass(hardwarePort);
+                    this.lejosSensors.put(sensorPort, sensorSampleProviders(this.hiTechnicCompass));
                     break;
                 default:
                     throw new DbcException("Sensor type " + sensorType.getName() + " does not exists!");

@@ -1254,10 +1254,30 @@ public class Hal {
     /**
      * Reset the gyro sensor
      *
-     * @param sensorPort on which the gyro sensor sensor is connected
+     * @param sensorPort on which the gyro sensor is connected
      */
     public synchronized void resetGyroSensor(SensorPort sensorPort) {
         this.deviceHandler.getGyroSensor().reset();
+    }
+
+    /**
+     * Starts calibration for the compass. Must rotate <b>very</b> slowly, taking at least 20 seconds per rotation. Should make 1.5 to 2 full rotations. Must
+     * call
+     * {@link hiTecCompassStopCalibration}() when done.
+     *
+     * @param sensorPort on which the compass sensor is connected
+     */
+    public synchronized void hiTecCompassStartCalibration(SensorPort sensorPort) {
+        this.deviceHandler.getHiTechnicCompass().startCalibration();
+    }
+
+    /**
+     * Stops calibration for the compass sensor.
+     *
+     * @param sensorPort on which the compass sensor is connected
+     */
+    public synchronized void hiTecCompassStopCalibration(SensorPort sensorPort) {
+        this.deviceHandler.getHiTechnicCompass().stopCalibration();
     }
 
     // END Sensoren Gyrosensor ---
