@@ -8,15 +8,7 @@ public enum InfraredSensorMode implements IInfraredSensorMode {
     private final String[] values;
 
     private InfraredSensorMode(String... values) {
-
         this.values = values;
-    }
-
-    /**
-     * @return name that Lejos is using for this mode
-     */
-    public String getLejosModeName() {
-        return this.values[0];
     }
 
     @Override

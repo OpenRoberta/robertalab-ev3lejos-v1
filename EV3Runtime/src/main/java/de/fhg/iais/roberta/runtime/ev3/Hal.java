@@ -26,13 +26,14 @@ import de.fhg.iais.roberta.components.SensorType;
 import de.fhg.iais.roberta.components.UsedSensor;
 import de.fhg.iais.roberta.inter.mode.action.IActorPort;
 import de.fhg.iais.roberta.inter.mode.general.IMode;
+import de.fhg.iais.roberta.mode.action.DriveDirection;
+import de.fhg.iais.roberta.mode.action.MotorMoveMode;
+import de.fhg.iais.roberta.mode.action.MotorStopMode;
+import de.fhg.iais.roberta.mode.action.TurnDirection;
 import de.fhg.iais.roberta.mode.action.ev3.ActorPort;
 import de.fhg.iais.roberta.mode.action.ev3.BlinkMode;
 import de.fhg.iais.roberta.mode.action.ev3.BrickLedColor;
-import de.fhg.iais.roberta.mode.action.ev3.DriveDirection;
-import de.fhg.iais.roberta.mode.action.ev3.MotorMoveMode;
-import de.fhg.iais.roberta.mode.action.ev3.MotorStopMode;
-import de.fhg.iais.roberta.mode.action.ev3.TurnDirection;
+import de.fhg.iais.roberta.mode.action.ev3.ShowPicture;
 import de.fhg.iais.roberta.mode.general.PickColor;
 import de.fhg.iais.roberta.mode.sensor.ev3.BrickKey;
 import de.fhg.iais.roberta.mode.sensor.ev3.ColorSensorMode;
@@ -779,6 +780,7 @@ public class Hal {
      * @param speedPercent of motor power
      */
     public void regulatedDrive(DriveDirection direction, float speedPercent) {
+        speedPercent = speedPercent > 100 ? 100 : speedPercent;
         this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * speedPercent / 100.0);
         switch ( direction ) {
             case FOREWARD:
@@ -805,6 +807,7 @@ public class Hal {
      * @param distance that the robot should travel
      */
     public void driveDistance(DriveDirection direction, float speedPercent, float distance) {
+        speedPercent = speedPercent > 100 ? 100 : speedPercent;
         this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * speedPercent / 100.0);
         switch ( direction ) {
             case FOREWARD:
@@ -819,6 +822,8 @@ public class Hal {
     }
 
     public void driveInCurve(DriveDirection direction, float speedLeft, float speedRight) {
+        speedLeft = speedLeft > 100 ? 100 : speedLeft;
+        speedRight = speedRight > 100 ? 100 : speedRight;
         float robotSpeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
         this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * robotSpeed / 100.0);
         float radius = calculateRadius(speedLeft, speedRight);
@@ -835,6 +840,8 @@ public class Hal {
     }
 
     public void driveInCurve(DriveDirection direction, float speedLeft, float speedRight, float distance) {
+        speedLeft = speedLeft > 100 ? 100 : speedLeft;
+        speedRight = speedRight > 100 ? 100 : speedRight;
         float robotSpeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
         int direct = direction == DriveDirection.FOREWARD ? 1 : -1;
         float radius = calculateRadius(speedLeft, speedRight);

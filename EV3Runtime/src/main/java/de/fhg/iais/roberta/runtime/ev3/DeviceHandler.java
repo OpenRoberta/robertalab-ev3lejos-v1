@@ -166,7 +166,7 @@ public class DeviceHandler {
 
     private boolean isUsed(Sensor sensor) {
         for ( UsedSensor usedSensor : this.usedSensors ) {
-            if ( usedSensor.getSensorType().equals(sensor.getName()) ) {
+            if ( usedSensor.getSensorType().equals(sensor.getType()) ) {
                 return true;
             }
         }
@@ -177,7 +177,7 @@ public class DeviceHandler {
         if ( sensorType != null && isUsed(sensorType) ) {
             this.lcd.clear();
             // Hal.formatInfoMessage("Initializing " + sensorType.getComponentType().getShortName() + " on port " + sensorPort + " ...", this.lcd);
-            switch ( sensorType.getName() ) {
+            switch ( sensorType.getType() ) {
                 case COLOR:
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(new EV3ColorSensor(hardwarePort)));
                     break;
@@ -199,7 +199,7 @@ public class DeviceHandler {
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(this.hiTechnicCompass));
                     break;
                 default:
-                    throw new DbcException("Sensor type " + sensorType.getName() + " does not exists!");
+                    throw new DbcException("Sensor type " + sensorType.getType() + " does not exists!");
             }
         }
     }

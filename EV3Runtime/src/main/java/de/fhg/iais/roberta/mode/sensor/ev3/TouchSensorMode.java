@@ -10,10 +10,6 @@ public enum TouchSensorMode implements ITouchSensorMode {
         this.values = values;
     }
 
-    public String getLejosModeName() {
-        return this.values[0];
-    }
-
     @Override
     public String[] getValues() {
         return this.values;

@@ -8,14 +8,8 @@ public enum ColorSensorMode implements IColorSensorMode {
     private final String[] values;
 
     private ColorSensorMode(String... values) {
-        this.values = values;
-    }
 
-    /**
-     * @return name that Lejos is using for this mode
-     */
-    public String getLejosModeName() {
-        return this.values[0];
+        this.values = values;
     }
 
     @Override

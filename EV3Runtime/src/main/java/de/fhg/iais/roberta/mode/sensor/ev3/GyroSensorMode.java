@@ -11,13 +11,6 @@ public enum GyroSensorMode implements IGyroSensorMode {
         this.values = values;
     }
 
-    /**
-     * @return name that Lejos is using for this mode
-     */
-    public String getLejosModeName() {
-        return this.values[0];
-    }
-
     @Override
     public String[] getValues() {
         return this.values;

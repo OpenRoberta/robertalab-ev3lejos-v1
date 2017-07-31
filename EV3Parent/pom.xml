@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.fhg.iais.openroberta</groupId>
 	<artifactId>EV3Parent</artifactId>
-	<version>2.2.0</version>
+	<version>2.3.0</version>
 	<packaging>pom</packaging>
 	<name>EV3Parent</name>
 	<description>the parent project of the EV3 Lejos Roberta Lab artifacts</description>
@@ -16,7 +16,7 @@
 	<properties>
 		<!-- the server and the crosscompiler SHOULD be compatible between(including) the following two versions of software deployed on the ROBOT -->
 		<validversionrange.From>2.0.0</validversionrange.From>
-		<validversionrange.To>2.0.0</validversionrange.To>
+		<validversionrange.To>2.3.0</validversionrange.To>
 
 		<robot.menutype>custom</robot.menutype>
 

@@ -3,15 +3,24 @@ package de.fhg.iais.roberta.components;
 import java.util.Arrays;
 import java.util.Locale;
 
-import de.fhg.iais.roberta.mode.action.ev3.DriveDirection;
+import de.fhg.iais.roberta.mode.action.DriveDirection;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 
 public enum SensorType {
     COLOR( "robBrick_colour" ),
+    HT_COLOR( "robBrick_HiTechnic_colour" ),
     TOUCH( "robBrick_touch" ),
     ULTRASONIC( "robBrick_ultrasonic" ),
     INFRARED( "robBrick_infrared" ),
-    GYRO( "robBrick_gyro" ),
+    GYRO( "robBrick_gyro", "makeblockSensors_gyroscope_getSample" ),
+    SOUND( "robBrick_sound" ),
+    LIGHT( "robBrick_light" ),
+    COMPASS( "robBrick_compass" ),
+    TEMPERATURE( "robBrick_temperature" ),
+    FLAMESENSOR( "makeblockSensors_flameSensor_getSample" ),
+    ACCELEROMETER( "makeblockSensors_accelerometer_getSample" ),
+    JOYSTICK( "arduSensors_joystick_getSample" ),
+    NAOMARK( "naoSensors_naoMark" ),
     COMPASS_HI_TEC( "robBrick_hiTecCompass" );
 
     private final String[] values;

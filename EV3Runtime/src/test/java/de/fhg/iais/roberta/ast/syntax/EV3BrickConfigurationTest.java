@@ -11,9 +11,9 @@ import de.fhg.iais.roberta.components.Configuration;
 import de.fhg.iais.roberta.components.EV3Configuration;
 import de.fhg.iais.roberta.components.Sensor;
 import de.fhg.iais.roberta.components.SensorType;
+import de.fhg.iais.roberta.mode.action.DriveDirection;
+import de.fhg.iais.roberta.mode.action.MotorSide;
 import de.fhg.iais.roberta.mode.action.ev3.ActorPort;
-import de.fhg.iais.roberta.mode.action.ev3.DriveDirection;
-import de.fhg.iais.roberta.mode.action.ev3.MotorSide;
 import de.fhg.iais.roberta.mode.sensor.ev3.SensorPort;
 
 public class EV3BrickConfigurationTest {
@@ -34,8 +34,8 @@ public class EV3BrickConfigurationTest {
         assertEquals(ActorType.LARGE, conf.getActorOnPort(ActorPort.A).getName());
         assertEquals(ActorType.MEDIUM, conf.getActorOnPort(ActorPort.B).getName());
         assertNull(conf.getActorOnPort(ActorPort.C));
-        assertEquals(SensorType.ULTRASONIC, conf.getSensorOnPort(SensorPort.S1).getName());
-        assertEquals(SensorType.COLOR, conf.getSensorOnPort(SensorPort.S4).getName());
+        assertEquals(SensorType.ULTRASONIC, conf.getSensorOnPort(SensorPort.S1).getType());
+        assertEquals(SensorType.COLOR, conf.getSensorOnPort(SensorPort.S4).getType());
         assertNull(conf.getSensorOnPort(SensorPort.S2));
 
         assertEquals(EV3BrickConfigurationTest.expectedBrickConfigurationGenerator, conf.generateText("test").replaceAll("\\s+", ""));
@@ -54,8 +54,8 @@ public class EV3BrickConfigurationTest {
         assertEquals(ActorType.LARGE, conf.getActorOnPort(ActorPort.A).getName());
         assertEquals(ActorType.MEDIUM, conf.getActorOnPort(ActorPort.B).getName());
         assertNull(conf.getActorOnPort(ActorPort.C));
-        assertEquals(SensorType.ULTRASONIC, conf.getSensorOnPort(SensorPort.S1).getName());
-        assertEquals(SensorType.COLOR, conf.getSensorOnPort(SensorPort.S4).getName());
+        assertEquals(SensorType.ULTRASONIC, conf.getSensorOnPort(SensorPort.S1).getType());
+        assertEquals(SensorType.COLOR, conf.getSensorOnPort(SensorPort.S4).getType());
         assertNull(conf.getSensorOnPort(SensorPort.S2));
 
         assertEquals(EV3BrickConfigurationTest.expectedBrickConfigurationGenerator, conf.generateText("test").replaceAll("\\s+", ""));
@@ -71,21 +71,22 @@ public class EV3BrickConfigurationTest {
         builder.addSensor(SensorPort.S4, new Sensor(SensorType.COLOR));
         Configuration conf = builder.build();
 
-        String expected = "" //
-            + "robot ev3 test {\n"
-            + "  size {\n"
-            + "    wheel diameter -3.1 cm;\n"
-            + "    track width    4.0 cm;\n"
-            + "  }\n"
-            + "  sensor port {\n"
-            + "    1: ultrasonic;\n"
-            + "    4: color;\n"
-            + "  }\n"
-            + "  actor port {\n"
-            + "    A: large motor, regulated, forward, left;\n"
-            + "    B: middle motor, unregulated, forward, right;\n"
-            + "  }\n"
-            + "}";
+        String expected =
+            "" //
+                + "robot ev3 test {\n"
+                + "  size {\n"
+                + "    wheel diameter -3.1 cm;\n"
+                + "    track width    4.0 cm;\n"
+                + "  }\n"
+                + "  sensor port {\n"
+                + "    1: ultrasonic;\n"
+                + "    4: color;\n"
+                + "  }\n"
+                + "  actor port {\n"
+                + "    A: large motor, regulated, forward, left;\n"
+                + "    B: middle motor, unregulated, forward, right;\n"
+                + "  }\n"
+                + "}";
 
         assertEquals(expected.replaceAll("\\s+", ""), conf.generateText("test").replaceAll("\\s+", ""));
     }

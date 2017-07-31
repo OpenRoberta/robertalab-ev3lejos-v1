@@ -6,8 +6,9 @@ import java.util.TreeMap;
 
 import de.fhg.iais.roberta.inter.mode.action.IActorPort;
 import de.fhg.iais.roberta.inter.mode.sensor.ISensorPort;
+import de.fhg.iais.roberta.mode.action.MotorSide;
 import de.fhg.iais.roberta.mode.action.ev3.ActorPort;
-import de.fhg.iais.roberta.mode.action.ev3.MotorSide;
+import de.fhg.iais.roberta.mode.sensor.ev3.SensorPort;
 import de.fhg.iais.roberta.util.Formatter;
 import de.fhg.iais.roberta.util.Pair;
 import de.fhg.iais.roberta.util.dbc.DbcException;
@@ -16,7 +17,6 @@ public class EV3Configuration extends Configuration {
 
     public EV3Configuration(Map<IActorPort, Actor> actors, Map<ISensorPort, Sensor> sensors, double wheelDiameterCM, double trackWidthCM) {
         super(actors, sensors, wheelDiameterCM, trackWidthCM);
-
     }
 
     /**
@@ -26,7 +26,27 @@ public class EV3Configuration extends Configuration {
      */
     @Override
     public IActorPort getLeftMotorPort() {
-        return getMotorOnSide(MotorSide.LEFT);
+        return getMotorPortOnSide(MotorSide.LEFT);
+    }
+
+    @Override
+    public Actor getLeftMotor() {
+        IActorPort port = getLeftMotorPort();
+        if ( port != null ) {
+            return getActorOnPort(port);
+        }
+        return null;
+    }
+
+    @Override
+    public int getNumberOfLeftMotors() {
+        int leftMotors = 0;
+        for ( Actor actor : this.actors.values() ) {
+            if ( actor.getMotorSide() == MotorSide.LEFT ) {
+                leftMotors++;
+            }
+        }
+        return leftMotors;
     }
 
     /**
@@ -36,7 +56,27 @@ public class EV3Configuration extends Configuration {
      */
     @Override
     public IActorPort getRightMotorPort() {
-        return getMotorOnSide(MotorSide.RIGHT);
+        return getMotorPortOnSide(MotorSide.RIGHT);
+    }
+
+    @Override
+    public Actor getRightMotor() {
+        IActorPort port = getRightMotorPort();
+        if ( port != null ) {
+            return getActorOnPort(port);
+        }
+        return null;
+    }
+
+    @Override
+    public int getNumberOfRightMotors() {
+        int right = 0;
+        for ( Actor actor : this.actors.values() ) {
+            if ( actor.getMotorSide() == MotorSide.RIGHT ) {
+                right++;
+            }
+        }
+        return right;
     }
 
     /**
@@ -52,16 +92,16 @@ public class EV3Configuration extends Configuration {
             sb.append("    track width    ").append(Formatter.d2s(this.trackWidthCM)).append(" cm;\n");
             sb.append("  }\n");
         }
-        if ( this.sensors.size() > 0 ) {
+        if ( !this.sensors.isEmpty() ) {
             sb.append("  sensor port {\n");
             for ( ISensorPort port : this.sensors.keySet() ) {
                 sb.append("    ").append(port.getPortNumber()).append(": ");
-                String sensor = this.sensors.get(port).getName().toString();
+                String sensor = this.sensors.get(port).getType().toString();
                 sb.append(sensor.toLowerCase()).append(";\n");
             }
             sb.append("  }\n");
         }
-        if ( this.actors.size() > 0 ) {
+        if ( !this.actors.isEmpty() ) {
             sb.append("  actor port {\n");
             for ( IActorPort port : this.actors.keySet() ) {
                 sb.append("    ").append(port.toString()).append(": ");

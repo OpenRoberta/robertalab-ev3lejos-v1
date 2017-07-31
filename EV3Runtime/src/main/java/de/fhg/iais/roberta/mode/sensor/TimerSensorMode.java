@@ -1,4 +1,4 @@
-package de.fhg.iais.roberta.mode.sensor.ev3;
+package de.fhg.iais.roberta.mode.sensor;
 
 import de.fhg.iais.roberta.inter.mode.sensor.ITimerSensorMode;
 
