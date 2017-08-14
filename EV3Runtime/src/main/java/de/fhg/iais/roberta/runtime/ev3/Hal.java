@@ -781,7 +781,7 @@ public class Hal {
      */
     public void regulatedDrive(DriveDirection direction, float speedPercent) {
         speedPercent = speedPercent > 100 ? 100 : speedPercent;
-        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * speedPercent / 100.0);
+        //        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * speedPercent / 100.0);
         switch ( direction ) {
             case FOREWARD:
                 this.dPilot.forward();
@@ -808,7 +808,7 @@ public class Hal {
      */
     public void driveDistance(DriveDirection direction, float speedPercent, float distance) {
         speedPercent = speedPercent > 100 ? 100 : speedPercent;
-        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * speedPercent / 100.0);
+        //        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * speedPercent / 100.0);
         switch ( direction ) {
             case FOREWARD:
                 this.dPilot.travel(distance);
@@ -825,7 +825,7 @@ public class Hal {
         speedLeft = speedLeft > 100 ? 100 : speedLeft;
         speedRight = speedRight > 100 ? 100 : speedRight;
         float robotSpeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
-        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * robotSpeed / 100.0);
+        //        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * robotSpeed / 100.0);
         float radius = calculateRadius(speedLeft, speedRight);
         if ( speedLeft == speedRight ) {
             regulatedDrive(direction, speedLeft);
@@ -851,10 +851,10 @@ public class Hal {
         }
         if ( radius == 0 ) {
             double angle = distance / (Math.PI * this.trackWidth) * 360.0;
-            this.dPilot.setRotateSpeed(toDegPerSec(robotSpeed));
+            //            this.dPilot.setRotateSpeed(toDegPerSec(robotSpeed));
             this.dPilot.rotate(direct * angle, false);
         } else {
-            this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * robotSpeed / 100.0);
+            //            this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * robotSpeed / 100.0);
             this.dPilot.travelArc(radius, direct * distance);
         }
 
@@ -890,7 +890,7 @@ public class Hal {
      * @param speedPercent of motor power
      */
     public void rotateDirectionRegulated(TurnDirection direction, float speedPercent) {
-        this.dPilot.setRotateSpeed(toDegPerSec((int) speedPercent));
+        //        this.dPilot.setRotateSpeed(toDegPerSec((int) speedPercent));
         switch ( direction ) {
             case RIGHT:
                 this.dPilot.rotateRight();
@@ -916,7 +916,7 @@ public class Hal {
      * @param angle of the turn
      */
     public void rotateDirectionAngle(TurnDirection direction, float speedPercent, float angle) {
-        this.dPilot.setRotateSpeed(toDegPerSec(speedPercent));
+        //        this.dPilot.setRotateSpeed(toDegPerSec(speedPercent));
         switch ( direction ) {
             case RIGHT:
                 angle = angle * -1;
