@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import lejos.hardware.Sounds;
 import lejos.hardware.ev3.LocalEV3;
-import lejos.hardware.lcd.TextLCD;
 import lejos.utility.Delay;
 
 /**
@@ -181,7 +180,7 @@ public class ORApushCmd implements Runnable {
                     return;
                 } else {
                     if ( this.reconnectAttempts >= this.maxAttempts ) {
-                        connectionLost();
+                        GraphicStartup.menu.drawConnectionLost();
                         return;
                     } else {
                         this.reconnectAttempts++;
@@ -202,20 +201,6 @@ public class ORApushCmd implements Runnable {
                 }
             }
         }
-    }
-
-    private void connectionLost() {
-        ORAhandler.setRegistered(false);
-        LocalEV3.get().getAudio().systemSound(Sounds.DESCENDING);
-        GraphicStartup.menu.suspend();
-        TextLCD lcd = LocalEV3.get().getTextLCD();
-        lcd.drawString(" Open Roberta Lab", 0, 2);
-        lcd.drawString(" connection lost!", 0, 3);
-        lcd.drawString(" (press any key)", 0, 5);
-        LocalEV3.get().getKeys().waitForAnyPress();
-        Delay.msDelay(1000);
-        GraphicStartup.menu.resume();
-        GraphicStartup.redrawIPs();
     }
 
     /**

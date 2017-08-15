@@ -119,7 +119,6 @@ public class GraphicStartup implements Menu {
         "\u0000\u00f0\u000f\u0000\u0000\u00f0\u000f\u0000\u0000\u00ff\u00ff\u0000\u0000\u00ff\u00ff\u0000\u00c0\u003f\u00ff\u0003\u00c0\u003f\u00ff\u0003\u00c0\u003f\u00fc\u0003\u00c0\u003f\u00fc\u0003\u00f0\u003c\u00f0\u000f\u00f0\u003c\u00f0\u000f\u00f0\u0030\u00c3\u000f\u00f0\u0030\u00c3\u000f\u00f0\u0003\u00c3\u000f\u00f0\u0003\u00c3\u000f\u00f0\u000f\u00f0\u000f\u00f0\u000f\u00f0\u000f\u00f0\u000f\u00f0\u000f\u00f0\u000f\u00f0\u000f\u00f0\u0003\u00c3\u000f\u00f0\u0003\u00c3\u000f\u00f0\u0030\u00c3\u000f\u00f0\u0030\u00c3\u000f\u00f0\u003c\u00f0\u000f\u00f0\u003c\u00f0\u000f\u00c0\u003f\u00fc\u0003\u00c0\u003f\u00fc\u0003\u00c0\u003f\u00ff\u0003\u00c0\u003f\u00ff\u0003\u0000\u00ff\u00ff\u0000\u0000\u00ff\u00ff\u0000\u0000\u00f0\u000f\u0000\u0000\u00f0\u000f\u0000";
     private static final String ICWifi =
         "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00f8\u001f\u0000\u0000\u00ff\u00ff\u0000\u00c0\u00ff\u00ff\u0003\u00f0\u00ff\u00ff\u000f\u00f8\u003f\u00fc\u001f\u00fe\u0003\u00c0\u007f\u00ff\u0000\u0000\u00ff\u003f\u0000\u0000\u00fc\u001f\u0000\u0000\u00f8\u000e\u00f8\u001f\u0070\u0000\u00fe\u007f\u0000\u0000\u00ff\u00ff\u0000\u0080\u00ff\u00ff\u0001\u00c0\u003f\u00fc\u0003\u00c0\u0007\u00e0\u0003\u00c0\u0003\u00c0\u0001\u0000\u0000\u0000\u0000\u0000\u00c0\u0003\u0000\u0000\u00e0\u0007\u0000\u0000\u00e0\u0007\u0000\u0000\u00e0\u0007\u0000\u0000\u00e0\u0007\u0000\u0000\u00c0\u0003\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000";
-
     private static final String ICPAN =
         "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00fc\u003f\u0000\u0000\u00fc\u003f\u0000\u0000\u000c\u0038\u0000\u0000\u000c\u0038\u0000\u0000\u000c\u0038\u0000\u0000\u000c\u0038\u0000\u0000\u00fc\u003f\u0000\u0000\u00fc\u003f\u0000\u0000\u00f8\u001f\u0000\u0000\u00c0\u0001\u0000\u0000\u00c0\u0001\u0000\u00f0\u00ff\u00ff\u000f\u00f0\u00ff\u00ff\u000f\u0070\u0000\u0000\u000e\u0070\u0000\u0000\u000e\u00ff\u0007\u00e0\u00ff\u00ff\u000f\u00f0\u00ff\u0003\u000e\u0070\u00c0\u0003\u000e\u0070\u00c0\u0003\u000e\u0070\u00c0\u0003\u000e\u0070\u00c0\u00ff\u000f\u00f0\u00ff\u00ff\u000f\u00f0\u00ff\u00ff\u0007\u00e0\u00ff\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000";
     private static final String ICAccessPoint =
@@ -131,10 +130,8 @@ public class GraphicStartup implements Menu {
     private static final String ICNone =
         "\u00c0\u00ff\u00ff\u0003\u00e0\u00ff\u00ff\u0007\u0070\u0000\u0000\u000e\u0038\u0000\u0000\u001c\u007c\u0000\u0000\u0038\u00fe\u0000\u0000\u0070\u00f7\u0001\u0000\u00e0\u00e3\u0003\u0080\u00c3\u00e3\u0007\u0080\u00c7\u00f3\u000f\u0080\u00cf\u00f3\u001f\u0030\u00cf\u007b\u003e\u0078\u00de\u007b\u007f\u00f8\u00de\u007b\u00ff\u00f3\u00de\u003b\u00ff\u00f7\u00dc\u003b\u00e7\u00e7\u00dc\u003b\u00e7\u00e7\u00dc\u003b\u00ef\u00ff\u00dc\u007b\u00cf\u00ff\u00de\u007b\u001f\u00fe\u00de\u00fb\u001e\u007c\u00df\u00f3\u000c\u00f8\u00cf\u00f3\u0001\u00f0\u00cf\u00e3\u0003\u00e0\u00c7\u00c3\u0001\u00c0\u00c7\u0007\u0000\u0080\u00cf\u000e\u0000\u0000\u00ff\u001c\u0000\u0000\u007e\u0038\u0000\u0000\u003c\u0070\u0000\u0000\u001c\u00e0\u00ff\u00ff\u000f\u00c0\u00ff\u00ff\u0007";
     private static final String ICBTClient = ICBlue;
-
     private static final String ICSound =
         "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00c0\u0000\u0003\u0000\u00c0\u0000\u0003\u0000\u00f0\u0030\u000c\u0000\u00f0\u0030\u000c\u0000\u00cc\u00c0\u0030\u0000\u00cc\u00c0\u0030\u0000\u00c3\u000c\u0033\u0000\u00c3\u000c\u0033\u00fc\u00c3\u0030\u0033\u00fc\u00c3\u0030\u0033\u000c\u00c3\u0030\u0033\u000c\u00c3\u0030\u0033\u000c\u00c3\u0030\u0033\u000c\u00c3\u0030\u0033\u003c\u00c3\u0030\u0033\u003c\u00c3\u0030\u0033\u00cc\u00cf\u0030\u0033\u00cc\u00cf\u0030\u0033\u00fc\u00f3\u0030\u0033\u00fc\u00f3\u0030\u0033\u0000\u00cf\u000c\u0033\u0000\u00cf\u000c\u0033\u0000\u00fc\u00c0\u0030\u0000\u00fc\u00c0\u0030\u0000\u00f0\u0030\u000c\u0000\u00f0\u0030\u000c\u0000\u00c0\u0000\u0003\u0000\u00c0\u0000\u0003\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000";
-
     private static final String ICInfo =
         "\u0000\u00f0\u000f\u0000\u0000\u007e\u007e\u0000\u0080\u0007\u00e0\u0001\u00c0\u0001\u0080\u0003\u0060\u0000\u0000\u0006\u0030\u0000\u0000\u000c\u0018\u0000\u0000\u0018\u000c\u0000\u0001\u0030\u000c\u0080\u0003\u0030\u0006\u0080\u0003\u0060\u0006\u0080\u0001\u0060\u0002\u0000\u0000\u0040\u0003\u00e0\u0003\u00c0\u0003\u00f0\u0003\u00c0\u0003\u0080\u0003\u00c0\u0001\u0080\u0003\u0080\u0001\u0080\u0003\u0080\u0003\u0080\u0003\u00c0\u0003\u0080\u0003\u00c0\u0003\u0080\u0003\u00c0\u0002\u0080\u0003\u0040\u0006\u0080\u0003\u0060\u0006\u0080\u0003\u0060\u000c\u0080\u0003\u0030\u000c\u00f0\u000f\u0030\u0018\u0000\u0000\u0018\u0030\u0000\u0000\u000c\u0060\u0000\u0000\u0006\u00c0\u0001\u0080\u0003\u0080\u0007\u00e0\u0001\u0000\u007e\u007e\u0000\u0000\u00f0\u000f\u0000";
 
@@ -170,7 +167,6 @@ public class GraphicStartup implements Menu {
     private static final String ICNo =
         "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00f0\u0000\u0000\u000f\u00f0\u0000\u0000\u000f\u00fc\u0003\u00c0\u003f\u00fc\u0003\u00c0\u003f\u00fc\u000f\u00f0\u003f\u00fc\u000f\u00f0\u003f\u00f0\u003f\u00fc\u000f\u00f0\u003f\u00fc\u000f\u00c0\u00ff\u00ff\u0003\u00c0\u00ff\u00ff\u0003\u0000\u00ff\u00ff\u0000\u0000\u00ff\u00ff\u0000\u0000\u00fc\u003f\u0000\u0000\u00fc\u003f\u0000\u0000\u00fc\u003f\u0000\u0000\u00fc\u003f\u0000\u0000\u00ff\u00ff\u0000\u0000\u00ff\u00ff\u0000\u00c0\u00ff\u00ff\u0003\u00c0\u00ff\u00ff\u0003\u00f0\u003f\u00fc\u000f\u00f0\u003f\u00fc\u000f\u00fc\u000f\u00f0\u003f\u00fc\u000f\u00f0\u003f\u00fc\u0003\u00c0\u003f\u00fc\u0003\u00c0\u003f\u00f0\u0000\u0000\u000f\u00f0\u0000\u0000\u000f\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000";
 
-    // Roberta menu icon
     private static final String ICRoberta =
         "\u0000\u0000\u0080\u0000\u0000\u0000\u0080\u0000\u0000\u00c0\u00c3\u0001\u0010\u0001\u00c0\u0001\u00dc\u00c0\u00c1\u0000\u0058\u002f\u00fe\u0000\u009c\u0010\u007c\u0000\u007c\u0080\u001c\u0000\u0078\u0084\u001d\u0000\u0070\u000c\u0004\u0000\u0070\u0000\u0002\u0000\u0080\u00f0\u0001\u0000\u0000\u003f\u0000\u0000\u0000\u0038\u0000\u0000\u0000\u0018\u0000\u0000\u0000\u001c\u0000\u0000\u0000\u001c\u00c0\u0001\u0000\u001c\u00f8\u0003\u0000\u00dc\u00ff\u0003\u0000\u00dc\u00ff\u0003\u0000\u00bc\u00ff\r\u0000\u00f8\u00ff\u001e\u0000\u00f4\u007f\u001f\u0080\u00cf\u00c7\u003f\u00c0\u00ff\u00bb\u003f\u00e0\u00fb\u00fd\u0033\u00e0\u0007\u00ff\u003b\u00e0\u00ff\u00cf\u003b\u00e0\u00ff\u00ef\u001f\u00c0\u00ff\u00ff\u001f\u0080\u00f7\u00fe\u000f\u0000\u0000\u00b8\u0007";
     private static final String ICRobertaInfo =
@@ -202,7 +198,7 @@ public class GraphicStartup implements Menu {
     public final IndicatorThread ind = new IndicatorThread();
     private final BatteryIndicator indiBA = new BatteryIndicator();
     private final RConsole rcons = new RConsole();
-    private final RemoteMenuThread remoteMenuThread = new RemoteMenuThread();
+    private RemoteMenuThread remoteMenuThread = new RemoteMenuThread();
 
     // private GraphicMenu curMenu;
     private int timeout = 0;
@@ -212,8 +208,11 @@ public class GraphicStartup implements Menu {
     private static String version = "Unknown";
     private static String hostname;
     public static HashMap<String, String> ips = getIPAddresses();
+    private static String wlanAddress;
+    private static String panAddress;
+
     private static LocalBTDevice bt;
-    public static GraphicStartup menu = new GraphicStartup();
+    public static GraphicStartup menu;
 
     private static ORAhandler oraHandler = new ORAhandler();
     private static String OPENROBERTAHEAD = " OR Lab";
@@ -224,9 +223,7 @@ public class GraphicStartup implements Menu {
     private final static Properties menuProperties = loadProperties();
     private static Properties openrobertaProperties = loadOpenRobertaProperties();
 
-    public static int selection = 0;
-
-    private static TextLCD lcd = LocalEV3.get().getTextLCD();
+    private static TextLCD lcd;
 
     private static Process program; // the running user program, if any
     private static String programName; // The name of the running program
@@ -253,6 +250,11 @@ public class GraphicStartup implements Menu {
 
         System.out.println("Host name: " + hostname);
         System.out.println("Version: " + version);
+        waitForEV3BootComplete();
+        System.out.println("Boot complete");
+        LocalEV3.get().getLED().setPattern(1);
+        menu = new GraphicStartup();
+        lcd = LocalEV3.get().getTextLCD();
 
         // Check for autorun
         File file = getDefaultProgram();
@@ -277,7 +279,9 @@ public class GraphicStartup implements Menu {
         USBservice usbservice = new USBservice();
         usbservice.start();
 
-        // Start the RMI registry
+        System.out.println("Getting IP addresses");
+        menu.updateIPAddresses();
+
         InitThread initThread = new InitThread();
         initThread.start();
 
@@ -290,6 +294,13 @@ public class GraphicStartup implements Menu {
 
         System.out.println("Menu finished");
         System.exit(0);
+    }
+
+    private static void waitForEV3BootComplete() {
+        File bootLock = new File("/var/run/bootlock");
+        while ( bootLock.exists() ) {
+            Delay.msDelay(500);
+        }
     }
 
     /**
@@ -398,8 +409,7 @@ public class GraphicStartup implements Menu {
             String[] vals = null;
             try {
                 BufferedReader in = new BufferedReader(new FileReader(PAN_CONFIG));
-                // nasty cludge preserve escaped spaces (convert them to
-                // no-break space
+                // nasty cludge preserve escaped spaces (convert them to no-break space
                 String line = in.readLine().replace("\\ ", "\u00a0");
                 vals = line.split("\\s+");
                 in.close();
@@ -439,13 +449,11 @@ public class GraphicStartup implements Menu {
                         this.IPAddresses[0] = "10.0.1.1";
                         break;
                     case MODE_APP:
-                        // For access point plus we need to use a sub-net within
-                        // the
-                        // sub-net being used for WiFi. Set a default that may
-                        // work for
+                        // For access point plus we need to use a sub-net within the
+                        // sub-net being used for WiFi. Set a default that may work for
                         // most - well it does for me!
-                        if ( ips.get("wlan0") != null ) {
-                            String[] parts = ips.get("wlan0").split("\\.");
+                        if ( wlanAddress != null ) {
+                            String[] parts = wlanAddress.split("\\.");
                             if ( parts.length == 4 ) {
                                 this.IPAddresses[0] = parts[0] + "." + parts[1] + "." + parts[2] + ".208";
                             }
@@ -472,8 +480,8 @@ public class GraphicStartup implements Menu {
         }
 
         /**
-         * Return an IP address suitable for display, replace the auto address
-         * with a more readable version.
+         * Return an IP address suitable for display, replace the auto address with a
+         * more readable version.
          *
          * @param ip
          * @return the display string
@@ -507,10 +515,8 @@ public class GraphicStartup implements Menu {
         /**
          * Allow the user to enter an IP address
          *
-         * @param title
-         *        String to display as the title of the screen
-         * @param ip
-         *        IP address to edit
+         * @param title String to display as the title of the screen
+         * @param ip IP address to edit
          * @return new validated address
          */
         private String enterIP(String title, String ip) {
@@ -716,7 +722,7 @@ public class GraphicStartup implements Menu {
             selected = getSelection(deviceMenu, selected);
             if ( selected >= 0 ) {
                 RemoteBTDevice btrd = devList.get(selected);
-                // byte[] devclass = btrd.getDeviceClass();
+                //byte[] devclass = btrd.getDeviceClass();
                 this.BTAPName = btrd.getName();
                 this.BTAPAddress = btrd.getAddress();
                 this.changed = true;
@@ -795,6 +801,8 @@ public class GraphicStartup implements Menu {
                 saveConfig();
                 startNetwork(START_PAN, true);
                 GraphicStartup.this.waitScreen.status("Restart name server");
+                BrickFinder.stopDiscoveryServer();
+                BrickFinder.startDiscoveryServer(this.curMode == MODE_APP);
                 GraphicStartup.this.waitScreen.end();
             }
         }
@@ -858,8 +866,9 @@ public class GraphicStartup implements Menu {
      */
     static class InitThread extends Thread {
         /**
-         * Create the Bluetooth local device and connect to DBus Start the RMI
-         * server Get the time from a name server
+         * Create the Bluetooth local device and connect to DBus
+         * Start the RMI server
+         * Get the time from a name server
          */
         @Override
         public void run() {
@@ -898,7 +907,24 @@ public class GraphicStartup implements Menu {
     private void start() {
         this.ind.start();
         this.rcons.start();
+        //        pipeReader.start();
+        BrickFinder.startDiscoveryServer(this.panConfig.getCurrentMode() == PANConfig.MODE_APP);
         this.remoteMenuThread.start();
+    }
+
+    public void drawConnectionLost() {
+        ORAhandler.setRegistered(false);
+        LocalEV3.get().getAudio().systemSound(Sounds.DESCENDING);
+        suspend();
+        //        newScreen(OPENROBERTAHEAD);
+        lcd.drawString(" Open Roberta Lab", 0, 2);
+        lcd.drawString(" connection lost!", 0, 3);
+        lcd.drawString(" (press any key)", 0, 5);
+        lcd.refresh();
+        LocalEV3.get().getKeys().waitForAnyPress();
+        resume();
+        Delay.msDelay(1000);
+
     }
 
     /**
@@ -909,13 +935,12 @@ public class GraphicStartup implements Menu {
         GraphicMenu menu =
             new GraphicMenu(
                 new String[] {
-                    "Open Roberta Lab",
+                    " Open Roberta Lab",
                     "Wifi",
                     "Bluetooth",
                     "Programs",
                     "Samples",
                     "Tools",
-                    "PAN",
                     "Run Default",
                     "Sound",
                     "System",
@@ -928,18 +953,18 @@ public class GraphicStartup implements Menu {
                     ICFiles,
                     ICSamples,
                     ICTools,
-                    ICPAN,
                     ICDefault,
                     ICSound,
                     ICEV3,
-                    ICRobertaInfo,
+                    ICRobertaInfo
                 },
                 3);
         int selection = 0;
         do {
             newScreen(hostname);
-            redrawIPs();
+            this.ind.setDisplayState(IND_FULL);
             selection = getSelection(menu, selection);
+            this.ind.setDisplayState(IND_NORMAL);
             switch ( selection ) {
                 case 0:
                     robertaMenu();
@@ -960,18 +985,15 @@ public class GraphicStartup implements Menu {
                     toolsMenu();
                     break;
                 case 6:
-                    this.panConfig.panMenu();
-                    break;
-                case 7:
                     mainRunDefault();
                     break;
-                case 8:
+                case 7:
                     soundMenu();
                     break;
-                case 9:
+                case 8:
                     systemMenu();
                     break;
-                case 10:
+                case 9:
                     displayVersion();
                     break;
             }
@@ -988,7 +1010,6 @@ public class GraphicStartup implements Menu {
     }
 
     public class RemoteMenuThread extends Thread {
-        @SuppressWarnings("resource")
         @Override
         public void run() {
 
@@ -1029,7 +1050,7 @@ public class GraphicStartup implements Menu {
                     System.out.println("Waiting for a remote menu connection");
                     conn = ss.accept();
                     //conn.setSoTimeout(2000);
-
+                    conn.setTcpNoDelay(true);
                     ObjectOutputStream os = new ObjectOutputStream(conn.getOutputStream());
                     ObjectInputStream is = new ObjectInputStream(conn.getInputStream());
 
@@ -1142,6 +1163,10 @@ public class GraphicStartup implements Menu {
                                         case SYSTEM_SOUND:
                                             Sound.systemSound(false, request.intValue);
                                             break;
+                                        case PLAY_SAMPLE:
+                                            reply.reply = Sound.playSample(request.file);
+                                            os.writeObject(reply);
+                                            break;
                                         case GET_NAME:
                                             reply.value = menu.getName();
                                             os.writeObject(reply);
@@ -1173,9 +1198,11 @@ public class GraphicStartup implements Menu {
                                             break;
                                         case LCD_GET_WIDTH:
                                             reply.reply = LCD.SCREEN_WIDTH;
+                                            os.writeObject(reply);
                                             break;
                                         case LCD_GET_HEIGHT:
                                             reply.reply = LCD.SCREEN_HEIGHT;
+                                            os.writeObject(reply);
                                             break;
                                         case LCD_GET_HW_DISPLAY:
                                             break;
@@ -1482,6 +1509,35 @@ public class GraphicStartup implements Menu {
                                             reply.result = ((UARTPort) ioPorts[request.intValue]).setMode(request.intValue2);
                                             os.writeObject(reply);
                                             break;
+                                        case UART_WRITE:
+                                            if ( ioPorts[request.intValue] == null ) {
+                                                throw new PortException("Port not open");
+                                            }
+                                            reply.reply = ((UARTPort) ioPorts[request.intValue]).write(request.byteData, request.intValue2, request.intValue3);
+                                            os.writeObject(reply);
+                                            break;
+                                        case UART_RAW_WRITE:
+                                            if ( ioPorts[request.intValue] == null ) {
+                                                throw new PortException("Port not open");
+                                            }
+                                            reply.reply =
+                                                ((UARTPort) ioPorts[request.intValue]).rawWrite(request.byteData, request.intValue2, request.intValue3);
+                                            os.writeObject(reply);
+                                            break;
+                                        case UART_RAW_READ:
+                                            if ( ioPorts[request.intValue] == null ) {
+                                                throw new PortException("Port not open");
+                                            }
+                                            reply.reply =
+                                                ((UARTPort) ioPorts[request.intValue]).rawRead(request.byteData, request.intValue2, request.intValue3);
+                                            os.writeObject(reply);
+                                            break;
+                                        case UART_SET_BIT_RATE:
+                                            if ( ioPorts[request.intValue] == null ) {
+                                                throw new PortException("Port not open");
+                                            }
+                                            ((UARTPort) ioPorts[request.intValue]).setBitRate(request.intValue2);
+                                            break;
                                         case CREATE_REGULATED_MOTOR:
                                             System.out.println("Creating motor on port " + request.str);
                                             Port p = LocalEV3.get().getPort(request.str); // port name
@@ -1716,17 +1772,24 @@ public class GraphicStartup implements Menu {
                                                 os.writeObject(reply);
                                             }
                                             break;
-                                        //                                        case PILOT_SET_TRAVEL_SPEED:
-                                        //                                            pilot.setTravelSpeed(request.doubleValue);
-                                        //                                            break;
-                                        //                                        case PILOT_GET_TRAVEL_SPEED:
-                                        //                                            reply.doubleReply = pilot.getTravelSpeed();
-                                        //                                            os.writeObject(reply);
-                                        //                                            break;
-                                        //                                        case PILOT_GET_MAX_TRAVEL_SPEED:
-                                        //                                            reply.doubleReply = pilot.getTravelSpeed();
-                                        //                                            os.writeObject(reply);
-                                        //                                            break;
+                                        case PILOT_SET_LINEAR_SPEED:
+                                            pilot.setLinearSpeed(request.doubleValue);
+                                            break;
+                                        case PILOT_GET_LINEAR_SPEED:
+                                            reply.doubleReply = pilot.getLinearSpeed();
+                                            os.writeObject(reply);
+                                            break;
+                                        case PILOT_SET_LINEAR_ACCELERATION:
+                                            pilot.setLinearAcceleration(request.doubleValue);
+                                            break;
+                                        case PILOT_GET_LINEAR_ACCELERATION:
+                                            reply.doubleReply = pilot.getLinearAcceleration();
+                                            os.writeObject(reply);
+                                            break;
+                                        case PILOT_GET_MAX_LINEAR_SPEED:
+                                            reply.doubleReply = pilot.getLinearSpeed();
+                                            os.writeObject(reply);
+                                            break;
                                         case PILOT_GET_MOVEMENT:
                                             break;
                                         case PILOT_ROTATE:
@@ -1734,26 +1797,30 @@ public class GraphicStartup implements Menu {
                                             os.writeObject(reply);
                                             break;
                                         case PILOT_ROTATE_IMMEDIATE:
-                                            pilot.rotate(request.doubleValue, request.flag);
+                                            if ( request.doubleValue == Double.POSITIVE_INFINITY ) {
+                                                pilot.rotateRight();
+                                            } else if ( request.doubleValue == Double.NEGATIVE_INFINITY ) {
+                                                pilot.rotateLeft();
+                                            } else {
+                                                pilot.rotate(request.doubleValue, request.flag);
+                                            }
                                             if ( !request.flag ) {
                                                 os.writeObject(reply);
                                             }
                                             break;
-                                        //                                        case PILOT_GET_ROTATE_SPEED:
-                                        //                                            reply.doubleReply = pilot.getRotateSpeed();
-                                        //                                            os.writeObject(reply);
-                                        //                                            break;
-                                        //                                        case PILOT_SET_ROTATE_SPEED:
-                                        //                                            pilot.setRotateSpeed(request.doubleValue);
-                                        //                                            break;
-                                        //                                        case PILOT_GET_MAX_ROTATE_SPEED:
-                                        //                                            reply.doubleReply = pilot.getRotateMaxSpeed();
-                                        //                                            os.writeObject(reply);
-                                        //                                            break;
+                                        case PILOT_GET_ANGULAR_SPEED:
+                                            reply.doubleReply = pilot.getAngularSpeed();
+                                            os.writeObject(reply);
+                                            break;
+                                        case PILOT_SET_ANGULAR_SPEED:
+                                            pilot.setAngularSpeed(request.doubleValue);
+                                            break;
+                                        case PILOT_GET_MAX_ANGULAR_SPEED:
+                                            reply.doubleReply = pilot.getMaxAngularSpeed();
+                                            os.writeObject(reply);
+                                            break;
                                         case PILOT_STEER:
                                             pilot.steer(request.doubleValue);
-                                            break;
-                                        default:
                                             break;
                                     }
                                 } catch ( Exception e ) {
@@ -2130,14 +2197,12 @@ public class GraphicStartup implements Menu {
     /**
      * Run the default program (if set).
      */
-    @SuppressWarnings("deprecation")
     private void mainRunDefault() {
         File file = getDefaultProgram();
         if ( file == null ) {
             msg("No default set");
         } else {
             System.out.println("Executing default program " + file.getPath());
-            this.ind.suspend();
             try {
                 JarFile jar = new JarFile(file);
                 String mainClass = jar.getManifest().getMainAttributes().getValue("Main-class");
@@ -2146,7 +2211,6 @@ public class GraphicStartup implements Menu {
             } catch ( IOException e ) {
                 System.err.println("Exception running program");
             }
-            this.ind.resume();
         }
     }
 
@@ -2260,7 +2324,7 @@ public class GraphicStartup implements Menu {
                 ip = "lab.open-roberta.org";
             }
 
-            String token = new ORAtokenGenerator().generateToken();
+            String token = ORAtokenGenerator.generateToken();
             openrobertaProperties.setProperty("lasttoken", token);
             openrobertaProperties.setProperty("lastaddress", ip);
             storeOpenRobertaProperties();
@@ -2378,24 +2442,6 @@ public class GraphicStartup implements Menu {
             return sb.toString();
         } else {
             return null;
-        }
-    }
-
-    /**
-     * Manually redraw IP addresses on the screen. Used for restoring the screen after user process is terminated.
-     * Executed only if the brick is in the main menu. Used for fixing a leJOS bug.
-     * Two lines in submenus are not updated yet.
-     */
-    public static void redrawIPs() {
-        lcd.drawString("                  ", 0, 1);
-        lcd.drawString("                  ", 0, 2);
-        String ip = ips.get("br0");
-        if ( ip != null ) {
-            lcd.drawString(ip, 8 - ip.length() / 2, 1);
-        }
-        ip = ips.get("wlan0");
-        if ( ip != null ) {
-            lcd.drawString(ip, 8 - ip.length() / 2, 2);
         }
     }
 
@@ -2616,11 +2662,13 @@ public class GraphicStartup implements Menu {
         openrobertaProperties.setProperty("connection", "none");
         storeOpenRobertaProperties();
         Delay.msDelay(1500);
+        resume();
     }
 
     /**
-     * Present the system menu. Allow the user to format the filesystem. Change
-     * timeouts and control the default program usage.
+     * Present the system menu.
+     * Allow the user to format the filesystem. Change timeouts and control
+     * the default program usage.
      */
     private void systemMenu() {
         String[] menuData =
@@ -2668,9 +2716,6 @@ public class GraphicStartup implements Menu {
                 menuData[8] = null;
                 iconData[8] = null;
             }
-            //            if ( openrobertaProperties == null ) {
-            //                loadOpenRobertaProperties();
-            //            }
             menuData[0] = "Menu: " + openrobertaProperties.getProperty("menutype");
             menu.setItems(menuData, iconData);
             selection = getSelection(menu, selection);
@@ -2694,13 +2739,7 @@ public class GraphicStartup implements Menu {
                         File dir = new File(PROGRAMS_DIRECTORY);
                         for ( String fn : dir.list() ) {
                             File aFile = new File(dir, fn);
-                            System.out.println("Deleting file " + aFile.getPath());
-                            aFile.delete();
-                        }
-                        dir = new File(LIB_DIRECTORY);
-                        for ( String fn : dir.list() ) {
-                            File aFile = new File(dir, fn);
-                            System.out.println("Deleting lib " + aFile.getPath());
+                            System.out.println("Deleting " + aFile.getPath());
                             aFile.delete();
                         }
                     }
@@ -2708,7 +2747,7 @@ public class GraphicStartup implements Menu {
                 case 2:
                     System.out.println("Timeout = " + this.timeout);
                     System.out.println("Max sleep time = " + maxSleepTime);
-                    // timeout++;
+                    //timeout++;
                     if ( this.timeout > maxSleepTime ) {
                         this.timeout = 0;
                     }
@@ -2963,11 +3002,18 @@ public class GraphicStartup implements Menu {
      * @return The bitcode of the button.
      */
     private int getButtonPress() {
-        int value = Button.waitForAnyPress(this.timeout * 60000);
-        if ( value == 0 ) {
-            shutdown();
+        long timeoutCnt = (this.timeout == 0 ? Long.MAX_VALUE : (this.timeout * 60000) / 200);
+        while ( timeoutCnt-- > 0 ) {
+            int value = Button.waitForAnyPress(200);
+            if ( value != 0 ) {
+                return value;
+            }
+            if ( suspend ) {
+                waitResume();
+            }
         }
-        return value;
+        shutdown();
+        return 0;
     }
 
     /**
@@ -2975,7 +3021,6 @@ public class GraphicStartup implements Menu {
      *
      * @param file
      */
-    @SuppressWarnings("deprecation")
     private void fileMenu(File file, int type) {
         String fileName = file.getName();
         String ext = Utils.getExtension(fileName);
@@ -2988,14 +3033,12 @@ public class GraphicStartup implements Menu {
                 new String[] {
                     "Execute program",
                     "Debug program",
-                    "Set as Default",
                     "Delete file"
                 };
             icons =
                 new String[] {
                     ICProgram,
                     ICDebug,
-                    ICDefault,
                     ICDelete
                 };
         } else if ( ext.equals("wav") ) {
@@ -3072,14 +3115,11 @@ public class GraphicStartup implements Menu {
                         System.err.println("Exception running program");
                     }
                     break;
-                case 2:
-                    Settings.setProperty(defaultProgramProperty, file.getPath());
-                    break;
                 case 10:
                     System.out.println("Playing " + file.getPath());
                     Sound.playSample(file);
                     break;
-                case 3:
+                case 2:
                 case 11:
                 case 20:
                     file.delete();
@@ -3120,9 +3160,6 @@ public class GraphicStartup implements Menu {
                 programName = jarName.substring(0, jarName.length() - 4); // Remove
                                                                           // .jar
             }
-            lcd.clear();
-            lcd.refresh();
-            lcd.setAutoRefresh(false);
 
             drawLaunchScreen();
 
@@ -3161,9 +3198,6 @@ public class GraphicStartup implements Menu {
         } finally {
             // resetMotors();
             Button.LEDPattern(0);
-            lcd.setAutoRefresh(true);
-            lcd.clear();
-            lcd.refresh();
             program = null;
             menu.resume();
         }
@@ -3197,12 +3231,7 @@ public class GraphicStartup implements Menu {
             echoIn.start();
             echoErr.start();
             menu.suspend();
-            lcd.clear();
-            lcd.refresh();
-            lcd.setAutoRefresh(false);
-
             drawLaunchScreen();
-            //            curMenu.quit();
 
             System.out.println("Executing " + command + " in " + directory);
         } catch ( Exception e ) {
@@ -3232,9 +3261,6 @@ public class GraphicStartup implements Menu {
             // resetMotors();
             // Turn the LED off, in case left on
             Button.LEDPattern(0);
-            lcd.setAutoRefresh(true);
-            lcd.clear();
-            lcd.refresh();
             program = null;
             menu.resume();
         }
@@ -3498,32 +3524,58 @@ public class GraphicStartup implements Menu {
     }
 
     /**
-     * Manage the top line of the display.
-     * The top line of the display shows battery state, menu titles, and I/O
-     * activity.
+     * Manage the top line of the display. The top line of the display shows
+     * battery state, menu titles, and I/O activity.
      */
-    class IndicatorThread extends Thread {
+    class IndicatorThread implements Runnable {
+        int displayState = IND_NONE;
+        int savedState = IND_NONE;
+        Thread thread;
+
         public IndicatorThread() {
-            super();
-            setDaemon(true);
+            this.thread = new Thread(this);
+            this.thread.setDaemon(true);
+        }
+
+        public void start() {
+            this.thread.start();
         }
 
         @Override
         public synchronized void run() {
             try {
+                int updateIPCountdown = 0;
                 while ( true ) {
-                    long time = System.currentTimeMillis();
-
-                    GraphicStartup.this.indiBA.setWifi(ips.get("wlan0") != null);
-                    GraphicStartup.this.indiBA.draw(time);
-                    lcd.refresh();
-
-                    // wait until next tick
-                    time = System.currentTimeMillis();
-                    this.wait(Config.ANIM_DELAY - (time % Config.ANIM_DELAY));
+                    if ( this.displayState >= IND_NORMAL ) {
+                        long time = System.currentTimeMillis();
+                        if ( updateIPCountdown <= 0 ) {
+                            if ( updateIPAddresses() ) {
+                                System.out.println("Address changed");
+                                startNetworkServices();
+                            }
+                            updateIPCountdown = Config.IP_UPDATE;
+                        }
+                        GraphicStartup.this.indiBA.setWifi(wlanAddress != null);
+                        GraphicStartup.this.indiBA.draw(time);
+                        if ( this.displayState >= IND_FULL ) {
+                            lcd.clear(1);
+                            lcd.clear(2);
+                            int row = 1;
+                            for ( String ip : ips.values() ) {
+                                lcd.drawString(ip, 8 - ip.length() / 2, row++);
+                            }
+                        }
+                        lcd.refresh();
+                        // wait until next tick
+                        time = System.currentTimeMillis();
+                        this.wait(Config.ANIM_DELAY - (time % Config.ANIM_DELAY));
+                        updateIPCountdown -= Config.ANIM_DELAY;
+                    } else {
+                        this.wait();
+                    }
                 }
             } catch ( InterruptedException e ) {
-                //just terminate
+                // just terminate
             }
         }
 
@@ -3533,56 +3585,76 @@ public class GraphicStartup implements Menu {
         public synchronized void updateNow() {
             this.notifyAll();
         }
+
+        public void setDisplayState(int state) {
+            if ( this.displayState != IND_SUSPEND ) {
+                this.displayState = state;
+                updateNow();
+            } else {
+                this.savedState = state;
+            }
+        }
+
+        public void suspend() {
+            this.savedState = this.displayState;
+            this.displayState = IND_SUSPEND;
+            updateNow();
+        }
+
+        public void resume() {
+            this.displayState = this.savedState;
+            updateNow();
+        }
     }
 
-    //    /**
-    //     * Get all the IP addresses for the device, return true if either the wlan
-    //     * or pan address has changed.
-    //     */
-    //    public synchronized boolean updateIPAddresses() {
-    //        // System.out.println("Update IP addresses");
-    //        List<String> result = new ArrayList<>();
-    //        Enumeration<NetworkInterface> interfaces;
-    //        String oldWlan = wlanAddress;
-    //        String oldPan = panAddress;
-    //        wlanAddress = null;
-    //        panAddress = null;
-    //        ips.clear();
-    //        try {
-    //            interfaces = NetworkInterface.getNetworkInterfaces();
-    //        } catch ( SocketException e ) {
-    //            System.err.println("Failed to get network interfaces: " + e);
-    //            return false;
-    //        }
-    //        while ( interfaces.hasMoreElements() ) {
-    //            NetworkInterface current = interfaces.nextElement();
-    //            try {
-    //                if ( !current.isUp() || current.isLoopback() || current.isVirtual() ) {
-    //                    continue;
-    //                }
-    //            } catch ( SocketException e ) {
-    //                System.err.println("Failed to get network properties: " + e);
-    //            }
-    //            Enumeration<InetAddress> addresses = current.getInetAddresses();
-    //            while ( addresses.hasMoreElements() ) {
-    //                InetAddress current_addr = addresses.nextElement();
-    //                if ( current_addr.isLoopbackAddress() ) {
-    //                    continue;
-    //                }
-    //                result.add(current_addr.getHostAddress());
-    //                // System.out.println("Interface name " + current.getName());
-    //                if ( current.getName().equals(WLAN_INTERFACE) ) {
-    //                    wlanAddress = current_addr.getHostAddress();
-    //                } else if ( current.getName().equals(PAN_INTERFACE) ) {
-    //                    panAddress = current_addr.getHostAddress();
-    //                }
-    //            }
-    //        }
-    //        ips = result;
-    //        // have any of the important addresses changed?
-    //        return !(oldWlan == wlanAddress || (oldWlan != null && wlanAddress != null && wlanAddress.equals(oldWlan)))
-    //            || !(oldPan == panAddress || (oldPan != null && panAddress != null && panAddress.equals(oldPan)));
-    //    }
+    /**
+     * Get all the IP addresses for the device, return true if either the wlan
+     * or pan address has changed.
+     */
+    public synchronized boolean updateIPAddresses() {
+        // System.out.println("Update IP addresses");
+        HashMap<String, String> result = new HashMap<>();
+        Enumeration<NetworkInterface> interfaces;
+        String oldWlan = wlanAddress;
+        String oldPan = panAddress;
+        wlanAddress = null;
+        panAddress = null;
+        ips.clear();
+        try {
+            interfaces = NetworkInterface.getNetworkInterfaces();
+        } catch ( SocketException e ) {
+            System.err.println("Failed to get network interfaces: " + e);
+            return false;
+        }
+        while ( interfaces.hasMoreElements() ) {
+            NetworkInterface current = interfaces.nextElement();
+            try {
+                if ( !current.isUp() || current.isLoopback() || current.isVirtual() ) {
+                    continue;
+                }
+            } catch ( SocketException e ) {
+                System.err.println("Failed to get network properties: " + e);
+            }
+            Enumeration<InetAddress> addresses = current.getInetAddresses();
+            while ( addresses.hasMoreElements() ) {
+                InetAddress current_addr = addresses.nextElement();
+                if ( current_addr.isLoopbackAddress() ) {
+                    continue;
+                }
+                result.put(current.getDisplayName(), current_addr.getHostAddress());
+                // System.out.println("Interface name " + current.getName());
+                if ( current.getName().equals(WLAN_INTERFACE) ) {
+                    wlanAddress = current_addr.getHostAddress();
+                } else if ( current.getName().equals(PAN_INTERFACE) ) {
+                    panAddress = current_addr.getHostAddress();
+                }
+            }
+        }
+        ips = result;
+        // have any of the important addresses changed?
+        return !(oldWlan == wlanAddress || (oldWlan != null && wlanAddress != null && wlanAddress.equals(oldWlan)))
+            || !(oldPan == panAddress || (oldPan != null && panAddress != null && panAddress.equals(oldPan)));
+    }
 
     /**
      * Get all the IP addresses for the device
@@ -3894,7 +3966,7 @@ public class GraphicStartup implements Menu {
         // Start the RMI server
         System.out.println("Starting RMI");
 
-        String rmiIP = (ips.get("wlan0") != null ? ips.get("wlan0") : (ips.get("br0") != null ? ips.get("br0") : "127.0.0.1"));
+        String rmiIP = (wlanAddress != null ? wlanAddress : (panAddress != null ? panAddress : "127.0.0.1"));
         System.out.println("Setting java.rmi.server.hostname to " + rmiIP);
         System.setProperty("java.rmi.server.hostname", rmiIP);
 
@@ -3926,7 +3998,7 @@ public class GraphicStartup implements Menu {
             }
             int status = p.waitFor();
             System.out.println("start returned " + status);
-            ips = getIPAddresses();
+            updateIPAddresses();
             Delay.msDelay(2000);
             if ( startServices ) {
                 this.waitScreen.status("Start services");

@@ -9,8 +9,8 @@ import java.util.Random;
  */
 public class ORAtokenGenerator {
 
-    private final String alphabet = "123456789ABCDEFGHIJKLMNPQRSTUVWXYZ";
-    private final int n = this.alphabet.length();
+    private static final String alphabet = "123456789ABCDEFGHIJKLMNPQRSTUVWXYZ";
+    private static final int n = alphabet.length();
 
     public ORAtokenGenerator() {
         //
@@ -21,11 +21,11 @@ public class ORAtokenGenerator {
      *
      * @return The token on which the brick is being linked to a client.
      */
-    public String generateToken() {
+    public static String generateToken() {
         String token = "";
         Random random = new Random();
         for ( int i = 0; i < 8; i++ ) {
-            token = token + this.alphabet.charAt(random.nextInt(this.n));
+            token = token + alphabet.charAt(random.nextInt(n));
         }
         return token;
     }

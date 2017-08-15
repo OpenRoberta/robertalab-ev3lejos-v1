@@ -48,11 +48,7 @@ public class ORAlauncher {
         GraphicStartup.menu.suspend();
         exec(CMD_ORA_RUN + robertalabFile.getPath(), ORAlauncher.PROGRAMS_DIRECTORY);
         Delay.msDelay(1000);
-        GraphicStartup.menu.suspend(); // debug screen when process is killed
         GraphicStartup.menu.resume();
-        if ( GraphicStartup.selection == 0 ) {
-            GraphicStartup.redrawIPs();
-        }
         return exitvalue;
     }
 
