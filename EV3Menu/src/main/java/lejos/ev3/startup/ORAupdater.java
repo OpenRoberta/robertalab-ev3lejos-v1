@@ -58,7 +58,7 @@ public class ORAupdater {
     private void getRuntime() {
         URL runtimeURL = null;
         try {
-            runtimeURL = new URL("http://" + this.serverBaseIP + "/rest/update/runtime");
+            runtimeURL = new URL("http://" + this.serverBaseIP + "/rest/update/lejos_0_9_1/runtime");
         } catch ( MalformedURLException e ) {
             // ok
         }
@@ -113,7 +113,7 @@ public class ORAupdater {
     private void getEV3Menu() {
         URL menuURL = null;
         try {
-            menuURL = new URL("http://" + this.serverBaseIP + "/rest/update/ev3menu");
+            menuURL = new URL("http://" + this.serverBaseIP + "/rest/update/lejos_0_9_1/ev3menu");
         } catch ( MalformedURLException e ) {
             // ok
         }

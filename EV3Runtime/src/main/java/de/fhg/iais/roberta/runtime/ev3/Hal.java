@@ -130,8 +130,8 @@ public class Hal {
                 this.brickConfiguration.getActorOnPort(brickConfiguration.getLeftMotorPort()).getRotationDirection() == DriveDirection.BACKWARD;
             boolean isRightActorInverse =
                 this.brickConfiguration.getActorOnPort(brickConfiguration.getRightMotorPort()).getRotationDirection() == DriveDirection.BACKWARD;
-            Wheel leftWheel = WheeledChassis.modelWheel(leftRegulatedMotor, this.wheelDiameter).offset(-this.trackWidth / 2.).invert(isLeftActorInverse);
-            Wheel rightWeel = WheeledChassis.modelWheel(rightRegulatedMotor, this.wheelDiameter).offset(this.trackWidth / 2.).invert(isRightActorInverse);
+            Wheel leftWheel = WheeledChassis.modelWheel(leftRegulatedMotor, this.wheelDiameter).offset(this.trackWidth / 2.).invert(isLeftActorInverse);
+            Wheel rightWeel = WheeledChassis.modelWheel(rightRegulatedMotor, this.wheelDiameter).offset(-this.trackWidth / 2.).invert(isRightActorInverse);
             Chassis chassis =
                 new WheeledChassis(
                     new Wheel[] {
@@ -863,7 +863,8 @@ public class Hal {
         }
         if ( radius == 0 ) {
             double angle = distance / (Math.PI * this.trackWidth) * 360.0;
-            this.mPilot.setAngularSpeed(toDegPerSec(robotSpeed));
+            //            this.mPilot.setAngularSpeed(toDegPerSec(robotSpeed));
+            this.mPilot.setAngularSpeed(this.mPilot.getMaxAngularSpeed() * robotSpeed / 100.);
             this.mPilot.rotate(direct * angle, false);
         } else {
             this.mPilot.setLinearSpeed(this.mPilot.getMaxLinearSpeed() * robotSpeed / 100.0);
@@ -902,13 +903,15 @@ public class Hal {
      * @param speedPercent of motor power
      */
     public void rotateDirectionRegulated(TurnDirection direction, float speedPercent) {
-        this.mPilot.setAngularSpeed(toDegPerSec((int) speedPercent));
+        this.mPilot.setAngularSpeed(this.mPilot.getMaxAngularSpeed() * speedPercent / 100.);
+        System.out.println(this.mPilot.getMaxAngularSpeed());
+        //        this.mPilot.setAngularSpeed(toDegPerSec((int) speedPercent));
         switch ( direction ) {
             case RIGHT:
-                this.mPilot.rotateRight();
+                this.mPilot.rotate(-10000, true);
                 break;
             case LEFT:
-                this.mPilot.rotateLeft();
+                this.mPilot.rotate(10000, true);
                 break;
             default:
                 throw new DbcException("incorrect TurnAction");
@@ -928,7 +931,7 @@ public class Hal {
      * @param angle of the turn
      */
     public void rotateDirectionAngle(TurnDirection direction, float speedPercent, float angle) {
-        this.mPilot.setAngularSpeed(toDegPerSec((int) speedPercent));
+        this.mPilot.setAngularSpeed(this.mPilot.getMaxAngularSpeed() * speedPercent / 100.);
         switch ( direction ) {
             case RIGHT:
                 angle = angle * -1;
