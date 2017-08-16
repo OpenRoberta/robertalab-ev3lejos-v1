@@ -51,8 +51,12 @@ import lejos.hardware.lcd.LCDOutputStream;
 import lejos.hardware.lcd.TextLCD;
 import lejos.internal.ev3.EV3IOPort;
 import lejos.remote.nxt.NXTConnection;
+import lejos.robotics.RegulatedMotor;
 import lejos.robotics.SampleProvider;
-import lejos.robotics.navigation.DifferentialPilot;
+import lejos.robotics.chassis.Chassis;
+import lejos.robotics.chassis.Wheel;
+import lejos.robotics.chassis.WheeledChassis;
+import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 import lejos.utility.Stopwatch;
 
@@ -83,7 +87,7 @@ public class Hal {
     private final double wheelDiameter;
     private final double trackWidth;
 
-    DifferentialPilot dPilot = null;
+    MovePilot mPilot = null;
 
     private final BluetoothCom blueCom = new BluetoothComImpl();
 
@@ -120,15 +124,23 @@ public class Hal {
         }
 
         try {
-            this.dPilot =
-                new DifferentialPilot(
-                    this.wheelDiameter,
-                    this.trackWidth,
-                    this.deviceHandler.getRegulatedMotor((ActorPort) brickConfiguration.getLeftMotorPort()),
-                    this.deviceHandler.getRegulatedMotor((ActorPort) brickConfiguration.getRightMotorPort()),
-                    (this.brickConfiguration.getActorOnPort(brickConfiguration.getLeftMotorPort()).getRotationDirection() == DriveDirection.BACKWARD)
-                        ? true
-                        : false);
+            RegulatedMotor leftRegulatedMotor = this.deviceHandler.getRegulatedMotor((ActorPort) brickConfiguration.getLeftMotorPort());
+            RegulatedMotor rightRegulatedMotor = this.deviceHandler.getRegulatedMotor((ActorPort) brickConfiguration.getRightMotorPort());
+            boolean isLeftActorInverse =
+                this.brickConfiguration.getActorOnPort(brickConfiguration.getLeftMotorPort()).getRotationDirection() == DriveDirection.BACKWARD;
+            boolean isRightActorInverse =
+                this.brickConfiguration.getActorOnPort(brickConfiguration.getRightMotorPort()).getRotationDirection() == DriveDirection.BACKWARD;
+            Wheel leftWheel = WheeledChassis.modelWheel(leftRegulatedMotor, this.wheelDiameter).offset(-this.trackWidth / 2.).invert(isLeftActorInverse);
+            Wheel rightWeel = WheeledChassis.modelWheel(rightRegulatedMotor, this.wheelDiameter).offset(this.trackWidth / 2.).invert(isRightActorInverse);
+            Chassis chassis =
+                new WheeledChassis(
+                    new Wheel[] {
+                        leftWheel,
+                        rightWeel
+                    },
+                    WheeledChassis.TYPE_DIFFERENTIAL);
+            this.mPilot = new MovePilot(chassis);
+
         } catch ( DbcException e ) {
             // do not instantiate because we do not need it (checked form code generation side)
         }
@@ -781,13 +793,13 @@ public class Hal {
      */
     public void regulatedDrive(DriveDirection direction, float speedPercent) {
         speedPercent = speedPercent > 100 ? 100 : speedPercent;
-        //        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * speedPercent / 100.0);
+        this.mPilot.setLinearSpeed(this.mPilot.getMaxLinearSpeed() * speedPercent / 100.0);
         switch ( direction ) {
             case FOREWARD:
-                this.dPilot.forward();
+                this.mPilot.forward();
                 break;
             case BACKWARD:
-                this.dPilot.backward();
+                this.mPilot.backward();
                 break;
             default:
                 throw new DbcException("wrong DriveAction.Direction");
@@ -808,13 +820,13 @@ public class Hal {
      */
     public void driveDistance(DriveDirection direction, float speedPercent, float distance) {
         speedPercent = speedPercent > 100 ? 100 : speedPercent;
-        //        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * speedPercent / 100.0);
+        this.mPilot.setLinearSpeed(this.mPilot.getMaxLinearSpeed() * speedPercent / 100.0);
         switch ( direction ) {
             case FOREWARD:
-                this.dPilot.travel(distance);
+                this.mPilot.travel(distance);
                 break;
             case BACKWARD:
-                this.dPilot.travel(-distance);
+                this.mPilot.travel(-distance);
                 break;
             default:
                 throw new DbcException("incorrect DriveAction");
@@ -825,16 +837,16 @@ public class Hal {
         speedLeft = speedLeft > 100 ? 100 : speedLeft;
         speedRight = speedRight > 100 ? 100 : speedRight;
         float robotSpeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
-        //        this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * robotSpeed / 100.0);
+        this.mPilot.setLinearSpeed(this.mPilot.getMaxLinearSpeed() * robotSpeed / 100.0);
         float radius = calculateRadius(speedLeft, speedRight);
         if ( speedLeft == speedRight ) {
             regulatedDrive(direction, speedLeft);
             return;
         }
         if ( direction == DriveDirection.FOREWARD ) {
-            this.dPilot.arcForward(radius);
+            this.mPilot.arcForward(radius);
         } else {
-            this.dPilot.arcBackward(radius);
+            this.mPilot.arcBackward(radius);
         }
 
     }
@@ -851,11 +863,11 @@ public class Hal {
         }
         if ( radius == 0 ) {
             double angle = distance / (Math.PI * this.trackWidth) * 360.0;
-            //            this.dPilot.setRotateSpeed(toDegPerSec(robotSpeed));
-            this.dPilot.rotate(direct * angle, false);
+            this.mPilot.setAngularSpeed(toDegPerSec(robotSpeed));
+            this.mPilot.rotate(direct * angle, false);
         } else {
-            //            this.dPilot.setTravelSpeed(this.dPilot.getMaxTravelSpeed() * robotSpeed / 100.0);
-            this.dPilot.travelArc(radius, direct * distance);
+            this.mPilot.setLinearSpeed(this.mPilot.getMaxLinearSpeed() * robotSpeed / 100.0);
+            this.mPilot.travelArc(radius, direct * distance);
         }
 
     }
@@ -875,7 +887,7 @@ public class Hal {
      * Client must provide correct ports of the left and right motor.
      */
     public void stopRegulatedDrive() {
-        this.dPilot.quickStop();
+        this.mPilot.stop();
     }
 
     /**
@@ -890,13 +902,13 @@ public class Hal {
      * @param speedPercent of motor power
      */
     public void rotateDirectionRegulated(TurnDirection direction, float speedPercent) {
-        //        this.dPilot.setRotateSpeed(toDegPerSec((int) speedPercent));
+        this.mPilot.setAngularSpeed(toDegPerSec((int) speedPercent));
         switch ( direction ) {
             case RIGHT:
-                this.dPilot.rotateRight();
+                this.mPilot.rotateRight();
                 break;
             case LEFT:
-                this.dPilot.rotateLeft();
+                this.mPilot.rotateLeft();
                 break;
             default:
                 throw new DbcException("incorrect TurnAction");
@@ -916,14 +928,14 @@ public class Hal {
      * @param angle of the turn
      */
     public void rotateDirectionAngle(TurnDirection direction, float speedPercent, float angle) {
-        //        this.dPilot.setRotateSpeed(toDegPerSec(speedPercent));
+        this.mPilot.setAngularSpeed(toDegPerSec((int) speedPercent));
         switch ( direction ) {
             case RIGHT:
                 angle = angle * -1;
-                this.dPilot.rotate(angle, false);
+                this.mPilot.rotate(angle, false);
                 break;
             case LEFT:
-                this.dPilot.rotate(angle, false);
+                this.mPilot.rotate(angle, false);
                 break;
             default:
                 throw new DbcException("incorrect TurnAction");
