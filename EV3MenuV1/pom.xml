@@ -21,9 +21,9 @@ limitations under the License.
         <groupId>de.fhg.iais.openroberta</groupId>
         <artifactId>EV3Parent</artifactId>
         <version>2.3.0</version>
-        <relativePath>../EV3Parent</relativePath>
+        <relativePath>../EV3ParentV1</relativePath>
     </parent>
-    <artifactId>EV3Menu</artifactId>
+    <artifactId>EV3MenuV1</artifactId>
     <dependencies>
         <dependency>
             <groupId>de.fhg.iais.roberta</groupId>

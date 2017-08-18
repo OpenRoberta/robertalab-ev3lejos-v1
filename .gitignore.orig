@@ -1,7 +1,0 @@
-<<<<<<< 4ea6e3bb0350393a4bb60f5a037e20cbcd4c783e
-*/target/
-=======
->>>>>>> change in gitignore
-**/*.class
-**/target
-*/bin

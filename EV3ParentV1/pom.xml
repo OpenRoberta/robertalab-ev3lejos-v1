@@ -6,10 +6,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.fhg.iais.openroberta</groupId>
-	<artifactId>EV3Parent</artifactId>
+	<artifactId>EV3ParentV1</artifactId>
 	<version>2.3.0</version>
 	<packaging>pom</packaging>
-	<name>EV3Parent</name>
+	<name>EV3ParentV1</name>
 	<description>the parent project of the EV3 Lejos Roberta Lab artifacts</description>
 	<url>http://www.open-roberta.org</url>
 	<inceptionYear>2014</inceptionYear>
@@ -39,8 +39,8 @@
 	</properties>
 
 	<modules>
-		<module>../EV3Runtime</module>
-		<module>../EV3Menu</module>
+		<module>../EV3RuntimeV1</module>
+		<module>../EV3MenuV1</module>
 	</modules>
 	<repositories>
 		<repository>
@@ -70,12 +70,12 @@
 		<dependencies>
 			<dependency>
 				<groupId>de.fhg.iais.openroberta</groupId>
-				<artifactId>EV3Menu</artifactId>
+				<artifactId>EV3MenuV1</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>de.fhg.iais.openroberta</groupId>
-				<artifactId>EV3Runtime</artifactId>
+				<artifactId>EV3RuntimeV1</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
