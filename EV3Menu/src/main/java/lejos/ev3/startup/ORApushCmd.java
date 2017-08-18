@@ -76,7 +76,7 @@ public class ORApushCmd implements Runnable {
         this.brickData.put(KEY_MACADDR, GraphicStartup.getWlanMACaddress());
         this.brickData.put(KEY_MENUVERSION, GraphicStartup.getORAmenuVersion());
         this.brickData.put(KEY_RUNTIMEVERSION, GraphicStartup.getRuntimeVersion());
-        this.brickData.put(KEY_FIRMWARENAME, "lejos");
+        this.brickData.put(KEY_FIRMWARENAME, "ev3lejosv1");
         this.brickData.put(KEY_FIRMWAREVERSION, GraphicStartup.getLejosVersion());
 
         try {
