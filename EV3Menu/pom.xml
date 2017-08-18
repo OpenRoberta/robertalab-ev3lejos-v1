@@ -18,12 +18,12 @@ limitations under the License.
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>de.fhg.iais.openroberta</groupId>
-        <artifactId>EV3ParentV1</artifactId>
+        <groupId>de.fhg.iais.openroberta.ev3.v1</groupId>
+        <artifactId>EV3Parent</artifactId>
         <version>2.3.0</version>
-        <relativePath>../EV3ParentV1</relativePath>
+        <relativePath>../EV3Parent</relativePath>
     </parent>
-    <artifactId>EV3MenuV1</artifactId>
+    <artifactId>EV3Menu</artifactId>
     <dependencies>
         <dependency>
             <groupId>de.fhg.iais.roberta</groupId>
