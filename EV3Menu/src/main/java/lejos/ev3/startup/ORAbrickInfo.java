@@ -74,7 +74,7 @@ public class ORAbrickInfo implements HttpHandler {
 
     private JSONObject getBrickInfos() {
         JSONObject response = new JSONObject();
-        response.put(ORApushCmd.KEY_FIRMWARENAME, "lejos");
+        response.put(ORApushCmd.KEY_FIRMWARENAME, "ev3lejosv1");
         response.put(ORApushCmd.KEY_FIRMWAREVERSION, GraphicStartup.getLejosVersion());
         response.put(ORApushCmd.KEY_MENUVERSION, GraphicStartup.getORAmenuVersion());
         response.put(ORApushCmd.KEY_RUNTIMEVERSION, GraphicStartup.getRuntimeVersion());
