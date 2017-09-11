@@ -58,27 +58,11 @@ public class ORAupdater {
     private void getRuntime() {
         URL runtimeURL = null;
         try {
-            runtimeURL = new URL("http://" + this.serverBaseIP + "/rest/update/runtime");
+            runtimeURL = new URL("http://" + this.serverBaseIP + "/rest/update/v1/runtime");
         } catch ( MalformedURLException e ) {
             // ok
         }
         downloadFile(runtimeURL, this.libDir);
-    }
-
-    /**
-     * Download the generated jar from OpenRobertaShared.
-     * The OpenRobertaShared and OpenRobertaRuntime projects are merged into one project,
-     * and the **OpenRobertaShared.jar** is not needed any more.
-     */
-    @Deprecated
-    private void getShared() {
-        URL sharedURL = null;
-        try {
-            sharedURL = new URL("http://" + this.serverBaseIP + "/rest/update/shared");
-        } catch ( MalformedURLException e ) {
-            // ok
-        }
-        downloadFile(sharedURL, this.libDir);
     }
 
     /**
@@ -87,7 +71,7 @@ public class ORAupdater {
     private void getJsonLib() {
         URL jsonURL = null;
         try {
-            jsonURL = new URL("http://" + this.serverBaseIP + "/rest/update/jsonlib");
+            jsonURL = new URL("http://" + this.serverBaseIP + "/rest/update/v1/jsonlib");
         } catch ( MalformedURLException e ) {
             // ok
         }
@@ -100,7 +84,7 @@ public class ORAupdater {
     private void getWebSocketLib() {
         URL jsonURL = null;
         try {
-            jsonURL = new URL("http://" + this.serverBaseIP + "/rest/update/websocketlib");
+            jsonURL = new URL("http://" + this.serverBaseIP + "/rest/update/v1/websocketlib");
         } catch ( MalformedURLException e ) {
             // ok
         }
@@ -113,7 +97,7 @@ public class ORAupdater {
     private void getEV3Menu() {
         URL menuURL = null;
         try {
-            menuURL = new URL("http://" + this.serverBaseIP + "/rest/update/ev3menu");
+            menuURL = new URL("http://" + this.serverBaseIP + "/rest/update/v1/ev3menu");
         } catch ( MalformedURLException e ) {
             // ok
         }
