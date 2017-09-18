@@ -4,10 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.json.JSONObject;
 
@@ -23,7 +23,7 @@ import lejos.utility.Delay;
 public class ORApushCmd implements Runnable {
 
     private URL pushServiceURL;
-    private HttpURLConnection httpURLConnection;
+    private URLConnection urlConnection;
 
     private final ORAdownloader oraDownloader;
     private final ORAupdater oraUpdater;
@@ -59,6 +59,7 @@ public class ORApushCmd implements Runnable {
     public static final String CMD_UPDATE = "update";
     public static final String CMD_DOWNLOAD = "download";
     public static final String CMD_CONFIGURATION = "configuration";
+    private String serverBaseIP;
 
     /**
      * Creates a new Open Roberta Lab "push" communication object. Additional
@@ -78,12 +79,13 @@ public class ORApushCmd implements Runnable {
         this.brickData.put(KEY_RUNTIMEVERSION, GraphicStartup.getRuntimeVersion());
         this.brickData.put(KEY_FIRMWARENAME, "ev3lejosv1");
         this.brickData.put(KEY_FIRMWAREVERSION, GraphicStartup.getLejosVersion());
-
+        this.serverBaseIP = serverBaseIP;
         try {
-            this.pushServiceURL = new URL("http://" + serverBaseIP + "/rest/pushcmd");
+            this.pushServiceURL = new URL("https://" + this.serverBaseIP + "/rest/pushcmd");
         } catch ( MalformedURLException e ) {
             // ok
         }
+
         this.oraDownloader = new ORAdownloader(serverBaseIP);
         this.oraUpdater = new ORAupdater(serverBaseIP);
     }
@@ -95,8 +97,8 @@ public class ORApushCmd implements Runnable {
      *
      * @return The http connection the brick uses to communicate with the server.
      */
-    public HttpURLConnection getHttpConnection() {
-        return this.httpURLConnection;
+    public URLConnection getURLConnection() {
+        return this.urlConnection;
     }
 
     /**
@@ -115,16 +117,16 @@ public class ORApushCmd implements Runnable {
 
                 if ( ORAhandler.isRegistered() ) {
                     this.brickData.put(KEY_CMD, CMD_PUSH);
-                    this.httpURLConnection = openConnection(15000);
+                    this.urlConnection = openConnection(15000);
                 } else {
                     this.brickData.put(KEY_CMD, CMD_REGISTER);
-                    this.httpURLConnection = openConnection(330000);
+                    this.urlConnection = openConnection(330000);
                 }
 
-                os = this.httpURLConnection.getOutputStream();
+                os = this.urlConnection.getOutputStream();
                 os.write(this.brickData.toString().getBytes("UTF-8"));
 
-                br = new BufferedReader(new InputStreamReader(this.httpURLConnection.getInputStream()));
+                br = new BufferedReader(new InputStreamReader(this.urlConnection.getInputStream()));
                 StringBuilder responseStrBuilder = new StringBuilder();
                 String responseString;
                 while ( (responseString = br.readLine()) != null ) {
@@ -169,15 +171,27 @@ public class ORApushCmd implements Runnable {
             } catch ( SocketTimeoutException ste ) {
                 if ( ORAhandler.isRegistered() == false ) {
                     ORAhandler.setTimeout(true);
+                    System.out.println("2" + ste.getMessage());
                     break;
                 } else {
                     this.reconnectAttempts++;
                     System.out.println(this.reconnectAttempts + "(timeout)");
                 }
             } catch ( IOException ioe ) {
+                System.out.println("3" + ioe.getMessage());
                 if ( ORAhandler.isRegistered() == false ) {
-                    ORAhandler.setConnectionError(true);
-                    return;
+
+                    if ( this.pushServiceURL.getProtocol().equals("https") ) {
+                        try {
+                            this.pushServiceURL = new URL("http://" + this.serverBaseIP + "/rest/pushcmd");
+                        } catch ( MalformedURLException e ) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    } else {
+                        ORAhandler.setConnectionError(true);
+                        return;
+                    }
                 } else {
                     if ( this.reconnectAttempts >= this.maxAttempts ) {
                         GraphicStartup.menu.drawConnectionLost();
@@ -212,13 +226,13 @@ public class ORApushCmd implements Runnable {
      * @throws IOException
      *         Connection to server failed
      */
-    private HttpURLConnection openConnection(int readTimeOut) throws SocketTimeoutException, IOException {
-        HttpURLConnection httpURLConnection = (HttpURLConnection) this.pushServiceURL.openConnection();
-        httpURLConnection.setDoInput(true);
-        httpURLConnection.setDoOutput(true);
-        httpURLConnection.setRequestMethod("POST");
-        httpURLConnection.setReadTimeout(readTimeOut);
-        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
-        return httpURLConnection;
+    private URLConnection openConnection(int readTimeOut) throws SocketTimeoutException, IOException {
+        URLConnection urlConnection = this.pushServiceURL.openConnection();
+        urlConnection.setDoInput(true);
+        urlConnection.setDoOutput(true);
+        //        httpURLConnection.setRequestMethod("POST");
+        urlConnection.setReadTimeout(readTimeOut);
+        urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
+        return urlConnection;
     }
 }

@@ -3,7 +3,10 @@ package lejos.ev3.startup;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.nio.file.Files;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * No Singleton Pattern but do not use more than one
@@ -115,8 +118,12 @@ public class ORAhandler {
      */
     public void disconnect() {
         setRegistered(false);
-        if ( this.pushCmd.getHttpConnection() != null ) {
-            this.pushCmd.getHttpConnection().disconnect();
+        if ( this.pushCmd.getURLConnection() != null ) {
+            if ( this.pushCmd.getURLConnection() instanceof HttpURLConnection ) {
+                ((HttpURLConnection) this.pushCmd.getURLConnection()).disconnect();
+            } else {
+                ((HttpsURLConnection) this.pushCmd.getURLConnection()).disconnect();
+            }
         }
     }
 
