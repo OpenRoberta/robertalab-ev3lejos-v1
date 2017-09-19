@@ -88,6 +88,7 @@ public class Hal {
     private final double trackWidth;
 
     MovePilot mPilot = null;
+    Chassis chassis = null;
 
     private final BluetoothCom blueCom = new BluetoothComImpl();
 
@@ -132,14 +133,14 @@ public class Hal {
                 this.brickConfiguration.getActorOnPort(brickConfiguration.getRightMotorPort()).getRotationDirection() == DriveDirection.BACKWARD;
             Wheel leftWheel = WheeledChassis.modelWheel(leftRegulatedMotor, this.wheelDiameter).offset(this.trackWidth / 2.).invert(isLeftActorInverse);
             Wheel rightWeel = WheeledChassis.modelWheel(rightRegulatedMotor, this.wheelDiameter).offset(-this.trackWidth / 2.).invert(isRightActorInverse);
-            Chassis chassis =
+            this.chassis =
                 new WheeledChassis(
                     new Wheel[] {
                         leftWheel,
                         rightWeel
                     },
                     WheeledChassis.TYPE_DIFFERENTIAL);
-            this.mPilot = new MovePilot(chassis);
+            this.mPilot = new MovePilot(this.chassis);
 
         } catch ( DbcException e ) {
             // do not instantiate because we do not need it (checked form code generation side)
@@ -792,18 +793,9 @@ public class Hal {
      * @param speedPercent of motor power
      */
     public void regulatedDrive(DriveDirection direction, float speedPercent) {
-        speedPercent = speedPercent > 100 ? 100 : speedPercent;
-        this.mPilot.setLinearSpeed(this.mPilot.getMaxLinearSpeed() * speedPercent / 100.0);
-        switch ( direction ) {
-            case FOREWARD:
-                this.mPilot.forward();
-                break;
-            case BACKWARD:
-                this.mPilot.backward();
-                break;
-            default:
-                throw new DbcException("wrong DriveAction.Direction");
-        }
+        int direct = direction == DriveDirection.FOREWARD ? 1 : -1;
+        speedPercent = (float) (this.mPilot.getMaxLinearSpeed() * speedPercent / 100.0);
+        this.chassis.setVelocity(direct * speedPercent, 0);
     }
 
     /**
@@ -819,14 +811,18 @@ public class Hal {
      * @param distance that the robot should travel
      */
     public void driveDistance(DriveDirection direction, float speedPercent, float distance) {
-        speedPercent = speedPercent > 100 ? 100 : speedPercent;
+        int direct = 1;
+        if ( speedPercent < 0 ) {
+            direct = -1;
+            speedPercent = direct * speedPercent;
+        }
         this.mPilot.setLinearSpeed(this.mPilot.getMaxLinearSpeed() * speedPercent / 100.0);
         switch ( direction ) {
             case FOREWARD:
-                this.mPilot.travel(distance);
+                this.mPilot.travel(direct * distance);
                 break;
             case BACKWARD:
-                this.mPilot.travel(-distance);
+                this.mPilot.travel(direct * -distance);
                 break;
             default:
                 throw new DbcException("incorrect DriveAction");
@@ -834,43 +830,35 @@ public class Hal {
     }
 
     public void driveInCurve(DriveDirection direction, float speedLeft, float speedRight) {
-        speedLeft = speedLeft > 100 ? 100 : speedLeft;
-        speedRight = speedRight > 100 ? 100 : speedRight;
-        float robotSpeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
-        this.mPilot.setLinearSpeed(this.mPilot.getMaxLinearSpeed() * robotSpeed / 100.0);
-        float radius = calculateRadius(speedLeft, speedRight);
-        if ( speedLeft == speedRight ) {
-            regulatedDrive(direction, speedLeft);
-            return;
-        }
-        if ( direction == DriveDirection.FOREWARD ) {
-            this.mPilot.arcForward(radius);
-        } else {
-            this.mPilot.arcBackward(radius);
-        }
-
+        speedLeft = (float) (chassis.getMaxLinearSpeed() * speedLeft / 100.0);
+        speedRight = (float) (chassis.getMaxLinearSpeed() * speedRight / 100.0);
+        int direct = direction == DriveDirection.FOREWARD ? 1 : -1;
+        double radius = calculateRadius(speedLeft, speedRight);
+        double Lspeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
+        double Aspeed = Lspeed / radius * 180.0 / Math.PI;
+        this.chassis.setVelocity(direct * Lspeed, direct * Aspeed);
     }
 
     public void driveInCurve(DriveDirection direction, float speedLeft, float speedRight, float distance) {
-        speedLeft = speedLeft > 100 ? 100 : speedLeft;
-        speedRight = speedRight > 100 ? 100 : speedRight;
-        float robotSpeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
+        speedLeft = (float) (mPilot.getMaxLinearSpeed() * speedLeft / 100.0);
+        speedRight = (float) (mPilot.getMaxLinearSpeed() * speedRight / 100.0);
         int direct = direction == DriveDirection.FOREWARD ? 1 : -1;
-        float radius = calculateRadius(speedLeft, speedRight);
+        double radius = Math.abs(calculateRadius(speedLeft, speedRight));
+        double robotSpeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
+        double Lspeed = Math.abs(robotSpeed);
+        double Aspeed = Lspeed / radius * 180.0 / Math.PI;
+        double angle = direct * Math.signum(robotSpeed) * 360.0 / (2 * Math.PI * radius) * distance;
         if ( speedLeft == speedRight ) {
-            driveDistance(direction, speedLeft, distance);
-            return;
-        }
-        if ( radius == 0 ) {
-            double angle = distance / (Math.PI * this.trackWidth) * 360.0;
-            //            this.mPilot.setAngularSpeed(toDegPerSec(robotSpeed));
-            this.mPilot.setAngularSpeed(this.mPilot.getMaxAngularSpeed() * robotSpeed / 100.);
-            this.mPilot.rotate(direct * angle, false);
+            this.mPilot.setLinearSpeed(Lspeed);
+            this.mPilot.travel(direct * Math.signum(robotSpeed) * distance);
+        } else if ( robotSpeed == 0 ) {
+            this.mPilot.setAngularSpeed(speedLeft);
+            this.mPilot.rotate(direct * 10000, false);
         } else {
-            this.mPilot.setLinearSpeed(this.mPilot.getMaxLinearSpeed() * robotSpeed / 100.0);
-            this.mPilot.travelArc(radius, direct * distance);
+            this.mPilot.setAngularSpeed(Aspeed);
+            this.mPilot.setLinearSpeed(Lspeed);
+            this.mPilot.arc(radius, angle, false);
         }
-
     }
 
     private float calculateRadius(float speedLeft, float speedRight) {
@@ -879,7 +867,7 @@ public class Hal {
     }
 
     private float calculateSpeedDriveInCurve(float speedLeft, float speedRight) {
-        return (Math.abs(speedLeft) + Math.abs(speedRight)) / 2.0f;
+        return (speedLeft + speedRight) / 2.0f;
     }
 
     /**
@@ -903,19 +891,9 @@ public class Hal {
      * @param speedPercent of motor power
      */
     public void rotateDirectionRegulated(TurnDirection direction, float speedPercent) {
-        this.mPilot.setAngularSpeed(this.mPilot.getMaxAngularSpeed() * speedPercent / 100.);
-        System.out.println(this.mPilot.getMaxAngularSpeed());
-        //        this.mPilot.setAngularSpeed(toDegPerSec((int) speedPercent));
-        switch ( direction ) {
-            case RIGHT:
-                this.mPilot.rotate(-10000, true);
-                break;
-            case LEFT:
-                this.mPilot.rotate(10000, true);
-                break;
-            default:
-                throw new DbcException("incorrect TurnAction");
-        }
+        float speed = (float) (chassis.getMaxAngularSpeed() * speedPercent / 100.0);
+        int direct = direction == TurnDirection.LEFT ? 1 : -1;
+        this.chassis.setVelocity(0, direct * speed);
     }
 
     /**
