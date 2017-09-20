@@ -115,6 +115,13 @@ public class ORApushCmd implements Runnable {
                 this.brickData.put(KEY_BRICKNAME, GraphicStartup.getBrickName());
                 this.brickData.put(KEY_BATTERY, GraphicStartup.getBatteryStatus());
 
+                javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(new javax.net.ssl.HostnameVerifier() {
+
+                    @Override
+                    public boolean verify(String hostname, javax.net.ssl.SSLSession sslSession) {
+                        return hostname.equals("10.0.1.3");
+                    }
+                });
                 if ( ORAhandler.isRegistered() ) {
                     this.brickData.put(KEY_CMD, CMD_PUSH);
                     this.urlConnection = openConnection(15000);
@@ -132,6 +139,7 @@ public class ORApushCmd implements Runnable {
                 while ( (responseString = br.readLine()) != null ) {
                     responseStrBuilder.append(responseString);
                 }
+                System.out.println(responseStrBuilder);
                 JSONObject responseEntity = new JSONObject(responseStrBuilder.toString());
 
                 String command = responseEntity.getString("cmd");
@@ -183,6 +191,7 @@ public class ORApushCmd implements Runnable {
 
                     if ( this.pushServiceURL.getProtocol().equals("https") ) {
                         try {
+                            System.out.println("http://" + this.serverBaseIP + "/rest/pushcmd");
                             this.pushServiceURL = new URL("http://" + this.serverBaseIP + "/rest/pushcmd");
                         } catch ( MalformedURLException e ) {
                             // TODO Auto-generated catch block
@@ -228,9 +237,10 @@ public class ORApushCmd implements Runnable {
      */
     private URLConnection openConnection(int readTimeOut) throws SocketTimeoutException, IOException {
         URLConnection urlConnection = this.pushServiceURL.openConnection();
+        System.out.println(urlConnection);
         urlConnection.setDoInput(true);
         urlConnection.setDoOutput(true);
-        //        httpURLConnection.setRequestMethod("POST");
+        //        urlConnection.setRequestMethod("POST");
         urlConnection.setReadTimeout(readTimeOut);
         urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
         return urlConnection;
