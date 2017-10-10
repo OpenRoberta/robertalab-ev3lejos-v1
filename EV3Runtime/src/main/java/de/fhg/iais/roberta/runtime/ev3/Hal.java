@@ -843,11 +843,11 @@ public class Hal {
         speedLeft = (float) (mPilot.getMaxLinearSpeed() * speedLeft / 100.0);
         speedRight = (float) (mPilot.getMaxLinearSpeed() * speedRight / 100.0);
         int direct = direction == DriveDirection.FOREWARD ? 1 : -1;
-        double radius = Math.abs(calculateRadius(speedLeft, speedRight));
+        double radius = calculateRadius(speedLeft, speedRight);
         double robotSpeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
         double Lspeed = Math.abs(robotSpeed);
-        double Aspeed = Lspeed / radius * 180.0 / Math.PI;
-        double angle = direct * Math.signum(robotSpeed) * 360.0 / (2 * Math.PI * radius) * distance;
+        double Aspeed = Lspeed / Math.abs(radius) * 180.0 / Math.PI;
+        double angle = direct * Math.signum(robotSpeed) * 360.0 / (2 * Math.PI * Math.abs(radius)) * distance;
         if ( speedLeft == speedRight ) {
             this.mPilot.setLinearSpeed(Lspeed);
             this.mPilot.travel(direct * Math.signum(robotSpeed) * distance);
