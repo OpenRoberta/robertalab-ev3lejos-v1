@@ -361,7 +361,7 @@ public class BlocklyMethods {
      * @param times that the item should be added to the list
      * @return {@link ArrayList} with the given elements
      */
-    public static ArrayList<Float> createListWithItem(Float item, float times) {
+    public static ArrayList<Float> createListWithItem(float item, float times) {
         ArrayList<Float> result = new ArrayList<>();
         for ( int i = 0; i < times; i++ ) {
             result.add(item);
