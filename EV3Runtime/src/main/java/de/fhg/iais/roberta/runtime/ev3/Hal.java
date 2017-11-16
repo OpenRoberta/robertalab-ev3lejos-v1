@@ -41,6 +41,7 @@ import de.fhg.iais.roberta.mode.sensor.ev3.GyroSensorMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.InfraredSensorMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.MotorTachoMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.SensorPort;
+import de.fhg.iais.roberta.mode.sensor.ev3.SoundSensorMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.UltrasonicSensorMode;
 import de.fhg.iais.roberta.runtime.Utils;
 import de.fhg.iais.roberta.util.dbc.DbcException;
@@ -424,6 +425,8 @@ public class Hal {
                 return "getUltraSonicSensorPresence";
             case "SEEK":
                 return "getInfraredSensorSeek";
+            case "SOUND":
+                return "getSoundLevel";
             default:
                 return null;
         }
@@ -830,8 +833,8 @@ public class Hal {
     }
 
     public void driveInCurve(DriveDirection direction, float speedLeft, float speedRight) {
-        speedLeft = (float) (chassis.getMaxLinearSpeed() * speedLeft / 100.0);
-        speedRight = (float) (chassis.getMaxLinearSpeed() * speedRight / 100.0);
+        speedLeft = (float) (this.chassis.getMaxLinearSpeed() * speedLeft / 100.0);
+        speedRight = (float) (this.chassis.getMaxLinearSpeed() * speedRight / 100.0);
         int direct = direction == DriveDirection.FOREWARD ? 1 : -1;
         double radius = calculateRadius(speedLeft, speedRight);
         double Lspeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
@@ -840,8 +843,8 @@ public class Hal {
     }
 
     public void driveInCurve(DriveDirection direction, float speedLeft, float speedRight, float distance) {
-        speedLeft = (float) (mPilot.getMaxLinearSpeed() * speedLeft / 100.0);
-        speedRight = (float) (mPilot.getMaxLinearSpeed() * speedRight / 100.0);
+        speedLeft = (float) (this.mPilot.getMaxLinearSpeed() * speedLeft / 100.0);
+        speedRight = (float) (this.mPilot.getMaxLinearSpeed() * speedRight / 100.0);
         int direct = direction == DriveDirection.FOREWARD ? 1 : -1;
         double radius = calculateRadius(speedLeft, speedRight);
         double robotSpeed = calculateSpeedDriveInCurve(speedLeft, speedRight);
@@ -862,7 +865,7 @@ public class Hal {
     }
 
     private float calculateRadius(float speedLeft, float speedRight) {
-        float radius = (float) ((this.trackWidth * (speedLeft + speedRight)) / (2.0f * (speedRight - speedLeft)));
+        float radius = (float) (this.trackWidth * (speedLeft + speedRight) / (2.0f * (speedRight - speedLeft)));
         return radius;
     }
 
@@ -891,7 +894,7 @@ public class Hal {
      * @param speedPercent of motor power
      */
     public void rotateDirectionRegulated(TurnDirection direction, float speedPercent) {
-        float speed = (float) (chassis.getMaxAngularSpeed() * speedPercent / 100.0);
+        float speed = (float) (this.chassis.getMaxAngularSpeed() * speedPercent / 100.0);
         int direct = direction == TurnDirection.LEFT ? 1 : -1;
         this.chassis.setVelocity(0, direct * speed);
     }
@@ -1410,6 +1413,24 @@ public class Hal {
     }
 
     // END Sensoren Steintasten ---
+
+    // --- Sensoren Sound ---
+
+    /**
+     * Get sample from sound sensor.
+     *
+     * @param sensorPort on which the sound sensor is connected
+     * @return value in <i>dB</i> of the sound level measured
+     */
+    public synchronized float getSoundLevel(SensorPort sensorPort) {
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, SoundSensorMode.SOUND.getValues()[0]);
+        float[] sample = new float[sampleProvider.sampleSize()];
+        sampleProvider.fetchSample(sample, 0);
+
+        return Math.round(sample[0]);
+    }
+
+    // END Sensoren Sound ---
 
     /**
      * Sleep the running thread.

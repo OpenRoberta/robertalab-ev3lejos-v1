@@ -25,6 +25,7 @@ import lejos.hardware.sensor.EV3IRSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.HiTechnicCompass;
+import lejos.hardware.sensor.NXTSoundSensor;
 import lejos.robotics.EncoderMotor;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.SampleProvider;
@@ -197,6 +198,9 @@ public class DeviceHandler {
                 case COMPASS_HI_TEC:
                     this.hiTechnicCompass = new HiTechnicCompass(hardwarePort);
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(this.hiTechnicCompass));
+                    break;
+                case SOUND:
+                    this.lejosSensors.put(sensorPort, sensorSampleProviders(new NXTSoundSensor(hardwarePort)));
                     break;
                 default:
                     throw new DbcException("Sensor type " + sensorType.getType() + " does not exists!");
