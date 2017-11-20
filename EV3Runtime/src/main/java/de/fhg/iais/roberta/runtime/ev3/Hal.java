@@ -105,6 +105,8 @@ public class Hal {
     private boolean wifiLogging = false;
     private ConnectionType connectionType = ConnectionType.NONE;
 
+    private String language = "de";
+
     /**
      * Setup the hardware components of the robot, which are used by the NEPO program.
      *
@@ -1006,6 +1008,46 @@ public class Hal {
      */
     public float getVolume() {
         return this.brick.getAudio().getVolume();
+    }
+
+    /**
+     * Sets the language for the sayText function
+     * 
+     * @param language
+     */
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    /**
+     * Say the text.
+     * Generates a .wav file with eSpeak and plays it.
+     *
+     * @return the text to be said
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void sayText(String text) throws IOException, InterruptedException {
+        Runtime rt = Runtime.getRuntime();
+        System.out.println(text);
+        String[] cmd =
+            new String[] {
+                "speak",
+                "-w",
+                "text.wav",
+                "-a",
+                Integer.toString(200),
+                "-p",
+                Integer.toString(50),
+                "-s",
+                Integer.toString(175),
+                "-v",
+                this.language,
+                text
+            };
+        Process pr = rt.exec(cmd);
+        pr.waitFor();
+        this.brick.getAudio().playSample(new File("text.wav"));
     }
 
     // -- END Aktion Klang ---
