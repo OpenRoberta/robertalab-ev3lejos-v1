@@ -1012,7 +1012,7 @@ public class Hal {
 
     /**
      * Sets the language for the sayText function
-     * 
+     *
      * @param language
      */
     public void setLanguage(String language) {
@@ -1023,24 +1023,37 @@ public class Hal {
      * Say the text.
      * Generates a .wav file with eSpeak and plays it.
      *
-     * @return the text to be said
+     * @param text text to be said
      * @throws IOException
      * @throws InterruptedException
      */
     public void sayText(String text) throws IOException, InterruptedException {
+        this.sayText(text, 175, 50); //Default values of espeak
+    }
+
+    /**
+     * Say the text with additional parameters.
+     * Generates a .wav file with eSpeak and plays it.
+     *
+     * @param text text to be said
+     * @param speed words per minute
+     * @param pitch pitch of the voice
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void sayText(String text, int speed, int pitch) throws IOException, InterruptedException {
         Runtime rt = Runtime.getRuntime();
-        System.out.println(text);
         String[] cmd =
             new String[] {
                 "speak",
                 "-w",
                 "text.wav",
                 "-a",
-                Integer.toString(200),
+                Integer.toString(100),
                 "-p",
-                Integer.toString(50),
+                Integer.toString(pitch),
                 "-s",
-                Integer.toString(175),
+                Integer.toString(speed),
                 "-v",
                 this.language,
                 text
