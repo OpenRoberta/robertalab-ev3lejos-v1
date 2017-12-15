@@ -1043,6 +1043,8 @@ public class Hal {
      */
     public void sayText(String text, int speed, int pitch) throws IOException, InterruptedException {
         Runtime rt = Runtime.getRuntime();
+        speed = Math.max(80, Math.min(450, speed));
+        pitch = Math.max(0, Math.min(99, speed));
         String[] cmd =
             new String[] {
                 "speak",
