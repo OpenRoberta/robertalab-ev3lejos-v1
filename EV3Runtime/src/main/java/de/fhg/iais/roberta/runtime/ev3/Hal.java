@@ -1028,7 +1028,7 @@ public class Hal {
      * @throws InterruptedException
      */
     public void sayText(String text) throws IOException, InterruptedException {
-        this.sayText(text, 175, 50); //Default values of espeak
+        this.sayText(text, 30, 50); //Default values of espeak
     }
 
     /**
@@ -1041,23 +1041,27 @@ public class Hal {
      * @throws IOException
      * @throws InterruptedException
      */
-    public void sayText(String text, int speed, int pitch) throws IOException, InterruptedException {
+    public void sayText(String text, float speed, float pitch) throws IOException, InterruptedException {
+        // Clamp values
+        speed = Math.max(0, Math.min(100, speed));
+        pitch = Math.max(0, Math.min(100, pitch));
+        // Convert to espeak values
+        speed = Math.round(speed * 2.5f + 100); // use range 100 - 350
+        pitch = Math.round(pitch * 0.99f); // use range 0 - 99
         Runtime rt = Runtime.getRuntime();
-        speed = Math.max(80, Math.min(450, speed));
-        pitch = Math.max(0, Math.min(99, speed));
         String[] cmd =
             new String[] {
                 "speak",
                 "-w",
                 "text.wav",
                 "-a",
-                Integer.toString(100),
+                Integer.toString(200),
                 "-p",
-                Integer.toString(pitch),
+                Float.toString(pitch),
                 "-s",
-                Integer.toString(speed),
+                Float.toString(speed),
                 "-v",
-                this.language,
+                this.language + "+f1", // female voice
                 text
             };
         Process pr = rt.exec(cmd);
