@@ -26,11 +26,11 @@ limitations under the License.
     <artifactId>EV3Menu</artifactId>
     <dependencies>
         <dependency>
-            <groupId>de.fhg.iais.roberta</groupId>
+            <groupId>org.lejos</groupId>
             <artifactId>ev3classes</artifactId>
         </dependency>
         <dependency>
-            <groupId>de.fhg.iais.roberta</groupId>
+            <groupId>org.lejos</groupId>
             <artifactId>dbusjava</artifactId>
         </dependency>
         <dependency>

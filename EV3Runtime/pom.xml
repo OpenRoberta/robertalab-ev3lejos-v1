@@ -14,11 +14,11 @@
     <description>the runtime resources of the OpenRoberta application to be used on the brick by the generated code</description>
     <dependencies>        
         <dependency>
-            <groupId>de.fhg.iais.roberta</groupId>
+            <groupId>org.lejos</groupId>
             <artifactId>ev3classes</artifactId>
         </dependency>
         <dependency>
-            <groupId>de.fhg.iais.roberta</groupId>
+            <groupId>org.lejos</groupId>
             <artifactId>dbusjava</artifactId>
         </dependency>
         <dependency>

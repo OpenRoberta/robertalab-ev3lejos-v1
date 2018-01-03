@@ -32,8 +32,8 @@
 
 		<ev3runtime.version>${project.version}</ev3runtime.version>
 		<json.version>20140107</json.version>
-		<ev3classes.version>0.9.1-beta</ev3classes.version>
-		<dbusjava.version>0.9.1-beta</dbusjava.version>
+		<ev3classes.version>0.9.1</ev3classes.version>
+		<dbusjava.version>0.9.1</dbusjava.version>
 		<jna.version>3.2.7</jna.version>
 		<ev3.websocket.version>1.3.0</ev3.websocket.version>
 	</properties>
@@ -46,7 +46,7 @@
 		<repository>
 			<id>ORA-releases</id>
 			<name>Open Roberta releases repository</name>
-			<url>http://ok-maven.iais.fraunhofer.de/artifactory/openroberta-snapshot-local</url>
+			<url>http://maven.iais.fraunhofer.de/artifactory/openroberta-release</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -57,7 +57,7 @@
 		<repository>
 			<id>ORA-snapshots</id>
 			<name>Open Roberta snapshot repository</name>
-			<url>http://ok-maven.iais.fraunhofer.de/artifactory/openroberta-snapshot-local</url>
+			<url>http://maven.iais.fraunhofer.de/artifactory/openroberta-snapshot-local</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -79,12 +79,12 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>de.fhg.iais.roberta</groupId>
+				<groupId>org.lejos</groupId>
 				<artifactId>ev3classes</artifactId>
 				<version>${ev3classes.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>de.fhg.iais.roberta</groupId>
+				<groupId>org.lejos</groupId>
 				<artifactId>dbusjava</artifactId>
 				<version>${dbusjava.version}</version>
 			</dependency>
