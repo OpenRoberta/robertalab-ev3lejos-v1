@@ -37,6 +37,7 @@ import de.fhg.iais.roberta.mode.action.ev3.ShowPicture;
 import de.fhg.iais.roberta.mode.general.PickColor;
 import de.fhg.iais.roberta.mode.sensor.ev3.BrickKey;
 import de.fhg.iais.roberta.mode.sensor.ev3.ColorSensorMode;
+import de.fhg.iais.roberta.mode.sensor.ev3.CompassSensorMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.GyroSensorMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.InfraredSensorMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.MotorTachoMode;
@@ -1324,6 +1325,9 @@ public class Hal {
         this.deviceHandler.getGyroSensor().reset();
     }
 
+    // END Sensoren Gyrosensor ---
+    // --- Sensoren CompassSensor ---
+
     /**
      * Starts calibration for the compass. Must rotate <b>very</b> slowly, taking at least 20 seconds per rotation. Should make 1.5 to 2 full rotations. Must
      * call
@@ -1344,7 +1348,37 @@ public class Hal {
         this.deviceHandler.getHiTechnicCompass().stopCalibration();
     }
 
-    // END Sensoren Gyrosensor ---
+    /**
+     * Get sample from compass sensor.<br>
+     * <br>
+     * Client must provide sensor port on which the sensor is connected and the mode in which sensor would working (see {@link GyroSensorMode})
+     *
+     * @param sensorPort on which the compass sensor sensor is connected
+     * @return the angle output of the sensor
+     */
+    public synchronized float getHiTecCompassAngle(SensorPort sensorPort) {
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, CompassSensorMode.ANGLE.getValues()[0]);
+        float[] sample = new float[sampleProvider.sampleSize()];
+        sampleProvider.fetchSample(sample, 0);
+        return sample[0];
+    }
+
+    /**
+     * Get sample from compass sensor.<br>
+     * <br>
+     * Client must provide sensor port on which the sensor is connected and the mode in which sensor would working (see {@link GyroSensorMode})
+     *
+     * @param sensorPort on which the compass sensor sensor is connected
+     * @return the compass output of the sensor
+     */
+    public synchronized float getHiTecCompassCompass(SensorPort sensorPort) {
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, CompassSensorMode.COMPASS.getValues()[0]);
+        float[] sample = new float[sampleProvider.sampleSize()];
+        sampleProvider.fetchSample(sample, 0);
+        return sample[0];
+    }
+
+    // END Sensoren CompassSensor ---
     // --- Sensoren Zeitgeber ---
 
     /**

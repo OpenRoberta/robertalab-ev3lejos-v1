@@ -195,7 +195,7 @@ public class DeviceHandler {
                 case ULTRASONIC:
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(new EV3UltrasonicSensor(hardwarePort)));
                     break;
-                case COMPASS_HI_TEC:
+                case COMPASS:
                     this.hiTechnicCompass = new HiTechnicCompass(hardwarePort);
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(this.hiTechnicCompass));
                     break;
