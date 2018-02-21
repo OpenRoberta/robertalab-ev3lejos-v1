@@ -21,7 +21,7 @@ public enum SensorType {
     ACCELEROMETER( "makeblockSensors_accelerometer_getSample" ),
     JOYSTICK( "arduSensors_joystick_getSample" ),
     NAOMARK( "naoSensors_naoMark" ),
-    COMPASS_HI_TEC( "robBrick_hiTecCompass" );
+    IRSEEKER();
 
     private final String[] values;
 

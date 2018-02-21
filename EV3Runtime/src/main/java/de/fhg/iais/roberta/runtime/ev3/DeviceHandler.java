@@ -25,6 +25,7 @@ import lejos.hardware.sensor.EV3IRSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.HiTechnicCompass;
+import lejos.hardware.sensor.HiTechnicIRSeekerV2;
 import lejos.hardware.sensor.NXTSoundSensor;
 import lejos.robotics.EncoderMotor;
 import lejos.robotics.RegulatedMotor;
@@ -97,7 +98,14 @@ public class DeviceHandler {
         return this.gyroSensor;
     }
 
+    /**
+     * @exception DbcException if the sensor is not connected
+     * @return the hiTechnicCompass
+     */
     public HiTechnicCompass getHiTechnicCompass() {
+        if ( this.hiTechnicCompass == null ) {
+            throw new DbcException("No HiTechnic Compass Sensor Connected!");
+        }
         return this.hiTechnicCompass;
     }
 
@@ -201,6 +209,9 @@ public class DeviceHandler {
                     break;
                 case SOUND:
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(new NXTSoundSensor(hardwarePort)));
+                    break;
+                case IRSEEKER:
+                    this.lejosSensors.put(sensorPort, sensorSampleProviders(new HiTechnicIRSeekerV2(hardwarePort)));
                     break;
                 default:
                     throw new DbcException("Sensor type " + sensorType.getType() + " does not exists!");

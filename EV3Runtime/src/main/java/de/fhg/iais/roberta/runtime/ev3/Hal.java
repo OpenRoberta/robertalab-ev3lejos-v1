@@ -39,6 +39,7 @@ import de.fhg.iais.roberta.mode.sensor.ev3.BrickKey;
 import de.fhg.iais.roberta.mode.sensor.ev3.ColorSensorMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.CompassSensorMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.GyroSensorMode;
+import de.fhg.iais.roberta.mode.sensor.ev3.IRSeekerSensorMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.InfraredSensorMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.MotorTachoMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.SensorPort;
@@ -414,7 +415,10 @@ public class Hal {
             case "RATE":
                 return "getGyroSensorRate";
             case "ANGLE":
-                return "getGyroSensorAngle";
+                if ( sensorType == SensorType.GYRO ) {
+                    return "getGyroSensorAngle";
+                }
+                return "getHiTecCompassAngle";
             case "RESET":
                 return "resetGyroSensor";
             case "TOUCH":
@@ -430,6 +434,14 @@ public class Hal {
                 return "getInfraredSensorSeek";
             case "SOUND":
                 return "getSoundLevel";
+            case "COMPASS":
+                return "getHiTecCompassCompass";
+            case "CALIBRATE":
+                return "hiTecCompassStartCalibration";
+            case "MODULATED":
+                return "getHiTecIRSeekerModulated";
+            case "UNMODULATED":
+                return "getHiTecIRSeekerUnmodulated";
             default:
                 return null;
         }
@@ -1284,6 +1296,37 @@ public class Hal {
     }
 
     // END Sensoren IRSensor ---
+    // --- Sensoren IRSeekerSensor ---
+
+    /**
+     * Get sample from HiTechnic IRSeeker V2 sensor set in <b>modulated mode</b>.
+     *
+     * @param sensorPort on which the HiTechnic IRSeeker V2 sensor is connected
+     * @return value in <i>°</i> of the direction of an modulated infrared signal
+     */
+    public synchronized float getHiTecIRSeekerModulated(SensorPort sensorPort) {
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, IRSeekerSensorMode.MODULATED.getValues()[0]);
+        float[] sample = new float[sampleProvider.sampleSize()];
+        sampleProvider.fetchSample(sample, 0);
+
+        return Math.round(sample[0]);
+    }
+
+    /**
+     * Get sample from HiTechnic IRSeeker V2 sensor set in <b>unmodulated mode</b>.
+     *
+     * @param sensorPort on which the HiTechnic IRSeeker V2 sensor is connected
+     * @return value in <i>°</i> of the direction of an unmodulated infrared signal
+     */
+    public synchronized float getHiTecIRSeekerUnmodulated(SensorPort sensorPort) {
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, IRSeekerSensorMode.UNMODULATED.getValues()[0]);
+        float[] sample = new float[sampleProvider.sampleSize()];
+        sampleProvider.fetchSample(sample, 0);
+
+        return Math.round(sample[0]);
+    }
+
+    // END Sensoren IRSeekerSensor ---
     // --- Sensor Gyrosensor ---
 
     /**
