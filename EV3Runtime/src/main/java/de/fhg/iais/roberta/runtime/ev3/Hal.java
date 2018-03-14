@@ -1309,7 +1309,7 @@ public class Hal {
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
 
-        return Math.round(sample[0]);
+        return sample[0];
     }
 
     /**
@@ -1323,7 +1323,7 @@ public class Hal {
         float[] sample = new float[sampleProvider.sampleSize()];
         sampleProvider.fetchSample(sample, 0);
 
-        return Math.round(sample[0]);
+        return sample[0];
     }
 
     // END Sensoren IRSeekerSensor ---
