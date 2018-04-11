@@ -40,7 +40,7 @@ public class ORAupdater {
         this.update_error = false;
         getRuntime();
         getJsonLib();
-        getWebSocketLib();
+        //        getWebSocketLib();
         getEV3Menu();
         if ( this.update_error == false ) {
             LocalEV3.get().getAudio().systemSound(Sounds.ASCENDING);

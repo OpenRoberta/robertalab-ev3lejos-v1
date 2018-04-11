@@ -1,24 +1,14 @@
 package de.fhg.iais.roberta.runtime.ev3;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.HttpURLConnection;
-import java.net.SocketTimeoutException;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.Set;
-
-import org.java_websocket.WebSocket.READYSTATE;
-import org.json.JSONObject;
 
 import de.fhg.iais.roberta.components.Actor;
 import de.fhg.iais.roberta.components.Configuration;
@@ -70,14 +60,14 @@ import lejos.utility.Stopwatch;
  */
 public class Hal {
 
-    private enum ConnectionType {
-        NONE, WEBSOCKET, REST
-    };
+    //    private enum ConnectionType {
+    //        NONE, WEBSOCKET, REST
+    //    };
 
     private static final int NUMBER_OF_CHARACTERS_IN_ROW = 17;
     private static final int BLUETOOTH_TIMEOUT = 20;
 
-    private static final String OPENROBERTAPROPERTIESFILE = "/home/roberta/openroberta.properties";
+    //    private static final String OPENROBERTAPROPERTIESFILE = "/home/roberta/openroberta.properties";
 
     private final Set<UsedSensor> usedSensors;
     private final DeviceHandler deviceHandler;
@@ -95,17 +85,17 @@ public class Hal {
 
     private final BluetoothCom blueCom = new BluetoothComImpl();
 
-    private Properties openrobertaProperties = null;
-    private URI sensorloggingWebSocketURI = null;
-    private URL sensorloggingRestURL = null;
-    private Thread serverLoggerThread = null;
+    //    private final Properties openrobertaProperties = null;
+    //    private URI sensorloggingWebSocketURI = null;
+    //    private URL sensorloggingRestURL = null;
+    //    private final Thread serverLoggerThread = null;
     private Thread screenLoggerThread = null;
     private final Configuration brickConfiguration;
 
-    private String token = "";
-    private String serverAddress = "";
-    private boolean wifiLogging = false;
-    private ConnectionType connectionType = ConnectionType.NONE;
+    //    private final String token = "";
+    //    private final String serverAddress = "";
+    //    private final boolean wifiLogging = false;
+    //    private ConnectionType connectionType = ConnectionType.NONE;
 
     private String language = "de";
 
@@ -151,16 +141,16 @@ public class Hal {
             // do not instantiate because we do not need it (checked form code generation side)
         }
 
-        try {
-            this.openrobertaProperties = loadOpenRobertaProperties();
-            this.serverAddress = this.openrobertaProperties.getProperty("lastaddress");
-            this.token = this.openrobertaProperties.getProperty("lasttoken");
-            this.wifiLogging = this.openrobertaProperties.getProperty("connection").equals("wifi") ? true : false;
-            this.sensorloggingWebSocketURI = new URI("ws://" + this.serverAddress + "/ws/");
-            this.sensorloggingRestURL = new URL("http://" + this.serverAddress + "/rest/sensorlogging");
-        } catch ( Exception e ) {
-            this.wifiLogging = false;
-        }
+        //        try {
+        //            this.openrobertaProperties = loadOpenRobertaProperties();
+        //            this.serverAddress = this.openrobertaProperties.getProperty("lastaddress");
+        //            this.token = this.openrobertaProperties.getProperty("lasttoken");
+        //            this.wifiLogging = this.openrobertaProperties.getProperty("connection").equals("wifi") ? true : false;
+        //            this.sensorloggingWebSocketURI = new URI("ws://" + this.serverAddress + "/ws/");
+        //            this.sensorloggingRestURL = new URL("http://" + this.serverAddress + "/rest/sensorlogging");
+        //        } catch ( Exception e ) {
+        //            this.wifiLogging = false;
+        //        }
     }
 
     /**
@@ -170,28 +160,28 @@ public class Hal {
      * @return All stored key value pairs from the file
      * @throws IOException Should never occur if the menu is working correctly.
      */
-    private Properties loadOpenRobertaProperties() throws IOException {
-        File f = new File(OPENROBERTAPROPERTIESFILE);
-        Properties p = new Properties();
-        p.load(new FileInputStream(f));
-        return p;
-    }
+    //    private Properties loadOpenRobertaProperties() throws IOException {
+    //        File f = new File(OPENROBERTAPROPERTIESFILE);
+    //        Properties p = new Properties();
+    //        p.load(new FileInputStream(f));
+    //        return p;
+    //    }
 
-    private HttpURLConnection openConnection() throws SocketTimeoutException, IOException {
-        HttpURLConnection httpURLConnection = (HttpURLConnection) this.sensorloggingRestURL.openConnection();
-        httpURLConnection.setDoInput(true);
-        httpURLConnection.setDoOutput(true);
-        httpURLConnection.setRequestMethod("POST");
-        httpURLConnection.setReadTimeout(5000);
-        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
-        return httpURLConnection;
-    }
+    //    private HttpURLConnection openConnection() throws SocketTimeoutException, IOException {
+    //        HttpURLConnection httpURLConnection = (HttpURLConnection) this.sensorloggingRestURL.openConnection();
+    //        httpURLConnection.setDoInput(true);
+    //        httpURLConnection.setDoOutput(true);
+    //        httpURLConnection.setRequestMethod("POST");
+    //        httpURLConnection.setReadTimeout(5000);
+    //        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
+    //        return httpURLConnection;
+    //    }
 
     /**
      * Starts logging of the sensor data to the server and brick screen.
      */
     public void startLogging() {
-        startServerLoggingThread();
+        //        startServerLoggingThread();
         startScreenLoggingThread();
     }
 
@@ -200,88 +190,88 @@ public class Hal {
      * Ugly fix, we can not upload websocket library to the ev3 in version 1.4, therefor use special method without websocket reference.
      * Logging is only allowed, if the last connection is wifi set by the ev3 menu.
      */
-    private void startServerLoggingThread() {
-        if ( this.wifiLogging ) {
-            File f = new File("/home/roberta/lib/Java-WebSocket.jar");
-            if ( f.exists() ) {
-                loggingWithWebSocket();
-            } else {
-                loggingWithoutWebSocket();
-            }
-        }
-    }
+    //    private void startServerLoggingThread() {
+    //        if ( this.wifiLogging ) {
+    //            File f = new File("/home/roberta/lib/Java-WebSocket.jar");
+    //            if ( f.exists() ) {
+    //                loggingWithWebSocket();
+    //            } else {
+    //                loggingWithoutWebSocket();
+    //            }
+    //        }
+    //    }
 
     /**
      * <b>!!!Temporary solution for version 1.4!!!</b></br>
      * Start a new thread for logging with websocket reference.
      */
-    private void loggingWithWebSocket() {
-        final ClientWebSocket ws = new ClientWebSocket(this.sensorloggingWebSocketURI);
-        ws.connect();
-        this.connectionType = ConnectionType.WEBSOCKET;
-
-        this.serverLoggerThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while ( true ) {
-                    switch ( Hal.this.connectionType ) {
-                        case NONE:
-                            return;
-                        case WEBSOCKET:
-                            try {
-                                logToServerWS(ws);
-                            } catch ( Exception programFinished ) {
-                                return;
-                            }
-                            break;
-                        case REST:
-                            try {
-                                logToServerRest();
-                            } catch ( Exception programFinished ) {
-                                return;
-                            }
-                            break;
-                        default:
-                            return;
-                    }
-                    Delay.msDelay(2000);
-                }
-            }
-        });
-        this.serverLoggerThread.setDaemon(true);
-        this.serverLoggerThread.start();
-    }
+    //    private void loggingWithWebSocket() {
+    //        final ClientWebSocket ws = new ClientWebSocket(this.sensorloggingWebSocketURI);
+    //        ws.connect();
+    //        this.connectionType = ConnectionType.WEBSOCKET;
+    //
+    //        this.serverLoggerThread = new Thread(new Runnable() {
+    //            @Override
+    //            public void run() {
+    //                while ( true ) {
+    //                    switch ( Hal.this.connectionType ) {
+    //                        case NONE:
+    //                            return;
+    //                        case WEBSOCKET:
+    //                            try {
+    //                                logToServerWS(ws);
+    //                            } catch ( Exception programFinished ) {
+    //                                return;
+    //                            }
+    //                            break;
+    //                        case REST:
+    //                            try {
+    //                                logToServerRest();
+    //                            } catch ( Exception programFinished ) {
+    //                                return;
+    //                            }
+    //                            break;
+    //                        default:
+    //                            return;
+    //                    }
+    //                    Delay.msDelay(2000);
+    //                }
+    //            }
+    //        });
+    //        this.serverLoggerThread.setDaemon(true);
+    //        this.serverLoggerThread.start();
+    //    }
 
     /**
      * <b>!!!Temporary solution for version 1.4!!!</b></br>
      * Start a new thread for logging without websocket reference.
      */
-    private void loggingWithoutWebSocket() {
-        this.connectionType = ConnectionType.REST;
-        this.serverLoggerThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while ( true ) {
-                    switch ( Hal.this.connectionType ) {
-                        case NONE:
-                            return;
-                        case REST:
-                            try {
-                                logToServerRest();
-                            } catch ( Exception programFinished ) {
-                                return;
-                            }
-                            break;
-                        default:
-                            return;
-                    }
-                    Delay.msDelay(2000);
-                }
-            }
-        });
-        this.serverLoggerThread.setDaemon(true);
-        this.serverLoggerThread.start();
-    }
+    //    private void loggingWithoutWebSocket() {
+    //        this.connectionType = ConnectionType.REST;
+    //        this.serverLoggerThread = new Thread(new Runnable() {
+    //            @Override
+    //            public void run() {
+    //                while ( true ) {
+    //                    switch ( Hal.this.connectionType ) {
+    //                        case NONE:
+    //                            return;
+    //                        case REST:
+    //                            try {
+    //                                logToServerRest();
+    //                            } catch ( Exception programFinished ) {
+    //                                return;
+    //                            }
+    //                            break;
+    //                        default:
+    //                            return;
+    //                    }
+    //                    Delay.msDelay(2000);
+    //                }
+    //            }
+    //        });
+    //        this.serverLoggerThread.setDaemon(true);
+    //        this.serverLoggerThread.start();
+    //    }
 
     /**
      * Start a new Thread in the NEPO program to regularly display sensor information on the ev3 screen.
@@ -301,106 +291,106 @@ public class Hal {
      * Send sensor values to Open Roberta Lab via websocket.
      * Fall back to REST if the websocket is not able to connect to the server at least once.
      */
-    private void logToServerWS(ClientWebSocket ws) {
-        // READYSTATE.CONNECTING not working/ unused
-        System.out.println(ws.getReadyState());
-        if ( ws.getReadyState() == READYSTATE.OPEN ) {
-            sendJSONviaWebsocket(ws);
-        } else if ( ws.getReadyState() == READYSTATE.CLOSED || ws.getReadyState() == READYSTATE.CLOSING ) {
-            ws.close();
-            this.connectionType = ConnectionType.REST;
-            return;
-        }
-    }
+    //    private void logToServerWS(ClientWebSocket ws) {
+    //        // READYSTATE.CONNECTING not working/ unused
+    //        System.out.println(ws.getReadyState());
+    //        if ( ws.getReadyState() == READYSTATE.OPEN ) {
+    //            sendJSONviaWebsocket(ws);
+    //        } else if ( ws.getReadyState() == READYSTATE.CLOSED || ws.getReadyState() == READYSTATE.CLOSING ) {
+    //            ws.close();
+    //            this.connectionType = ConnectionType.REST;
+    //            return;
+    //        }
+    //    }
 
     /**
      * Send sensor values to Open Roberta Lab via websocket.
      * Give up the logging if no connection is possible.
      */
-    public void logToServerRest() {
-        try {
-            HttpURLConnection httpURLConnection = openConnection();
-            sendJSONviaRest(httpURLConnection);
-            System.out.println(httpURLConnection.getResponseCode());
-            httpURLConnection.disconnect();
-            this.connectionType = ConnectionType.REST;
-        } catch ( Exception e ) {
-            e.printStackTrace();
-            this.wifiLogging = false;
-            this.connectionType = ConnectionType.NONE;
-        }
-    }
+    //    public void logToServerRest() {
+    //        try {
+    //            HttpURLConnection httpURLConnection = openConnection();
+    //            sendJSONviaRest(httpURLConnection);
+    //            System.out.println(httpURLConnection.getResponseCode());
+    //            httpURLConnection.disconnect();
+    //            this.connectionType = ConnectionType.REST;
+    //        } catch ( Exception e ) {
+    //            e.printStackTrace();
+    //            this.wifiLogging = false;
+    //            this.connectionType = ConnectionType.NONE;
+    //        }
+    //    }
 
     /**
      * Write sensor values as JSON object to the websocket.
      */
-    private void sendJSONviaWebsocket(ClientWebSocket ws) {
-        JSONObject ev3Values = new JSONObject();
-        ev3Values.put("token", this.token);
-        addSensorsValues(ev3Values);
-        addActorsTacho(ev3Values);
-        ws.send(ev3Values.toString());
-    }
+    //    private void sendJSONviaWebsocket(ClientWebSocket ws) {
+    //        JSONObject ev3Values = new JSONObject();
+    //        ev3Values.put("token", this.token);
+    //        addSensorsValues(ev3Values);
+    //        addActorsTacho(ev3Values);
+    //        ws.send(ev3Values.toString());
+    //    }
 
     /**
      * Write sensor values as JSON object to the websocket.
      *
      * @throws IOException
      */
-    private void sendJSONviaRest(HttpURLConnection httpURLConnection) throws IOException {
-        JSONObject ev3Values = new JSONObject();
-        ev3Values.put("token", this.token);
-        addSensorsValues(ev3Values);
-        addActorsTacho(ev3Values);
-        OutputStream os = httpURLConnection.getOutputStream();
-        os.write(ev3Values.toString().getBytes("UTF-8"));
-        os.close();
-    }
+    //    private void sendJSONviaRest(HttpURLConnection httpURLConnection) throws IOException {
+    //        JSONObject ev3Values = new JSONObject();
+    //        ev3Values.put("token", this.token);
+    //        addSensorsValues(ev3Values);
+    //        addActorsTacho(ev3Values);
+    //        OutputStream os = httpURLConnection.getOutputStream();
+    //        os.write(ev3Values.toString().getBytes("UTF-8"));
+    //        os.close();
+    //    }
 
     /**
      * Put motor tacho information into the JSON object which will be send to the server.
      *
      * @param ev3Values
      */
-    private void addActorsTacho(JSONObject ev3Values) {
-        for ( Entry<IActorPort, Actor> mapEntry : this.brickConfiguration.getActors().entrySet() ) {
-            int hardwareId = mapEntry.getValue().hashCode();
-            ActorPort port = (ActorPort) mapEntry.getKey();
-            String partKey = port.name() + "-";
-
-            partKey += "LARGE_MOTOR".hashCode() == hardwareId ? "LARGE_MOTOR" : "MEDIUM_MOTOR";
-
-            if ( this.brickConfiguration.isMotorRegulated(port) ) {
-                ev3Values.put(partKey + MotorTachoMode.DEGREE, getRegulatedMotorTachoValue(port, MotorTachoMode.DEGREE));
-            } else {
-                ev3Values.put(partKey + MotorTachoMode.DEGREE, getUnregulatedMotorTachoValue(port, MotorTachoMode.DEGREE));
-            }
-        }
-    }
+    //    private void addActorsTacho(JSONObject ev3Values) {
+    //        for ( Entry<IActorPort, Actor> mapEntry : this.brickConfiguration.getActors().entrySet() ) {
+    //            int hardwareId = mapEntry.getValue().hashCode();
+    //            ActorPort port = (ActorPort) mapEntry.getKey();
+    //            String partKey = port.name() + "-";
+    //
+    //            partKey += "LARGE_MOTOR".hashCode() == hardwareId ? "LARGE_MOTOR" : "MEDIUM_MOTOR";
+    //
+    //            if ( this.brickConfiguration.isMotorRegulated(port) ) {
+    //                ev3Values.put(partKey + MotorTachoMode.DEGREE, getRegulatedMotorTachoValue(port, MotorTachoMode.DEGREE));
+    //            } else {
+    //                ev3Values.put(partKey + MotorTachoMode.DEGREE, getUnregulatedMotorTachoValue(port, MotorTachoMode.DEGREE));
+    //            }
+    //        }
+    //    }
 
     /**
      * Put sensor information into the JSON object which will be send to the server.
      *
      * @param ev3Values
      */
-    private void addSensorsValues(JSONObject ev3Values) {
-        for ( UsedSensor sensor : this.usedSensors ) {
-            SensorPort port = (SensorPort) sensor.getPort();
-            IMode mode = sensor.getMode();
-
-            String methodName = getHalMethodName(mode, sensor.getSensorType());
-
-            Method method;
-            String result = null;
-            try {
-                method = Hal.class.getMethod(methodName, SensorPort.class);
-                result = String.valueOf(method.invoke(this, port));
-            } catch ( NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
-                break;
-            }
-            ev3Values.put(port + "-" + mode.getClass().getSimpleName() + "-" + mode, result);
-        }
-    }
+    //    private void addSensorsValues(JSONObject ev3Values) {
+    //        for ( UsedSensor sensor : this.usedSensors ) {
+    //            SensorPort port = (SensorPort) sensor.getPort();
+    //            IMode mode = sensor.getMode();
+    //
+    //            String methodName = getHalMethodName(mode, sensor.getSensorType());
+    //
+    //            Method method;
+    //            String result = null;
+    //            try {
+    //                method = Hal.class.getMethod(methodName, SensorPort.class);
+    //                result = String.valueOf(method.invoke(this, port));
+    //            } catch ( NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
+    //                break;
+    //            }
+    //            ev3Values.put(port + "-" + mode.getClass().getSimpleName() + "-" + mode, result);
+    //        }
+    //    }
 
     private String getHalMethodName(IMode mode, SensorType sensorType) {
         switch ( mode.toString() ) {
