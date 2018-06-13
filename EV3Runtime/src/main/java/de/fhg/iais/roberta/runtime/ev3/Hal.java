@@ -1030,7 +1030,7 @@ public class Hal {
      * @throws IOException
      * @throws InterruptedException
      */
-    public void sayText(String text) throws IOException, InterruptedException {
+    public void sayText(String text) {
         this.sayText(text, 30, 50); //Default values of espeak
     }
 
@@ -1044,7 +1044,7 @@ public class Hal {
      * @throws IOException
      * @throws InterruptedException
      */
-    public void sayText(String text, float speed, float pitch) throws IOException, InterruptedException {
+    public void sayText(String text, float speed, float pitch) {
         // Clamp values
         speed = Math.max(0, Math.min(100, speed));
         pitch = Math.max(0, Math.min(100, pitch));
@@ -1067,9 +1067,17 @@ public class Hal {
                 this.language + "+f1", // female voice
                 text
             };
-        Process pr = rt.exec(cmd);
-        pr.waitFor();
-        this.brick.getAudio().playSample(new File("text.wav"));
+        Process pr;
+        try {
+            pr = rt.exec(cmd);
+            pr.waitFor();
+            // Only play audio if no errors were thrown
+            this.brick.getAudio().playSample(new File("text.wav"));
+        } catch ( InterruptedException e ) {
+            // Ignore
+        } catch ( IOException e1 ) {
+            // Ignore
+        }
     }
 
     // -- END Aktion Klang ---
