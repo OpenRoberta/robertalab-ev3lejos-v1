@@ -9,6 +9,7 @@ import de.fhg.iais.roberta.components.Configuration;
 import de.fhg.iais.roberta.components.Sensor;
 import de.fhg.iais.roberta.components.UsedSensor;
 import de.fhg.iais.roberta.mode.action.ev3.ActorPort;
+import de.fhg.iais.roberta.mode.sensor.ev3.PixySensor;
 import de.fhg.iais.roberta.mode.sensor.ev3.SensorPort;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 import lejos.hardware.ev3.LocalEV3;
@@ -44,6 +45,7 @@ public class DeviceHandler {
     private final Map<ActorPort, EncoderMotor> lejosUnregulatedMotors = new HashMap<>();
 
     private final TextLCD lcd = LocalEV3.get().getTextLCD();
+    private PixySensor pixySensor;
 
     /**
      * Construct new initialization for actors and sensors on the brick. Client must provide
@@ -107,6 +109,17 @@ public class DeviceHandler {
             throw new DbcException("No HiTechnic Compass Sensor Connected!");
         }
         return this.hiTechnicCompass;
+    }
+    
+    /**
+     * @exception DbcException if the sensor is not connected
+     * @return the hiTechnicCompass
+     */
+    public PixySensor getPixySensor() {
+        if ( this.pixySensor == null ) {
+            throw new DbcException("No Pixy Sensor Connected!");
+        }
+        return this.pixySensor;
     }
 
     /**
@@ -212,6 +225,10 @@ public class DeviceHandler {
                     break;
                 case IRSEEKER:
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(new HiTechnicIRSeekerV2(hardwarePort)));
+                    break;
+                case PIXY:
+                    this.pixySensor = new PixySensor(hardwarePort);
+                    this.lejosSensors.put(sensorPort, sensorSampleProviders(this.pixySensor));
                     break;
                 default:
                     throw new DbcException("Sensor type " + sensorType.getType() + " does not exists!");

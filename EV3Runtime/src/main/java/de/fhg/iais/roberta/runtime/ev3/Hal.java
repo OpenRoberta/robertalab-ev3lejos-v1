@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
+
 import java.util.Set;
 
 import de.fhg.iais.roberta.components.Actor;
@@ -36,6 +37,7 @@ import de.fhg.iais.roberta.mode.sensor.ev3.SensorPort;
 import de.fhg.iais.roberta.mode.sensor.ev3.SoundSensorMode;
 import de.fhg.iais.roberta.mode.sensor.ev3.UltrasonicSensorMode;
 import de.fhg.iais.roberta.runtime.Utils;
+import de.fhg.iais.roberta.util.PixyRectangle;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 import lejos.hardware.ev3.EV3;
 import lejos.hardware.ev3.LocalEV3;
@@ -98,7 +100,6 @@ public class Hal {
     //    private ConnectionType connectionType = ConnectionType.NONE;
 
     private String language = "de";
-
     /**
      * Setup the hardware components of the robot, which are used by the NEPO program.
      *
@@ -111,7 +112,6 @@ public class Hal {
         this.brickConfiguration = brickConfiguration;
         this.wheelDiameter = brickConfiguration.getWheelDiameterCM();
         this.trackWidth = brickConfiguration.getTrackWidthCM();
-
         this.brick = LocalEV3.get();
         this.brick.setDefault();
 
@@ -136,7 +136,6 @@ public class Hal {
                     },
                     WheeledChassis.TYPE_DIFFERENTIAL);
             this.mPilot = new MovePilot(this.chassis);
-
         } catch ( DbcException e ) {
             // do not instantiate because we do not need it (checked form code generation side)
         }
@@ -432,6 +431,16 @@ public class Hal {
                 return "getHiTecIRSeekerModulated";
             case "UNMODULATED":
                 return "getHiTecIRSeekerUnmodulated";
+            case "ID":
+                return "getPixyID";
+            case "X":
+                return "getPixyX";
+            case "Y":
+                return "getPixyY";
+            case "W":
+                return "getPixyW";
+            case "H":
+                return "getPixyH";
             default:
                 return null;
         }
@@ -1030,7 +1039,7 @@ public class Hal {
      * @throws IOException
      * @throws InterruptedException
      */
-    public void sayText(String text) {
+    public void sayText(String text) throws IOException, InterruptedException {
         this.sayText(text, 30, 50); //Default values of espeak
     }
 
@@ -1044,7 +1053,7 @@ public class Hal {
      * @throws IOException
      * @throws InterruptedException
      */
-    public void sayText(String text, float speed, float pitch) {
+    public void sayText(String text, float speed, float pitch) throws IOException, InterruptedException {
         // Clamp values
         speed = Math.max(0, Math.min(100, speed));
         pitch = Math.max(0, Math.min(100, pitch));
@@ -1067,17 +1076,9 @@ public class Hal {
                 this.language + "+f1", // female voice
                 text
             };
-        Process pr;
-        try {
-            pr = rt.exec(cmd);
-            pr.waitFor();
-            // Only play audio if no errors were thrown
-            this.brick.getAudio().playSample(new File("text.wav"));
-        } catch ( InterruptedException e ) {
-            // Ignore
-        } catch ( IOException e1 ) {
-            // Ignore
-        }
+        Process pr = rt.exec(cmd);
+        pr.waitFor();
+        this.brick.getAudio().playSample(new File("text.wav"));
     }
 
     // -- END Aktion Klang ---
@@ -1629,6 +1630,27 @@ public class Hal {
 
     private int rotationsToAngle(float rotations) {
         return (int) (rotations * 360.0);
+    }
+    
+    public synchronized int getPixyID(SensorPort sensorPort) {  
+        PixyRectangle blob = this.deviceHandler.getPixySensor().getBiggestBlob();
+        return blob.signature;
+    }
+    public synchronized float getPixyX(SensorPort sensorPort) {
+        PixyRectangle blob = this.deviceHandler.getPixySensor().getBiggestBlob();
+        return blob.x;
+    }
+    public synchronized float getPixyY(SensorPort sensorPort) {
+        PixyRectangle blob = this.deviceHandler.getPixySensor().getBiggestBlob();
+        return blob.y;
+    }
+    public synchronized float getPixyH(SensorPort sensorPort) {
+        PixyRectangle blob = this.deviceHandler.getPixySensor().getBiggestBlob();
+        return blob.height;
+    }
+    public synchronized float getPixyW(SensorPort sensorPort) {
+        PixyRectangle blob = this.deviceHandler.getPixySensor().getBiggestBlob();
+        return blob.width;
     }
 
 }
