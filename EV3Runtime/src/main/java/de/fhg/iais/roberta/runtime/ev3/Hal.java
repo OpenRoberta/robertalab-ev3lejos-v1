@@ -25,17 +25,9 @@ import de.fhg.iais.roberta.mode.action.ev3.BlinkMode;
 import de.fhg.iais.roberta.mode.action.ev3.BrickLedColor;
 import de.fhg.iais.roberta.mode.action.ev3.ShowPicture;
 import de.fhg.iais.roberta.mode.general.PickColor;
-import de.fhg.iais.roberta.mode.sensor.ev3.BrickKey;
-import de.fhg.iais.roberta.mode.sensor.ev3.ColorSensorMode;
-import de.fhg.iais.roberta.mode.sensor.ev3.CompassSensorMode;
-import de.fhg.iais.roberta.mode.sensor.ev3.GyroSensorMode;
-import de.fhg.iais.roberta.mode.sensor.ev3.IRSeekerSensorMode;
-import de.fhg.iais.roberta.mode.sensor.ev3.InfraredSensorMode;
-import de.fhg.iais.roberta.mode.sensor.ev3.MotorTachoMode;
-import de.fhg.iais.roberta.mode.sensor.ev3.SensorPort;
-import de.fhg.iais.roberta.mode.sensor.ev3.SoundSensorMode;
-import de.fhg.iais.roberta.mode.sensor.ev3.UltrasonicSensorMode;
+import de.fhg.iais.roberta.mode.sensor.ev3.*;
 import de.fhg.iais.roberta.runtime.Utils;
+import de.fhg.iais.roberta.sensors.HiTechnicColorSensorV2;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 import lejos.hardware.ev3.EV3;
 import lejos.hardware.ev3.LocalEV3;
@@ -432,6 +424,14 @@ public class Hal {
                 return "getHiTecIRSeekerModulated";
             case "UNMODULATED":
                 return "getHiTecIRSeekerUnmodulated";
+            // TODO: HiTecColor ColorID
+            //  return "getHiTecColorV2ColorId";
+            case "RGBA":
+                return "getHiTecColorV2RGBA";
+            case "RGBAPassive":
+                return "getHiTecColorV2RGBAPassive";
+            case "RGBARaw":
+                return "getHiTecColorV2RGBARaw";
             default:
                 return null;
         }
@@ -1325,6 +1325,54 @@ public class Hal {
     }
 
     // END Sensoren IRSeekerSensor ---
+    // --- Sensor IRColorV2 ---
+
+    public synchronized float getHiTecColorV2ColorId(SensorPort sensorPort) {
+        float[] sample = fetchSample(sensorPort, HiTecColorSensorV2Mode.COLOR_ID);
+        return sample[0];
+    }
+
+    public synchronized ArrayList<Float> getHiTecColorV2RGBA(SensorPort sensorPort) {
+        return fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.RGBA);
+    }
+
+    public synchronized ArrayList<Float> getHiTecColorV2RGBAPassive(SensorPort sensorPort) {
+        return fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.RGBA_PASSIVE);
+    }
+
+    public synchronized ArrayList<Float> getHiTecColorV2RGBARaw(SensorPort sensorPort) {
+        return fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.RGBA_RAW);
+    }
+
+    private float[] fetchSample(SensorPort sensorPort, IMode mode) {
+        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, mode.getValues()[0]);
+        float[] sample = new float[sampleProvider.sampleSize()];
+        sampleProvider.fetchSample(sample, 0);
+        return sample;
+    }
+
+    private ArrayList<Float> fetchSampleAsArrayList(SensorPort sensorPort, IMode mode){
+        float[] sample = fetchSample(sensorPort, HiTecColorSensorV2Mode.RGBA_RAW);
+        ArrayList<Float> result = new ArrayList<>();
+        for (float value : sample) {
+            result.add(value);
+        }
+        return result;
+    }
+
+
+    public void setHiTecColorV2PowerMainsFrequency50Hz(SensorPort sensorPort){
+        this.deviceHandler.getHiTecColorSensorV2(sensorPort)
+            .setPowerMainsFrequency(HiTechnicColorSensorV2.PowerMainsFrequency.FREQUENCY_50Hz);
+    }
+
+    public void setHiTecColorV2PowerMainsFrequency60Hz(SensorPort sensorPort){
+        this.deviceHandler.getHiTecColorSensorV2(sensorPort)
+            .setPowerMainsFrequency(HiTechnicColorSensorV2.PowerMainsFrequency.FREQUENCY_60Hz);
+    }
+
+
+    // END Sensoren IRColorV2 ---
     // --- Sensor Gyrosensor ---
 
     /**
