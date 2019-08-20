@@ -3,7 +3,7 @@ package de.fhg.iais.roberta.mode.sensor.ev3;
 import de.fhg.iais.roberta.inter.mode.sensor.IHiTecColorSensorV2Mode;
 
 public enum HiTecColorSensorV2Mode implements IHiTecColorSensorV2Mode {
-    COLOR_ID("ColorID"), RGBA("RGBA"), RGBA_PASSIVE("RGBAPassive"), RGBA_RAW("RGBARaw");
+    COLOUR("ColorID"), RGB("RGBA"), LIGHT("RGBA"), AMBIENTLIGHT("RGBAPassive");
 
     private final String[] values;
 

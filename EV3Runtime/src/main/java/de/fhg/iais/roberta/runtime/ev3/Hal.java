@@ -385,14 +385,26 @@ public class Hal {
     //    }
 
     private String getHalMethodName(IMode mode, SensorType sensorType) {
+        // TODO: Why not use a Map<Pair<SensorType, IMode>, String>? we could avoid the ifs inside the cases
         switch ( mode.toString() ) {
             case "COLOUR":
+                if (sensorType == SensorType.HT_COLOR) {
+                    return "getHiTecColorSensorV2Colour";
+                }
                 return "getColorSensorColour";
             case "RED":
                 return "getColorSensorRed";
+            case "LIGHT":
+                return "getHiTecColorSensorV2Light";
             case "RGB":
+                if (sensorType == SensorType.HT_COLOR) {
+                    return "getHiTecColorSensorV2Rgb";
+                }
                 return "getColorSensorRgb";
             case "AMBIENTLIGHT":
+                if (sensorType == SensorType.HT_COLOR) {
+                    return "getHiTecColorSensorV2Ambient";
+                }
                 return "getColorSensorAmbient";
             case "RATE":
                 return "getGyroSensorRate";
@@ -424,14 +436,6 @@ public class Hal {
                 return "getHiTecIRSeekerModulated";
             case "UNMODULATED":
                 return "getHiTecIRSeekerUnmodulated";
-            // TODO: HiTecColor ColorID
-            //  return "getHiTecColorV2ColorId";
-            case "RGBA":
-                return "getHiTecColorV2RGBA";
-            case "RGBAPassive":
-                return "getHiTecColorV2RGBAPassive";
-            case "RGBARaw":
-                return "getHiTecColorV2RGBARaw";
             default:
                 return null;
         }
@@ -1218,9 +1222,7 @@ public class Hal {
      * @return color that is detected with the sensor (see {@link Pickcolor} for all colors that can be detected)
      */
     public synchronized PickColor getColorSensorColour(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.COLOUR.getValues()[0]);
-        float[] sample = new float[sampleProvider.sampleSize()];
-        sampleProvider.fetchSample(sample, 0);
+        float[] sample = fetchSample(sensorPort, ColorSensorMode.COLOUR);
         return PickColor.get(Math.round(sample[0]));
     }
 
@@ -1231,9 +1233,7 @@ public class Hal {
      * @return the value of the measurement of the sensor
      */
     public synchronized float getColorSensorRed(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.RED.getValues()[0]);
-        float[] sample = new float[sampleProvider.sampleSize()];
-        sampleProvider.fetchSample(sample, 0);
+        float[] sample = fetchSample(sensorPort, ColorSensorMode.RED);
         return Math.round(sample[0] * 100.0f); // * 100
     }
 
@@ -1244,14 +1244,7 @@ public class Hal {
      * @return array of size three where in each element of the array is encode on color channel (RGB), values are between 0 and 255
      */
     public synchronized ArrayList<Float> getColorSensorRgb(SensorPort sensorPort) {
-        SampleProvider sampleProvider = this.deviceHandler.getProvider(sensorPort, ColorSensorMode.RGB.getValues()[0]);
-        float[] sample = new float[sampleProvider.sampleSize()];
-        sampleProvider.fetchSample(sample, 0);
-        ArrayList<Float> result = new ArrayList<>();
-        result.add((float) Math.round(sample[0] * 255.0f));
-        result.add((float) Math.round(sample[1] * 255.0f));
-        result.add((float) Math.round(sample[2] * 255.0f));
-        return result;
+        return fetchSampleAsArrayList(sensorPort, ColorSensorMode.RGB, 255.0f);
     }
 
     // END Sensoren Farbsensor ---
@@ -1327,21 +1320,33 @@ public class Hal {
     // END Sensoren IRSeekerSensor ---
     // --- Sensor IRColorV2 ---
 
-    public synchronized float getHiTecColorV2ColorId(SensorPort sensorPort) {
-        float[] sample = fetchSample(sensorPort, HiTecColorSensorV2Mode.COLOR_ID);
-        return sample[0];
+    public synchronized PickColor getHiTecColorSensorV2Colour(SensorPort sensorPort) {
+        float[] sample = fetchSample(sensorPort, HiTecColorSensorV2Mode.COLOUR);
+        int colorId = (int) sample[0];
+        return PickColor.getByHiTecColorId(colorId);
     }
 
-    public synchronized ArrayList<Float> getHiTecColorV2RGBA(SensorPort sensorPort) {
-        return fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.RGBA);
+    public synchronized float getHiTecColorSensorV2Light(SensorPort sensorPort) {
+        List<Float> rgba = fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.LIGHT, 255.0f);
+        return rgba.get(3) * 255.0f;
     }
 
-    public synchronized ArrayList<Float> getHiTecColorV2RGBAPassive(SensorPort sensorPort) {
-        return fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.RGBA_PASSIVE);
+    public synchronized float getHiTecColorSensorV2Ambient(SensorPort sensorPort) {
+        List<Float> rgba = fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.AMBIENTLIGHT, 255.0f);
+        return rgba.get(3);
     }
 
-    public synchronized ArrayList<Float> getHiTecColorV2RGBARaw(SensorPort sensorPort) {
-        return fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.RGBA_RAW);
+    public synchronized ArrayList<Float> getHiTecColorSensorV2Rgb(SensorPort sensorPort) {
+        return fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.RGB, 255.0f);
+    }
+
+    private ArrayList<Float> fetchSampleAsArrayList(SensorPort sensorPort, IMode mode, float multiplyBy){
+        float[] sample = fetchSample(sensorPort, mode);
+        ArrayList<Float> result = new ArrayList<>();
+        for (float value : sample) {
+            result.add(value * multiplyBy);
+        }
+        return result;
     }
 
     private float[] fetchSample(SensorPort sensorPort, IMode mode) {
@@ -1350,16 +1355,6 @@ public class Hal {
         sampleProvider.fetchSample(sample, 0);
         return sample;
     }
-
-    private ArrayList<Float> fetchSampleAsArrayList(SensorPort sensorPort, IMode mode){
-        float[] sample = fetchSample(sensorPort, HiTecColorSensorV2Mode.RGBA_RAW);
-        ArrayList<Float> result = new ArrayList<>();
-        for (float value : sample) {
-            result.add(value);
-        }
-        return result;
-    }
-
 
     public void setHiTecColorV2PowerMainsFrequency50Hz(SensorPort sensorPort){
         this.deviceHandler.getHiTecColorSensorV2(sensorPort)

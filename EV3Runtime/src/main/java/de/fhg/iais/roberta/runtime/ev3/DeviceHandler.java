@@ -214,7 +214,7 @@ public class DeviceHandler {
                 case IRSEEKER:
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(new HiTechnicIRSeekerV2(hardwarePort)));
                     break;
-                case HT_COLOR_V2:
+                case HT_COLOR:
                     HiTechnicColorSensorV2 hiTechnicColorSensorV2 = new HiTechnicColorSensorV2(hardwarePort);
                     this.hiTechnicColorSensors.put(sensorPort, hiTechnicColorSensorV2);
                     this.lejosSensors.put(sensorPort, sensorSampleProviders(hiTechnicColorSensorV2));

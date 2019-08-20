@@ -55,4 +55,43 @@ public enum PickColor implements IPickColor {
         }
         throw new DbcException("Invalid color: " + id);
     }
+
+    /**
+     * Return the nearest PickColor that can be returned by the Lego Color sensor
+     * @param id
+     * @return
+     */
+    public static PickColor getByHiTecColorId(int id) {
+        switch ( id ) {
+            case 0:
+                return BLACK;
+            case 1:
+            case 2:
+                return RED;
+            case 3:
+                return BLUE;
+            case 4:
+                return GREEN;
+            case 5:
+            case 6:
+            case 7:
+                return YELLOW;
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+                return RED;
+            case 12:
+            case 13:
+                return YELLOW;
+            case 14:
+            case 15:
+            case 16:
+                return RED;
+            case 17:
+                return WHITE;
+            default:
+                return NONE;
+        }
+    }
 }
