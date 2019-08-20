@@ -78,7 +78,7 @@ public class HiTechnicColorSensorV2 extends HiTechnicColorSensor {
             setModeIfNeeded(Mode.DEFAULT);
             getData(0x43, buffer, SAMPLE_SIZE);
             for ( int i = 0; i < SAMPLE_SIZE; i++ ) {
-                sample[offset + i] = ((float) (0xFF & buffer[i])) / 256f;
+                sample[offset + i] = ((float) (0xFF & buffer[i])) / 255.0f;
             }
         }
 
@@ -107,12 +107,12 @@ public class HiTechnicColorSensorV2 extends HiTechnicColorSensor {
 
         @Override public void fetchSample(float[] sample, int offset) {
             setModeIfNeeded(mode);
-            getData(0x43, buffer, SAMPLE_SIZE);
+            getData(0x42, buffer, SAMPLE_SIZE);
             for ( int i = 0; i < SAMPLE_SIZE; i++ ) {
                 byte first = buffer[i * 2];
                 byte second = buffer[(i * 2) + 1];
                 int temp = ((0xFF & first) << 8) | (0xFF & second);
-                sample[offset + i] = ((float) temp) / 256f;
+                sample[offset + i] = ((float) temp);
             }
         }
 

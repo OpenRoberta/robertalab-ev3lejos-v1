@@ -1327,17 +1327,18 @@ public class Hal {
     }
 
     public synchronized float getHiTecColorSensorV2Light(SensorPort sensorPort) {
-        List<Float> rgba = fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.LIGHT, 255.0f);
-        return rgba.get(3) * 255.0f;
-    }
-
-    public synchronized float getHiTecColorSensorV2Ambient(SensorPort sensorPort) {
-        List<Float> rgba = fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.AMBIENTLIGHT, 255.0f);
+        List<Float> rgba = fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.LIGHT, 100.0f);
         return rgba.get(3);
     }
 
+    public synchronized float getHiTecColorSensorV2Ambient(SensorPort sensorPort) {
+        List<Float> rgba = fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.AMBIENTLIGHT, 100.0f);
+        float light = (rgba.get(3) * 100.0f) / 38200.0f;
+        return Math.max(light, 100.0f);
+    }
+
     public synchronized ArrayList<Float> getHiTecColorSensorV2Rgb(SensorPort sensorPort) {
-        return fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.RGB, 255.0f);
+        return fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.RGB, 100.0f);
     }
 
     private ArrayList<Float> fetchSampleAsArrayList(SensorPort sensorPort, IMode mode, float multiplyBy){
