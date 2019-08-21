@@ -29,7 +29,7 @@ public class HiTechnicColorSensorV2 extends HiTechnicColorSensor {
         }
     }
 
-    private Mode currentMode = Mode.DEFAULT;
+    private Mode currentMode = null;
 
     public HiTechnicColorSensorV2(I2CPort port) {
         super(port);
@@ -90,8 +90,9 @@ public class HiTechnicColorSensorV2 extends HiTechnicColorSensor {
     public class RGBA2ByteColor implements SensorMode {
 
         private static final int SAMPLE_SIZE = 4;
+        private static final int BUFFER_SIZE = SAMPLE_SIZE * 2;
 
-        private byte[] buffer = new byte[SAMPLE_SIZE * 2];
+        private byte[] buffer = new byte[BUFFER_SIZE];
 
         private final String name;
         private final Mode mode;
@@ -107,7 +108,7 @@ public class HiTechnicColorSensorV2 extends HiTechnicColorSensor {
 
         @Override public void fetchSample(float[] sample, int offset) {
             setModeIfNeeded(mode);
-            getData(0x42, buffer, SAMPLE_SIZE);
+            getData(0x42, buffer, BUFFER_SIZE);
             for ( int i = 0; i < SAMPLE_SIZE; i++ ) {
                 byte first = buffer[i * 2];
                 byte second = buffer[(i * 2) + 1];
