@@ -66,12 +66,13 @@ public enum PickColor implements IPickColor {
             case 0:
                 return BLACK;
             case 1:
+                return RED;
             case 2:
             case 3:
                 return BLUE;
             case 4:
-            case 5:
                 return GREEN;
+            case 5:
             case 6:
                 return YELLOW;
             case 7:

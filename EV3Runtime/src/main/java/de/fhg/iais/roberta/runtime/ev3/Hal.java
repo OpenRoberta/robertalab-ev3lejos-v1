@@ -1338,7 +1338,7 @@ public class Hal {
     }
 
     public synchronized ArrayList<Float> getHiTecColorSensorV2Rgb(SensorPort sensorPort) {
-        ArrayList<Float> rgba = fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.RGB, 100.0f);
+        ArrayList<Float> rgba = fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.RGB, 255.0f);
         rgba.remove(3);
         return rgba;
     }
