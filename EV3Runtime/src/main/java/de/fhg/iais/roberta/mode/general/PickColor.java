@@ -70,15 +70,15 @@ public enum PickColor implements IPickColor {
             case 3:
                 return BLUE;
             case 4:
-                return GREEN;
             case 5:
+                return GREEN;
             case 6:
                 return YELLOW;
             case 7:
-                return RED;
             case 8:
             case 9:
             case 10:
+                return RED;
             case 11:
             case 12:
             case 13:
