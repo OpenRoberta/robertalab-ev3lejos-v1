@@ -1332,7 +1332,7 @@ public class Hal {
     }
 
     public synchronized float getHiTecColorSensorV2Ambient(SensorPort sensorPort) {
-        List<Float> rgba = fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.AMBIENTLIGHT, 100.0f);
+        List<Float> rgba = fetchSampleAsArrayList(sensorPort, HiTecColorSensorV2Mode.AMBIENTLIGHT, 1.0f);
         float light = (rgba.get(3) * 100.0f) / 38200.0f;
         return Math.min(light, 100.0f);
     }
