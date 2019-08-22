@@ -5,6 +5,7 @@ import lejos.hardware.port.Port;
 import lejos.hardware.sensor.HiTechnicColorSensor;
 import lejos.hardware.sensor.SensorMode;
 
+// TODO: we extend HiTechnicColorSensor, but we don't use any function. Should we extend I2CSensor instead?
 public class HiTechnicColorSensorV2 extends HiTechnicColorSensor {
 
     private static final int HT_COLOR_SENSOR_V2_MODE_REGISTER = 0x41;
@@ -50,13 +51,20 @@ public class HiTechnicColorSensorV2 extends HiTechnicColorSensor {
     }
 
     public class ColorIDMode implements SensorMode {
+
+        private static final int SAMPLE_SIZE = 1;
+
+        private final byte[] buffer = new byte[SAMPLE_SIZE];
+
         @Override public int sampleSize() {
-            return 1;
+            return SAMPLE_SIZE;
         }
 
         @Override public void fetchSample(float[] sample, int offset) {
             setModeIfNeeded(Mode.DEFAULT);
-            sample[offset] = (float) getColorID();
+            getData(0x42, buffer, 1);
+            int htColorId = (0xFF & buffer[0]);
+            sample[offset] = htColorId;
         }
 
         @Override public String getName() {
