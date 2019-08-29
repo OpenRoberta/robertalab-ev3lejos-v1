@@ -20,7 +20,7 @@ limitations under the License.
     <parent>
         <groupId>de.fhg.iais.openroberta.ev3.v1</groupId>
         <artifactId>EV3Parent</artifactId>
-        <version>3.5.0</version>
+        <version>3.6.0-SNAPSHOT</version>
     </parent>
     <artifactId>EV3Menu</artifactId>
     <dependencies>
